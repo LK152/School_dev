@@ -36,7 +36,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>React Google Login App</h1>
+        <h1>Google Login</h1>
         <div>
           {loginData ? (
             <div>
@@ -45,8 +45,8 @@ function App() {
             </div>
           ) : (
             <GoogleLogin
-              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-              buttonText="Log in with Google"
+              clientId={process.env.REACT_APP_GOOGLE_ID}
+              buttonText="Login"
               onSuccess={handleLogin}
               onFailure={handleFailure}
               cookiePolicy={'single_host_origin'}
