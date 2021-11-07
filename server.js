@@ -1,7 +1,6 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const path = require('path');
-const { OAuth2Client } = require('google-auth-library');
+import express from 'express';
+import dotenv from 'dotenv';
+import { OAuth2Client } from 'google-auth-library';
 
 dotenv.config();
 const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_ID);
@@ -29,8 +28,8 @@ app.post('/api/google-login', async (req, res) => {
   res.json({ name, email, picture });
 });
 
-app.listen(process.env.PORT || 5000, () => {
+app.listen(process.env.PORT || 1200, () => {
   console.log(
-    `Server is ready at http://localhost:${process.env.PORT || 5000}`
+    `Server is ready at http://localhost:${process.env.PORT || 1200}`
   );
 });

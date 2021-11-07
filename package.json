@@ -1,6 +1,7 @@
 {
   "name": "react-google-login",
-  "proxy":"http://127.0.0.1:5000/",
+  "proxy": "http://127.0.0.1:5000/",
+  "type": "module",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -14,7 +15,8 @@
     "react-dom": "^17.0.2",
     "react-google-login": "^5.2.2",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "webpack": "^4.44.2"
   },
   "scripts": {
     "start": "react-scripts start",
