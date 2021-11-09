@@ -2,8 +2,6 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import { loadGoogleScript } from './lib/GoogleLogin';
 
-const googleClientId = process.env.REACT_APP_GOOGLE_ID;
-
 function App() {
   const [gapi, setGapi] = useState();
   const [googleAuth, setGoogleAuth] = useState();
@@ -24,8 +22,7 @@ function App() {
     setIsLoggedIn(false);
   }
 
-  const logOut = () => {
-    (async () => {
+  const logOut = () => {(async () => {
       await googleAuth.signOut();
       setIsLoggedIn(false);
       renderSigninButton(gapi);
@@ -46,14 +43,12 @@ function App() {
 
   useEffect(() => {
     window.onGoogleScriptLoad = () => {
-
       const _gapi = window.gapi;
       setGapi(_gapi);
-
       _gapi.load('auth2', () => {
         (async () => {
           const _googleAuth = await _gapi.auth2.init({
-            client_id: googleClientId
+            client_id: process.env.REACT_APP_GOOGLE_ID
           });
           setGoogleAuth(_googleAuth);
           renderSigninButton(_gapi);
