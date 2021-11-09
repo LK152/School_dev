@@ -10,7 +10,7 @@ function App() {
   const [email, setEmail] = useState('');
   const [imageUrl, setImageUrl] = useState();
 
-  const onSuccess = (googleUser) => {
+  const onLogIn = (googleUser) => {
     setIsLoggedIn(true);
     const profile = googleUser.getBasicProfile();
     setName(profile.getName());
@@ -18,7 +18,7 @@ function App() {
     setImageUrl(profile.getImageUrl());
   };
 
-  const onFailure = () => {
+  const onFail = () => {
     setIsLoggedIn(false);
   }
 
@@ -30,14 +30,14 @@ function App() {
   };
 
   const renderSigninButton = (_gapi) => {
-    _gapi.signin2.render('google-signin', {
+    _gapi.signin2.render('signin_button', {
       'scope': 'profile email',
       'width': 240,
       'height': 50,
       'longtitle': true,
       'theme': 'dark',
-      'onsuccess': onSuccess,
-      'onfailure': onFailure
+      'onsuccess': onLogIn,
+      'onfailure': onFail
     });
   }
 
@@ -65,7 +65,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         {!isLoggedIn &&
-          <div id="google-signin"></div>
+          <div id="signin_button"></div>
         }
 
         {isLoggedIn &&
