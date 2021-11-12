@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { loadGoogleScript } from '../lib/GoogleLogin';
-import FormSubmit from './FormSubmit';
+import Form from './Form';
 
 const Login = () => {
     const [gapi, setGapi] = useState();
@@ -74,7 +74,7 @@ const Login = () => {
                     </div>
                     <div>{name}</div>
                     <div>{email}</div>
-                    <FormSubmit />
+                    <Form />
                     <button onClick={logOut}>Log Out</button>
                 </div>
             }
