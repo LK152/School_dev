@@ -51,8 +51,10 @@ const Login = () => {
             _gapi.load('auth2', () => {
                 (async () => {
                     const _googleAuth = await _gapi.auth2.init({
-                        client_id: process.env.REACT_APP_GOOGLE_ID
+                        client_id: process.env.REACT_APP_GOOGLE_ID, 
+                        prompt: 'select_account'
                     });
+
                     setGoogleAuth(_googleAuth);
                     renderSigninButton(_gapi);
                 })();
@@ -71,7 +73,7 @@ const Login = () => {
 
             {isLoggedIn &&
                 <div>
-                    <AccountMenu userName={name} userEmail={email} userAvatar={imageUrl} />
+                    <AccountMenu userName={name} userEmail={email} userAvatar={imageUrl} logOut={logOut} />
                 </div>
             }
         </div>
