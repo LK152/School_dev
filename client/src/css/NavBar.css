@@ -1,7 +1,13 @@
 .NavBar {
+    min-width: 100vw;
     display: flex;
     flex-direction: row;
     align-items: flex-end;
     justify-content: flex-end;
-    background-color: aliceblue;
+}
+
+.usr-img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
 }

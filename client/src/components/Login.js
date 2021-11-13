@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { loadGoogleScript } from '../lib/GoogleLogin';
+import '../css/NavBar.css';
 import Form from './Form';
+import AccountMenu from './AccountMenu';
 
 const Login = () => {
     const [gapi, setGapi] = useState();
@@ -69,13 +71,7 @@ const Login = () => {
 
             {isLoggedIn &&
                 <div>
-                    <div>
-                        <img src={imageUrl} />
-                    </div>
-                    <div>{name}</div>
-                    <div>{email}</div>
-                    <Form />
-                    <button onClick={logOut}>Log Out</button>
+                    <AccountMenu userName={name} userEmail={email} userAvatar={imageUrl} />
                 </div>
             }
         </div>
