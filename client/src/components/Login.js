@@ -35,7 +35,7 @@ const Login = () => {
             'scope': 'profile email',
             'width': 240,
             'height': 50,
-            'longtitle': true,
+            'longtitle': false,
             'theme': 'dark',
             'onsuccess': onLogIn,
             'onfailure': onFail
