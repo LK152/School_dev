@@ -18,7 +18,7 @@ export default class Form extends Component {
         e.preventDefault();
         console.log(this.state);
         Axios
-            .post('http://localhost:8000/data', this.state)
+            .post('/', this.state)
             .then(res => {
                 console.log(res);
             })
