@@ -72,7 +72,7 @@ const Login = () => {
         
         default: {
             return (
-                <div id="signin_btn"></div>
+                <div id="signin_btn" className="usr-icon"></div>
             )
         }
     }
