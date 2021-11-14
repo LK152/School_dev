@@ -1,6 +1,6 @@
 import '../css/App.css';
 import { useState, Fragment } from 'react';
-import { AppBar, Container, Stepper, Paper } from '@mui/material';
+import { AppBar, Container, Stepper, Paper, Typography } from '@mui/material';
 import Login from './Login';
 
 const Form = () => {
@@ -33,7 +33,9 @@ const Form = () => {
 
                 <Container component="main">
                     <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                        Lishan
+                    <Typography component="h1" varient="h4" align="center">
+                        Lishan Survey    
+                    </Typography>
                     </Paper>
                 </Container>
         </Fragment>
