@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { loadGoogleScript } from '../lib/GoogleLogin';
-import '../css/NavBar.css';
-import Form from './Form';
+import '../css/App.css';
 import AccountMenu from './AccountMenu';
 
 const Login = () => {
@@ -33,7 +32,7 @@ const Login = () => {
     };
 
     const renderSigninButton = (_gapi) => {
-        _gapi.signin2.render('signin_button', {
+        _gapi.signin2.render('signin_btn', {
             'scope': 'profile email',
             'width': 240,
             'height': 50,
@@ -65,19 +64,18 @@ const Login = () => {
 
     }, []);
 
-    return (
-        <div>
-            {!isLoggedIn &&
-                <div id="signin_button"></div>
-            }
-
-            {isLoggedIn &&
-                <div>
-                    <AccountMenu userName={name} userEmail={email} userAvatar={imageUrl} logOut={logOut} />
-                </div>
-            }
-        </div>
-    )
+    switch(isLoggedIn) {
+        case true:
+            return (
+                <AccountMenu userName={name} userEmail={email} userAvatar={imageUrl} logOut={logOut} />
+            )
+        
+        default: {
+            return (
+                <div id="signin_btn"></div>
+            )
+        }
+    }
 };
 
 export default Login;

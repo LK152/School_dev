@@ -3,3 +3,35 @@
   min-height: 100vh;
   background-color: #FFF;
 }
+
+.usr-details {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+  align-items: center;
+  padding: 20px;
+}
+
+.usr-img {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+}
+
+.usr-profile {
+  display: flex;
+  font-size: 1.2em;
+  padding: 10px;
+  text-align: center;
+}
+
+.usr-icon {
+  float: right;
+}
+
+.login-container {
+  min-width: 100vw;
+  float: right;
+  font-size: 2em;
+  padding: 8px;
+}

@@ -1,4 +1,4 @@
-import '../css/NavBar.css';
+import '../css/App.css';
 import { Fragment, useState } from 'react';
 import { Avatar, Divider, IconButton, Menu, MenuItem, ListItemIcon } from '@mui/material';
 import { Logout } from '@mui/icons-material';
@@ -16,7 +16,7 @@ const AccountMenu = (props) => {
 
     return (
         <Fragment>
-            <IconButton onClick={handleClick}>
+            <IconButton onClick={handleClick} className="usr-icon">
                 <Avatar alt="User Avatar" src={props.userAvatar} />
             </IconButton>
             

@@ -1,39 +1,43 @@
-import React, { Component } from 'react';
-import Axios from 'axios';
+import '../css/App.css';
+import { useState, Fragment } from 'react';
+import { AppBar, Container, Stepper, Paper } from '@mui/material';
+import Login from './Login';
 
-export default class Form extends Component {
-    constructor(props) {
-        super(props)
+const Form = () => {
+    const [currentStep, setCurrentStep] = useState(0);
 
-        this.state = {
-            subject: ''
-        }
-    }
+    const handleNext = () => {
+        setCurrentStep(currentStep + 1);
+    };
 
-    handleChange = e => {
-        this.setState({[e.target.name]: e.target.value});
-    }
+    const handleBack = () => {
+        setCurrentStep(currentStep - 1);
+    };
 
-    handleSubmit = e => {
-        e.preventDefault();
-        console.log(this.state);
-        Axios
-            .post('/', this.state)
-            .then(res => {
-                console.log(res);
-            })
-            .catch(err => {
-                console.log(err);
-            })
-    }
+    return (
+        <Fragment>
+            <AppBar 
+                position="absolute" 
+                color="default" 
+                elevation={0} 
+                sx={{
+                    position: 'relative', 
+                    borderBottom: (target) => `1px solid ${target.palette.divider}`
+                }}
+            >
+                <Container className="login-container">
+                    Lishan
+                    <Login />
+                </Container>
+            </AppBar>
 
-    render() {
-        const { subject } = this.state;
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <input type="text" name="subject" value={subject} onChange={this.handleChange} />
-                <button type="submit">Submit</button>
-            </form>
-        )
-    }
+                <Container component="main">
+                    <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+                        Lishan
+                    </Paper>
+                </Container>
+        </Fragment>
+    )
 }
+
+export default Form;
