@@ -6,6 +6,7 @@ import { Logout } from '@mui/icons-material';
 const AccountMenu = (props) => {
     const [ anchorEl, setAnchorEl ] = useState(null);
     const open = Boolean(anchorEl);
+    
     const handleClick = (e) => {
         setAnchorEl(e.currentTarget);
     };
