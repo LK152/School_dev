@@ -1,12 +1,12 @@
 import { Fragment } from 'react';
-import { Grid, TextField } from '@mui/material';
+import { TextField, FormControl } from '@mui/material';
 
 const StudentIDForm = () => {
     return (
         <Fragment>
-            <Grid>
-                <TextField />
-            </Grid>
+            <FormControl fullWidth>
+                <TextField variant="standard" placeholder="學號" />
+            </FormControl>
         </Fragment>
     )
 }
