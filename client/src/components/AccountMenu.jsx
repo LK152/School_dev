@@ -33,8 +33,6 @@ const AccountMenu = (props) => {
                         mt: 0.5
                     },
                 }}
-                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <div className="usr-details">
                     <img alt="User Avatar" src={props.userAvatar} className="usr-img" />
