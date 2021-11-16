@@ -3,7 +3,7 @@ import { useState, Fragment } from 'react';
 import { AppBar, Box, Button, Container, Step, Stepper, StepLabel, Paper, Typography} from '@mui/material';
 import StudentIDForm from './StudentIDForm';
 import TopicForm from './TopicForm';
-import Signin from './Sigin';
+import Login from './Login';
 
 const steps = ['學號', '主題'];
 
@@ -44,7 +44,7 @@ const Submit = () => {
             >
                 <Container className="login-container">
                     麗山高中
-                    <Signin />
+                    <Login />
                 </Container>
             </AppBar>
 
