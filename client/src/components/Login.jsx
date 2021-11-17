@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { loadGoogleScript } from '../lib/GoogleLogin';
 import '../css/App.css';
 import AccountMenu from './AccountMenu';
@@ -31,7 +31,7 @@ const Login = () => {
         })();
     };
 
-    const renderSigninButton = (_gapi) => {
+    const renderSigninButton = useCallback((_gapi) => {
         _gapi.signin2.render('signin_btn', {
             'scope': 'profile email',
             'width': 240,
@@ -41,7 +41,7 @@ const Login = () => {
             'onsuccess': onLogIn,
             'onfailure': onFail
         });
-    }
+    }, []);
 
     useEffect(() => {
         window.onGoogleScriptLoad = () => {
@@ -62,7 +62,7 @@ const Login = () => {
 
         loadGoogleScript();
 
-    }, []);
+    }, [renderSigninButton]);
 
     switch(isLoggedIn) {
         case true:
@@ -72,7 +72,7 @@ const Login = () => {
         
         default: {
             return (
-                <div id="signin_btn" className="usr-icon"></div>
+                <div id="signin_btn" className="usr-icon" />
             )
         }
     }

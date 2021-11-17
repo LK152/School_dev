@@ -1,13 +1,12 @@
-import { Fragment } from 'react';
-import { TextField, FormControl } from '@mui/material';
+import { Box, TextField, FormControl } from '@mui/material';
 
-const StudentIDForm = () => {
+const StudentIDForm = ({ studentId, setStudentForm }) => {
     return (
-        <Fragment>
+        <Box component="form" sx={{ width: 600, ml: 5, my: 8 }}>
             <FormControl fullWidth>
-                <TextField variant="standard" placeholder="學號" />
+                <TextField variant="standard" label="學號" required value={studentId} onChange={setStudentForm} />
             </FormControl>
-        </Fragment>
+        </Box>
     )
 }
 

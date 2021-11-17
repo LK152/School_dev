@@ -29,10 +29,3 @@
 .usr-icon {
   float: right;
 }
-
-.login-container {
-  min-width: 100vw;
-  float: right;
-  font-size: 2em;
-  padding: 8px;
-}
