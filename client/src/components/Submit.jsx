@@ -1,10 +1,9 @@
 import '../css/App.css';
 import { useState } from 'react';
-import { AppBar, Box, Button, Container, Step, Stepper, StepLabel, Paper, Typography} from '@mui/material';
-import StudentIDForm from './StudentIDForm';
-import TopicForm from './TopicForm';
-import Login from './Login';
-import Confirm from './Confirm';
+import { Box, Button, Container, Step, Stepper, StepLabel, Paper, Typography} from '@mui/material';
+import StudentIDForm from './FormComponents/StudentIDForm';
+import TopicForm from './FormComponents/TopicForm';
+import Confirm from './FormComponents/Confirm';
 
 const steps = ['學號', '主題', '確認'];
 
@@ -109,7 +108,7 @@ const Submit = () => {
 
     const studentProps = { studentId, setStudentForm };
     const topicProps = { topics, topicValue, subTopics, subTopicValue, otherTopicValue, handleTopicChange, handleSubTopicChange, handleOtherTopicChange };
-    const confirmProps = { studentId, topics, topicValue };
+    const confirmProps = { studentId, topics, topicValue, subTopics, subTopicValue };
 
     const renderStep = (currentStep) => {
         switch(currentStep) {
@@ -129,22 +128,6 @@ const Submit = () => {
 
     return (
         <>
-            <AppBar 
-                position="absolute" 
-                color="default" 
-                elevation={0} 
-                sx={{
-                    position: 'relative', 
-                    borderBottom: (target) => `1px solid ${target.palette.divider}`
-                }}
-            >
-                <Box sx={{ minWidth: '100vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Typography variant="h4" sx={{ p: 2 }}>
-                        麗山高中
-                    </Typography>
-                    <Login />
-                </Box>
-            </AppBar>
             <Container>
                 <Paper variant="outlined" sx={{ my: { md: 12 }, p: { md: 6 } }}>
                 <Typography variant="h3" align="center">

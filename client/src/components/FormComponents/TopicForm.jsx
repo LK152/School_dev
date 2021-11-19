@@ -1,16 +1,7 @@
 import { Box, FormControl, InputLabel, TextField } from '@mui/material';
-import ControlledSelect from './ControlledSelect';
+import ControlledSelect from '../ControlledSelect';
 
-const TopicForm = ({ 
-    topics, 
-    topicValue, 
-    subTopics, 
-    subTopicValue, 
-    otherTopicValue, 
-    handleTopicChange,  
-    handleSubTopicChange, 
-    handleOtherTopicChange 
-}) => {
+const TopicForm = (props) => {
     const renderNextSelect = (value) => {
         return ( 
             <Box sx={{ maxWidth: 400, flex: '1 1 auto' }}>
@@ -20,14 +11,14 @@ const TopicForm = ({
                             <InputLabel>副主題 *</InputLabel>
                             <ControlledSelect 
                                 label="副主題 *" 
-                                value={subTopicValue} 
-                                options={subTopics[value]}
-                                onChange={handleSubTopicChange} 
+                                value={props.subTopicValue} 
+                                options={props.subTopics[value]}
+                                onChange={props.handleSubTopicChange} 
                             />
                         </>
                     ) : (
                         <>
-                            <TextField label="其他主題 *" variant="outlined" value={otherTopicValue} onChange={handleOtherTopicChange} />
+                            <TextField label="其他主題 *" variant="outlined" value={props.otherTopicValue} onChange={props.handleOtherTopicChange} />
                         </>
                     )}
                 </FormControl>
@@ -42,13 +33,13 @@ const TopicForm = ({
                     <InputLabel>主題 *</InputLabel>
                     <ControlledSelect 
                         label="主題 *"
-                        value={topicValue} 
-                        options={topics} 
-                        onChange={handleTopicChange} 
+                        value={props.topicValue} 
+                        options={props.topics} 
+                        onChange={props.handleTopicChange} 
                     />
                 </FormControl>
             </Box>
-            {(topicValue !== '') && renderNextSelect(topicValue)}
+            {(props.topicValue !== '') && renderNextSelect(props.topicValue)}
         </Box>
     );
 }

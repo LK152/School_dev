@@ -2,7 +2,6 @@
   min-width: 100vw;
   min-height: 100vh;
   background-color: #FFF;
-  overflow-x: hidden;
 }
 
 .usr-details {
@@ -28,4 +27,6 @@
 
 .usr-icon {
   float: right;
+  margin: auto 0;
+  margin-right: 2%;
 }

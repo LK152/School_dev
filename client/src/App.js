@@ -1,11 +1,11 @@
 import './css/App.css';
-import Submit from './components/Submit';
+import Auth from './components/Auth';
 
 function App() {
   
   return (
     <div className="App">
-        <Submit />
+        <Auth />
     </div>
   );
 }

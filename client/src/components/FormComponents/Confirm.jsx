@@ -1,6 +1,10 @@
 import { Box, Typography } from '@mui/material';
 
-const Confirm = ({ studentId, topics, topicValue }) => {
+const Confirm = (props) => {
+    const findItem = (array, value) => {
+        return array.find(obj => obj.value === value)
+    }
+
     return (
         <Box sx={{ minWidth: 1050, display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -8,7 +12,7 @@ const Confirm = ({ studentId, topics, topicValue }) => {
                     學號
                 </Typography>
                 <Typography variant="h6">
-                    {studentId}
+                    {props.studentId}
                 </Typography>
             </Box>
 
@@ -17,7 +21,13 @@ const Confirm = ({ studentId, topics, topicValue }) => {
                     主題
                 </Typography>
                 <Typography variant="h6">
-                    {topics[topicValue]}
+                    {findItem(props.topics, props.topicValue).label}
+                </Typography>
+                <Typography variant="h5">
+                    副主題
+                </Typography>
+                <Typography variant="h6">
+                    {findItem(props.subTopics[props.topicValue], props.subTopicValue).label}
                 </Typography>
             </Box>
         </Box>
