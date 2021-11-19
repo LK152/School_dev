@@ -129,7 +129,17 @@ const Submit = () => {
     }, [handleNext]);
 
     const studentProps = { studentId, setStudentForm, handleReset };
-    const topicProps = { topics, topicValue, subTopics, subTopicValue, otherTopicValue, handleTopicChange, handleSubTopicChange, handleOtherTopicChange, handleTopicReset };
+    const topicProps = {
+        topics,
+        topicValue,
+        subTopics,
+        subTopicValue,
+        otherTopicValue,
+        handleTopicChange,
+        handleSubTopicChange,
+        handleOtherTopicChange, 
+        handleTopicReset
+    };
     const confirmProps = { studentId, topics, topicValue, subTopics, subTopicValue, otherTopicValue };
 
     const renderStep = (currentStep) => {
