@@ -26,9 +26,16 @@ const Confirm = (props) => {
                 <Typography variant="h5">
                     副主題
                 </Typography>
-                <Typography variant="h6">
-                    {findItem(props.subTopics[props.topicValue], props.subTopicValue).label}
-                </Typography>
+                
+                {props.topicValue === 8 ? (
+                    <Typography variant="h6">
+                        {props.otherTopicValue}
+                    </Typography>
+                ) : (
+                    <Typography variant="h6">
+                        {findItem(props.subTopics[props.topicValue], props.subTopicValue).label}
+                    </Typography>
+                )}
             </Box>
         </Box>
     );

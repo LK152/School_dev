@@ -1,5 +1,5 @@
 import '../css/App.css';
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Box, Button, Container, Step, Stepper, StepLabel, Paper, Typography} from '@mui/material';
 import StudentIDForm from './FormComponents/StudentIDForm';
 import TopicForm from './FormComponents/TopicForm';
@@ -81,9 +81,9 @@ const Submit = () => {
     const [subTopicValue, setSubTopicValue] = useState('');
     const [otherTopicValue, setOtherTopicValue] = useState('');
 
-    const handleNext = () => {
+    const handleNext = useCallback((e) => {
         setCurrentStep(currentStep + 1);
-    };
+    }, [currentStep]);
 
     const handleBack = () => {
         setCurrentStep(currentStep - 1);
@@ -91,7 +91,6 @@ const Submit = () => {
 
     const setStudentForm = (e) => {
         setStudentId(e.target.value);
-        console.log(e.target.value);
     };
 
     const handleTopicChange = (value) => {
@@ -106,9 +105,32 @@ const Submit = () => {
         setOtherTopicValue(e.target.value);
     };
 
-    const studentProps = { studentId, setStudentForm };
-    const topicProps = { topics, topicValue, subTopics, subTopicValue, otherTopicValue, handleTopicChange, handleSubTopicChange, handleOtherTopicChange };
-    const confirmProps = { studentId, topics, topicValue, subTopics, subTopicValue };
+    const handleReset = () => {
+        setStudentId('');
+    };
+
+    const handleTopicReset = () => {
+        setTopicValue('');
+        setSubTopicValue('');
+        setOtherTopicValue('');
+    }
+
+    useEffect(() => {
+        const listener = e => {
+            if (e.code === "Enter" || e.code === "NumpadEnter") {
+                e.preventDefault();
+                handleNext();
+            }
+        };
+        document.addEventListener("keydown", listener);
+        return () => {
+            document.removeEventListener("keydown", listener);
+        };
+    }, [handleNext]);
+
+    const studentProps = { studentId, setStudentForm, handleReset };
+    const topicProps = { topics, topicValue, subTopics, subTopicValue, otherTopicValue, handleTopicChange, handleSubTopicChange, handleOtherTopicChange, handleTopicReset };
+    const confirmProps = { studentId, topics, topicValue, subTopics, subTopicValue, otherTopicValue };
 
     const renderStep = (currentStep) => {
         switch(currentStep) {
@@ -130,53 +152,53 @@ const Submit = () => {
         <>
             <Container>
                 <Paper variant="outlined" sx={{ my: { md: 12 }, p: { md: 6 } }}>
-                <Typography variant="h3" align="center">
-                    麗山高中 自主學習
-                </Typography>
-                <Stepper activeStep={currentStep} sx={{ my: { md: 5 } }}>
-                    {steps.map((label) => {
-                        const stepProps = {};
-                        const labelProps = {};
-                        return (
-                            <Step key={label} {...stepProps}>
-                                <StepLabel {...labelProps}>
-                                    <Typography variant="h6">
-                                        {label}
-                                    </Typography>
-                                </StepLabel>
-                            </Step>
-                        );
-                    })}
-                </Stepper>
+                    <Typography variant="h3" align="center">
+                        麗山高中 自主學習
+                    </Typography>
+                    
+                    <Stepper activeStep={currentStep} sx={{ my: { md: 5 } }}>
+                        {steps.map((label) => {
+                            const stepProps = {};
+                            const labelProps = {};
+                            return (
+                                <Step key={label} {...stepProps}>
+                                    <StepLabel {...labelProps}>
+                                        <Typography variant="h6">
+                                            {label}
+                                        </Typography>
+                                    </StepLabel>
+                                </Step>
+                            );
+                        })}
+                    </Stepper>
                 
-                {currentStep === steps.length ? (
-                    <>
-                        <Typography sx={{ mt: 2, mb: 1 }}>
-                            已送出
-                        </Typography>
-                    </>
-                ) : (
-                    <>
+                    {currentStep === steps.length ? (
+                        <>
+                            <Typography sx={{ mt: 2, mb: 1 }}>
+                                已送出
+                            </Typography>
+                        </>
+                    ) : (
+                        <>
+                            {renderStep(currentStep)}
 
-                        {renderStep(currentStep)}
-
-                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                            <Button 
-                                color="inherit" 
-                                disabled={currentStep === 0} 
-                                onClick={handleBack} 
-                                sx={{ mr: 1 }}
-                                variant="contained"
-                            >
-                                返回
-                            </Button>
-                            <Box sx={{ flex: '1 1 auto' }} />
-                            <Button onClick={handleNext} color="primary" variant="contained">
-                                {currentStep === steps.length - 1 ? '繳交' : '下一步'}
-                            </Button>
-                        </Box>
-                    </>
-                )}
+                            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                <Button 
+                                    color="inherit" 
+                                    disabled={currentStep === 0} 
+                                    onClick={handleBack} 
+                                    sx={{ mr: 1 }}
+                                    variant="contained"
+                                >
+                                    返回
+                                </Button>
+                                <Box sx={{ flex: '1 1 auto' }} />
+                                <Button color="primary" variant="contained" onClick={handleNext}>
+                                    {currentStep === steps.length - 1 ? '繳交' : '下一步'}
+                                </Button>
+                            </Box>
+                        </>
+                    )}
                 </Paper>
             </Container>
         </>

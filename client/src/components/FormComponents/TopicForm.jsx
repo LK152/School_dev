@@ -1,4 +1,5 @@
-import { Box, FormControl, InputLabel, TextField } from '@mui/material';
+import { Box, FormControl, IconButton, InputLabel, TextField } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/DeleteSweepOutlined';
 import ControlledSelect from '../ControlledSelect';
 
 const TopicForm = (props) => {
@@ -18,7 +19,13 @@ const TopicForm = (props) => {
                         </>
                     ) : (
                         <>
-                            <TextField label="其他主題 *" variant="outlined" value={props.otherTopicValue} onChange={props.handleOtherTopicChange} />
+                            <TextField 
+                                required
+                                label="其他主題" 
+                                variant="outlined" 
+                                value={props.otherTopicValue} 
+                                onChange={props.handleOtherTopicChange} 
+                            />
                         </>
                     )}
                 </FormControl>
@@ -27,7 +34,14 @@ const TopicForm = (props) => {
     }
 
     return (
-        <Box sx={{ width: 1050, display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', my: { xs: 6, md: 12 } }}>
+        <Box sx={{ 
+                width: 1050, 
+                display: 'flex', 
+                flexDirection: 'row', 
+                alignItems: 'center', 
+                justifyContent: 'space-evenly', 
+                my: { xs: 6, md: 12 } }}
+        >
             <Box sx={{ maxWidth: 400, flex: '1 1 auto' }}>
                 <FormControl fullWidth>
                     <InputLabel>主題 *</InputLabel>
@@ -39,7 +53,14 @@ const TopicForm = (props) => {
                     />
                 </FormControl>
             </Box>
-            {(props.topicValue !== '') && renderNextSelect(props.topicValue)}
+            {(props.topicValue !== '') && (
+                <>
+                    {renderNextSelect(props.topicValue)}
+                    <IconButton onClick={props.handleTopicReset}>
+                        <DeleteIcon />
+                    </IconButton>
+                </>
+            )}
         </Box>
     );
 }

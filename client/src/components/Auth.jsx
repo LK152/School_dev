@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { AppBar, Box, Typography } from '@mui/material';
 import Login from './Login';
 import Submit from './Submit';
+import NoAuth from './NoAuth';
 
 const NotLoggedIn = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(null);
@@ -12,7 +13,7 @@ const NotLoggedIn = () => {
                 return <Submit />
             
             default:
-                return 
+                return <NoAuth />
         }
     }
 
