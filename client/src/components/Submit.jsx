@@ -1,6 +1,6 @@
 import '../css/App.css';
 import { useState, useEffect, useCallback } from 'react';
-import { Box, Button, Container, Step, Stepper, StepLabel, Paper, Typography} from '@mui/material';
+import { Box, Button, Container, Step, Stepper, StepLabel, Card, Typography, CardContent} from '@mui/material';
 import StudentIDForm from './FormComponents/StudentIDForm';
 import TopicForm from './FormComponents/TopicForm';
 import Confirm from './FormComponents/Confirm';
@@ -161,55 +161,57 @@ const Submit = () => {
     return (
         <>
             <Container>
-                <Paper variant="outlined" sx={{ my: { md: 12 }, p: { md: 6 } }}>
-                    <Typography variant="h3" align="center">
-                        麗山高中 自主學習
-                    </Typography>
+                <Card raised sx={{ my: { md: 12 }, p: { md: 6 } }}>
+                    <CardContent>
+                        <Typography variant="h3" align="center">
+                            麗山高中 自主學習
+                        </Typography>
+                        
+                        <Stepper activeStep={currentStep} sx={{ my: { md: 5 } }}>
+                            {steps.map((label) => {
+                                const stepProps = {};
+                                const labelProps = {};
+                                return (
+                                    <Step key={label} {...stepProps}>
+                                        <StepLabel {...labelProps}>
+                                            <Typography variant="h6">
+                                                {label}
+                                            </Typography>
+                                        </StepLabel>
+                                    </Step>
+                                );
+                            })}
+                        </Stepper>
                     
-                    <Stepper activeStep={currentStep} sx={{ my: { md: 5 } }}>
-                        {steps.map((label) => {
-                            const stepProps = {};
-                            const labelProps = {};
-                            return (
-                                <Step key={label} {...stepProps}>
-                                    <StepLabel {...labelProps}>
-                                        <Typography variant="h6">
-                                            {label}
-                                        </Typography>
-                                    </StepLabel>
-                                </Step>
-                            );
-                        })}
-                    </Stepper>
-                
-                    {currentStep === steps.length ? (
-                        <>
-                            <Typography sx={{ mt: 2, mb: 1 }}>
-                                已送出
-                            </Typography>
-                        </>
-                    ) : (
-                        <>
-                            {renderStep(currentStep)}
+                        {currentStep === steps.length ? (
+                            <>
+                                <Typography sx={{ mt: 2, mb: 1 }}>
+                                    已送出
+                                </Typography>
+                            </>
+                        ) : (
+                            <>
+                                {renderStep(currentStep)}
 
-                            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                <Button 
-                                    color="inherit" 
-                                    disabled={currentStep === 0} 
-                                    onClick={handleBack} 
-                                    sx={{ mr: 1 }}
-                                    variant="contained"
-                                >
-                                    返回
-                                </Button>
-                                <Box sx={{ flex: '1 1 auto' }} />
-                                <Button color="primary" variant="contained" onClick={handleNext}>
-                                    {currentStep === steps.length - 1 ? '繳交' : '下一步'}
-                                </Button>
-                            </Box>
-                        </>
-                    )}
-                </Paper>
+                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                    <Button 
+                                        color="inherit" 
+                                        disabled={currentStep === 0} 
+                                        onClick={handleBack} 
+                                        sx={{ mr: 1 }}
+                                        variant="contained"
+                                    >
+                                        返回
+                                    </Button>
+                                    <Box sx={{ flex: '1 1 auto' }} />
+                                    <Button color="primary" variant="contained" onClick={handleNext}>
+                                        {currentStep === steps.length - 1 ? '繳交' : '下一步'}
+                                    </Button>
+                                </Box>
+                            </>
+                        )}
+                    </CardContent>
+                </Card>
             </Container>
         </>
     );
