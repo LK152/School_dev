@@ -1,16 +1,18 @@
 import { Component } from 'react';
-import { Box, Paper, Container, Typography } from '@mui/material';
+import { Box, Container, Typography, Card, CardContent } from '@mui/material';
 
 export default class NoAuth extends Component {
     render() {
         return (
             <Container>
                 <Box>
-                    <Paper variant="outlined" sx={{ my: { md: 12 }, p: { md: 6 } }}>
-                        <Typography variant="h1" align="center">
-                            請登入
-                        </Typography>
-                    </Paper>
+                    <Card raised sx={{ my: { md: 12 }, p: { md: 6 } }}>
+                        <CardContent>
+                            <Typography variant="h1" align="center">
+                                請登入
+                            </Typography>
+                        </CardContent>
+                    </Card>
                 </Box>
             </Container>
         );

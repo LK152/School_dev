@@ -1,6 +1,17 @@
 import '../css/App.css';
 import { useState, useEffect, useCallback } from 'react';
-import { Box, Button, Container, Step, Stepper, StepLabel, Card, Typography, CardContent} from '@mui/material';
+import validator from 'validator';
+import {
+    Box,
+    Button,
+    Container,
+    Step,
+    Stepper,
+    StepLabel,
+    Card,
+    Typography,
+    CardContent
+} from '@mui/material';
 import StudentIDForm from './FormComponents/StudentIDForm';
 import TopicForm from './FormComponents/TopicForm';
 import Confirm from './FormComponents/Confirm';
@@ -113,7 +124,7 @@ const Submit = () => {
         setTopicValue('');
         setSubTopicValue('');
         setOtherTopicValue('');
-    }
+    };
 
     useEffect(() => {
         const listener = e => {
@@ -128,7 +139,11 @@ const Submit = () => {
         };
     }, [handleNext]);
 
-    const studentProps = { studentId, setStudentForm, handleReset };
+    const studentProps = {
+        studentId,
+        setStudentForm,
+        handleReset
+    };
     const topicProps = {
         topics,
         topicValue,
@@ -140,7 +155,14 @@ const Submit = () => {
         handleOtherTopicChange, 
         handleTopicReset
     };
-    const confirmProps = { studentId, topics, topicValue, subTopics, subTopicValue, otherTopicValue };
+    const confirmProps = {
+        studentId,
+        topics,
+        topicValue,
+        subTopics,
+        subTopicValue,
+        otherTopicValue
+    };
 
     const renderStep = (currentStep) => {
         switch(currentStep) {
@@ -204,7 +226,7 @@ const Submit = () => {
                                         返回
                                     </Button>
                                     <Box sx={{ flex: '1 1 auto' }} />
-                                    <Button color="primary" variant="contained" onClick={handleNext}>
+                                    <Button color="primary" variant="contained" onClick={handleNext} disabled={(currentStep === 0) ? (!validator.isInt(studentId) || studentId.length !== 8) : (topicValue === '' || (topicValue === 8) ? (otherTopicValue === '') : (subTopicValue === '')) }>
                                         {currentStep === steps.length - 1 ? '繳交' : '下一步'}
                                     </Button>
                                 </Box>

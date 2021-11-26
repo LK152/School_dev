@@ -20,11 +20,10 @@ const NotLoggedIn = () => {
     return (
         <>
             <AppBar 
-                    position="absolute" 
-                    color="default" 
                     elevation={0} 
                     sx={{
-                        position: 'relative', 
+                        position: 'fixed',
+                        backgroundColor: "#f3905f", 
                         borderBottom: (target) => `1px solid ${target.palette.divider}`
                     }}
                 >
