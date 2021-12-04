@@ -1,0 +1,11 @@
+.css-cio0x1-MuiInputBase-root-MuiFilledInput-root:after, 
+.css-cio0x1-MuiInputBase-root-MuiFilledInput-root.Mui-focused:after {
+    transform-origin: left !important;
+    transition: transform .3s !important;
+}
+
+.submitBtn {
+    z-index: 1;
+    display: flex;
+    align-items: center;
+}

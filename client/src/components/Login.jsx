@@ -1,97 +1,91 @@
-import { useCallback, useEffect, useState } from "react";
-import { loadGoogleScript } from "../lib/GoogleLogin";
-import "../css/App.css";
-import AccountMenu from "./AccountMenu";
-import WrongAuth from './WrongAuth';
+import { Component } from 'react';
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import Home from './Home';
 
-const Login = ({ Auth }) => {
-  const [gapi, setGapi] = useState();
-  const [googleAuth, setGoogleAuth] = useState();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [imageUrl, setImageUrl] = useState();
+const CLIENT_ID = process.env.REACT_APP_GOOGLE_ID;
 
-  const onLogIn = useCallback(
-    (googleUser) => {
-      setIsLoggedIn(true);
-      const profile = googleUser.getBasicProfile();
-      Auth(true);
-      setName(profile.getName());
-      setEmail(profile.getEmail());
-      setImageUrl(profile.getImageUrl());
-    },
-    [Auth]
-  );
+class Login extends Component {
+    constructor() {
+        super();
+        this.state = {
+            isLoggedIn: false,
+            userInfo: {
+                name: '',
+                emailId: '',
+            },
+        };
+    }
 
-  const onFail = useCallback(() => {
-    setIsLoggedIn(false);
-    Auth(false);
-  }, [Auth]);
-
-  const renderSigninButton = useCallback(
-    (_gapi) => {
-      _gapi.signin2.render("signin_btn", {
-        scope: "profile email",
-        width: 180,
-        height: 50,
-        longtitle: false,
-        theme: "dark",
-        onsuccess: onLogIn,
-        onfailure: onFail,
-      });
-    },
-    [onLogIn, onFail]
-  );
-
-  const logOut = useCallback(() => {
-    (async () => {
-      await googleAuth.signOut();
-      setIsLoggedIn(false);
-      Auth(false);
-      renderSigninButton(gapi);
-    })();
-  }, [gapi, googleAuth, Auth, renderSigninButton]);
-
-  useEffect(() => {
-    window.onGoogleScriptLoad = () => {
-      const _gapi = window.gapi;
-      setGapi(_gapi);
-      _gapi.load("auth2", () => {
-        (async () => {
-          const _googleAuth = await _gapi.auth2.init({
-            client_id: process.env.REACT_APP_GOOGLE_ID,
-            prompt: "select_account",
-          });
-
-          setGoogleAuth(_googleAuth);
-          renderSigninButton(_gapi);
-        })();
-      });
+    responseGoogleSuccess = (response) => {
+        let userInfo = {
+            name: response.profileObj.name,
+            emailId: response.profileObj.email,
+        };
+        this.setState({ userInfo, isLoggedIn: true });
     };
 
-    loadGoogleScript();
-  }, [renderSigninButton]);
+    responseGoogleError = (response) => {
+        console.log(response);
+    };
+    Î;
+    logout = (response) => {
+        console.log(response);
+        let userInfo = {
+            name: '',
+            emailId: '',
+        };
+        this.setState({ userInfo, isLoggedIn: false });
+    };
 
-  if (/^u+[0-9]+@lssh.tp.edu.tw$/.test(email)) {
-    switch (isLoggedIn) {
-        case true:
-            return (
-            <AccountMenu
-                userName={name}
-                userEmail={email}
-                userAvatar={imageUrl}
-                logOut={logOut}
-            />
-            );
-
-        default: {
-            return <div id="signin_btn" className="usr-icon" />;
-        }
-    }     
-  } else {
-      return 0;
-  }
-};
-
+    render() {
+        return (
+            <div>
+                {this.state.isLoggedIn ? (
+                    <>
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                right: 0,
+                                margin: 10,
+                            }}
+                        >
+                            <GoogleLogout
+                                clientId={CLIENT_ID}
+                                buttonText={'登出 ' + this.state.userInfo.emailId}
+                                onLogoutSuccess={this.logout}
+                            />
+                        </div>
+                        {/^u+[0-9]+@lssh.tp.edu.tw$/.test(this.state.userInfo.emailId) ? (
+                            <Home Auth={this.state.isLoggedIn} Warning={false} />
+                        ) : (
+                            <Home Auth={false} Warning={true} />
+                        )}
+                    </>
+                ) : (
+                    <>
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                right: 0,
+                                margin: 10,
+                            }}
+                        >
+                            <GoogleLogin
+                                clientId={CLIENT_ID}
+                                buttonText="登入"
+                                onSuccess={this.responseGoogleSuccess}
+                                onFailure={this.responseGoogleError}
+                                isSignedIn={true}
+                                cookiePolicy={'single_host_origin'}
+                            />
+                        </div>
+                        <Home Auth={this.state.isLoggedIn} />
+                    </>
+                )}
+            </div>
+        );
+    }
+}
 export default Login;
