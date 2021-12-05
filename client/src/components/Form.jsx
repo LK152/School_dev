@@ -139,7 +139,6 @@ const Form = () => {
 					<IconButton onClick={handleDelete}>
 						<DeleteOutline />
 					</IconButton>
-					{console.log(values.mainTopic)}
 					<Submitbtn
 						type='submit'
 						disableRipple
