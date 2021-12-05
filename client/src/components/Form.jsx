@@ -5,12 +5,13 @@ import {
 	TextField,
 	InputLabel,
 	FormControl,
+	FormHelperText,
 	styled,
 	IconButton,
 	Typography,
 } from '@mui/material';
 import { Send, DeleteOutline } from '@mui/icons-material';
-import { mainTopics, subTopics } from './Options';
+import { mainTopics, subTopics, members } from './Options';
 import Select from './Select';
 import StudentIdValidator from '../validator/StudentIdValidator';
 import '../App.css';
@@ -21,6 +22,7 @@ const initialValues = {
 	subTopic: '',
 	otherTopic: '',
 	isSent: false,
+	members: '',
 };
 
 const Submitbtn = styled(Button)({
@@ -73,6 +75,22 @@ const Form = () => {
 		setValues(initialValues);
 	};
 
+	const handleMemberSelect = (value) => {
+		setValues({ ...values, members: value });
+	};
+
+	const memberInput = (num) => {
+		let fields = [];
+		for (var i = 0;i < num;i++) {
+			fields.push(<TextField label={"學號" + (i+1)} />);
+		};
+		return (
+			<Box sx={{ my: { xs: 3 }, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+				{fields}
+			</Box>
+		);
+	}
+
 	switch (values.isSent) {
 		case true:
 			return (
@@ -90,9 +108,17 @@ const Form = () => {
 								variant='filled'
 								label='學號'
 								name='studentId'
+								color={
+									StudentIdValidator(values.studentId)
+										? 'success'
+										: 'warning'
+								}
 								value={values.studentId}
 								onChange={handleTextChange}
 							/>
+							{!StudentIdValidator(values.studentId) && (
+								<FormHelperText>請輸入8碼學號</FormHelperText>
+							)}
 						</FormControl>
 					</Box>
 					{StudentIdValidator(values.studentId) && (
@@ -136,6 +162,26 @@ const Form = () => {
 							</FormControl>
 						</Box>
 					)}
+					{console.log(values.members)}
+					{(values.subTopic !== '' || values.otherTopic !== '') && (
+						<Box sx={{ my: { xs: 3 } }}>
+							<FormControl fullWidth>
+								<InputLabel>組員人數</InputLabel>
+								<Select
+									label='組員人數'
+									name='members'
+									options={members}
+									value={values.members}
+									onChange={handleMemberSelect}
+								/>
+							</FormControl>
+						</Box>
+					)}
+					{values.members !== 1 && (
+						<>
+							{memberInput(values.members)}
+						</>
+					)}
 					<IconButton onClick={handleDelete}>
 						<DeleteOutline />
 					</IconButton>
@@ -143,9 +189,9 @@ const Form = () => {
 						type='submit'
 						disableRipple
 						disabled={
-							values.mainTopic === 8 
-                                ? values.otherTopic === '' 
-                                : values.subTopic === ''
+							values.mainTopic === 8
+								? values.otherTopic === ''
+								: values.subTopic === ''
 						}
 						sx={{ float: 'right' }}
 					>
