@@ -16,20 +16,20 @@ class Login extends Component {
         };
     }
 
-    responseGoogleSuccess = (response) => {
+    responseGoogleSuccess = (res) => {
         let userInfo = {
-            name: response.profileObj.name,
-            emailId: response.profileObj.email,
+            name: res.profileObj.name,
+            emailId: res.profileObj.email,
         };
         this.setState({ userInfo, isLoggedIn: true });
     };
 
-    responseGoogleError = (response) => {
-        console.log(response);
+    responseGoogleError = (res) => {
+        console.log(res);
     };
     Î;
-    logout = (response) => {
-        console.log(response);
+    logout = (res) => {
+        console.log(res);
         let userInfo = {
             name: '',
             emailId: '',
