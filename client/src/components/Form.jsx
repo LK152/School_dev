@@ -15,6 +15,7 @@ import { mainTopics, subTopics, members } from './Options';
 import Select from './Select';
 import StudentIdValidator from '../validator/StudentIdValidator';
 import '../App.css';
+import Axios from 'axios';
 
 const initialValues = {
     studentId: '',
@@ -71,6 +72,15 @@ const Form = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setValues({ ...values, isSent: true });
+        Axios.post("http://localhost:3004/pg_test", {
+				id: values['studentId'],
+				mainTopics: values['mainTopic'],
+				subTopic: values['subTopic'],
+				otherTopic: values['otherTopic']
+		})
+		.then(() => {
+			console.log("suceed");
+		});
     };
 
     const handleDelete = () => {
