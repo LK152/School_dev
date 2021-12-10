@@ -81,6 +81,41 @@ const Form = () => {
         setValues({ ...values, members: value });
     };
 
+    const handleValidation = () => {
+        if (values.mainTopic === '') {
+            return true;
+        } else if (values.mainTopic !== 8) {
+            if (values.subTopic === '') {
+                return true;
+            } else {
+                if (values.members === '') {
+                    return true;
+                } else if (values.members === 2) {
+                    if (values.memberInfo1.length < 5) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else if (values.members === 3) {
+                    if (
+                        values.memberInfo1.length < 5 ||
+                        values.memberInfo2.length < 5
+                    ) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        } else {
+            if (values.otherTopic === '') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    };
+
     const memberInput = (num) => {
         let fields = [];
         for (var i = 1; i < num; i++) {
@@ -93,8 +128,9 @@ const Form = () => {
                         }
                         onChange={handleTextChange}
                         name={'memberInfo' + i}
+                        error={handleValidation()}
                     />
-                    <FormHelperText>輸入學生班級座號</FormHelperText>
+                    <FormHelperText>輸入5碼學生班級座號</FormHelperText>
                 </FormControl>
             );
         }
@@ -129,11 +165,7 @@ const Form = () => {
                                 variant="filled"
                                 label="學號"
                                 name="studentId"
-                                color={
-                                    StudentIdValidator(values.studentId)
-                                        ? 'success'
-                                        : 'warning'
-                                }
+                                error={!StudentIdValidator(values.studentId)}
                                 value={values.studentId}
                                 onChange={handleTextChange}
                             />
@@ -183,7 +215,6 @@ const Form = () => {
                             </FormControl>
                         </Box>
                     )}
-                    {console.log(values.members)}
                     {(values.subTopic !== '' || values.otherTopic !== '') && (
                         <Box sx={{ my: { xs: 3 } }}>
                             <FormControl fullWidth>
@@ -205,17 +236,7 @@ const Form = () => {
                     <Submitbtn
                         type="submit"
                         disableRipple
-                        disabled={
-                            values.mainTopic === 8
-                                ? values.otherTopic === ''
-                                : values.subTopic === '' ||
-                                  values.members === '' ||
-                                  (values.members === 2 &&
-                                      values.memberInfo1 === '') ||
-                                  (values.members === 3 &&
-                                      values.memberInfo1 === '') ||
-                                  values.memberInfo2 === ''
-                        }
+                        disabled={handleValidation()}
                         sx={{ float: 'right' }}
                     >
                         <div className="submitBtn" id="submitBtn">
