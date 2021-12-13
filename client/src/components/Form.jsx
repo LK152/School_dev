@@ -78,10 +78,10 @@ const Form = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		createData([
-			values.studentId,
-			mainTopics[values.mainTopic],
-			subTopics[values.mainTopic][values.subTopic],
+        createData([
+            values.studentId,
+            mainTopics[values.mainTopic].label,
+            subTopics[values.mainTopic][values.subTopic].label,
 			values.members,
 		]);
 		setValues({ ...values, isSent: true });
@@ -96,9 +96,12 @@ const Form = () => {
 	};
 
     const handleValidation = () => {
+        if (values.class === '' || values.number === '') {
+            return true;
+        }
         if (values.mainTopic === '') {
             return true;
-        } else if (values.mainTopic !== 8) {
+        } else if (values.mainTopic !== 7) {
             if (values.subTopic === '') {
                 return true;
             } else {
@@ -171,7 +174,6 @@ const Form = () => {
 									value={values.number}
 									onChange={handleNumber}
 								/>
-                                {console.log(values.number)}
 							</FormControl>
 						</Box>
 					</Box>
@@ -187,7 +189,7 @@ const Form = () => {
 							/>
 						</FormControl>
 					</Box>
-					{values.mainTopic !== '' && values.mainTopic !== 8 && (
+					{values.mainTopic !== '' && values.mainTopic !== 7 && (
 						<Box sx={{ my: { xs: 3 } }}>
 							<FormControl fullWidth>
 								<InputLabel>副主題 *</InputLabel>
@@ -201,7 +203,7 @@ const Form = () => {
 							</FormControl>
 						</Box>
 					)}
-					{values.mainTopic === 8 && (
+					{values.mainTopic === 7 && (
 						<Box sx={{ my: { xs: 3 } }}>
 							<FormControl fullWidth>
 								<TextField
