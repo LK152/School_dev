@@ -9,7 +9,7 @@ const mainTopics = [
     {label: '其他', value: 8}
 ];
 
-const subTopics = [[], 
+const subTopics = [[],  
     [ 
         {label: '延伸中文', value: 1}, 
         {label: '延伸英文', value: 2}, 

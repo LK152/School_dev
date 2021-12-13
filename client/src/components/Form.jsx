@@ -14,6 +14,7 @@ import { Send, DeleteOutline } from '@mui/icons-material';
 import { mainTopics, subTopics, members } from './Options';
 import Select from './Select';
 import StudentIdValidator from '../validator/StudentIdValidator';
+import createData from '../api/createData';
 import '../App.css';
 
 const initialValues = {
@@ -70,6 +71,7 @@ const Form = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        createData([values.studentId, mainTopics[values.mainTopic], subTopics[values.mainTopic][values.subTopic], values.members]);
         setValues({ ...values, isSent: true });
     };
 
@@ -236,7 +238,7 @@ const Form = () => {
                     <Submitbtn
                         type="submit"
                         disableRipple
-                        disabled={handleValidation()}
+                        //disabled={handleValidation()}
                         sx={{ float: 'right' }}
                     >
                         <div className="submitBtn" id="submitBtn">
