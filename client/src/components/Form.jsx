@@ -4,7 +4,7 @@ import {
 	Button,
 	TextField,
 	InputLabel,
-	FormControl,
+	FormControl, 
 	styled,
 	IconButton,
 	Typography,
@@ -62,8 +62,8 @@ const Form = () => {
 		setValues({ ...values, [e.target.name]: e.target.value });
 	};
 
-	const handleSelect = (name, value) => {
-		setValues({ ...values, [name]: value });
+	const handleSelect = (e) => {
+		setValues({ ...values, [e.target.name]: e.target.value });
 	}
 
 	const handleSubmit = (e) => {
@@ -82,10 +82,10 @@ const Form = () => {
 	};
 
 	const validateNum = () => {
-		if (values.mem1Class === values.class && values.mem1Num === values.number) {
+		if (values.mem1Class === values.class && values.mem1Num === values.number && values.mem1Class !== '' && values.mem1Num !== '') {
 			return true;
 		}
-		if (values.mem2Class === values.class && values.mem2Num === values.number) {
+		if (values.mem2Class === values.class && values.mem2Num === values.number && values.mem2Class !== '' && values.mem2Num !== '') {
 			return true;
 		}
 	};
@@ -268,7 +268,7 @@ const Form = () => {
 					<Submitbtn
 						type='submit'
 						disableRipple
-						disabled={handleValidation()}
+						disabled={handleValidation() || validateNum()}
 						sx={{ float: 'right' }}
 					>
 						<div className='submitBtn' id='submitBtn'>

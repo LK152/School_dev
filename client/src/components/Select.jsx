@@ -12,11 +12,9 @@ const ControlledSelect = ({ label, name, value, options, onFocus, onChange, onBl
     };
 
     const handleChange = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
-        setLocalValue(value);
+        setLocalValue(e.target.value);
         if (onChange) {
-            onChange(name, value);
+            onChange(e);
         }
     };
 
