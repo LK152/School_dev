@@ -35,7 +35,7 @@ const ControlledSelect = ({ label, name, value, options, onFocus, onChange, onBl
         >
             {options?.map(option => {
                 return (
-                    <MenuItem key={Math.random().toString(36).substring(2, 9)} value={option.value}>
+                    <MenuItem key={option.value} value={option.value}>
                         {option.label ?? option.value}
                     </MenuItem>
                 )

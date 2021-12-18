@@ -65,12 +65,6 @@ const subTopics = [
 	],
 ];
 
-const members = [
-	{ label: '1', value: 1 },
-	{ label: '2', value: 2 },
-	{ label: '3', value: 3 },
-];
-
 const classes = [
     {label: '201', value: 201}, 
     {label: '202', value: 202}, 
@@ -119,4 +113,4 @@ const numbers = [
 ];
 
 // eslint-disable-next-line
-export { mainTopics, subTopics, members, classes, numbers };
+export { mainTopics, subTopics, classes, numbers };
