@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Select, MenuItem } from '@mui/material';
 
-const ControlledSelect = ({ label, value, options, onFocus, onChange, onBlur }) => {
+const ControlledSelect = ({ label, name, value, options, onFocus, onChange, onBlur }) => {
     const [localValue, setLocalValue] = useState(value ?? '');
     useEffect(() => setLocalValue(value ?? ''), [value]);
 
@@ -12,10 +12,9 @@ const ControlledSelect = ({ label, value, options, onFocus, onChange, onBlur }) 
     };
 
     const handleChange = (e) => {
-        const value = e.target.value;
-        setLocalValue(value);
+        setLocalValue(e.target.value);
         if (onChange) {
-            onChange(value);
+            onChange(e);
         }
     };
 
@@ -28,6 +27,7 @@ const ControlledSelect = ({ label, value, options, onFocus, onChange, onBlur }) 
     return (
         <Select 
             label={label} 
+            name={name} 
             value={localValue} 
             onFocus={handleFocus} 
             onChange={handleChange} 
@@ -35,7 +35,7 @@ const ControlledSelect = ({ label, value, options, onFocus, onChange, onBlur }) 
         >
             {options?.map(option => {
                 return (
-                    <MenuItem key={option.value} value={option.value}>
+                    <MenuItem key={Math.random().toString(36).substring(2, 9)} value={option.value}>
                         {option.label ?? option.value}
                     </MenuItem>
                 )

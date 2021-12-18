@@ -27,7 +27,7 @@ class Login extends Component {
     responseGoogleError = (res) => {
         console.log(res);
     };
-    Î;
+    
     logout = (res) => {
         console.log(res);
         let userInfo = {

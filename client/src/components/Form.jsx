@@ -5,28 +5,33 @@ import {
     TextField,
     InputLabel,
     FormControl,
-    FormHelperText,
     styled,
     IconButton,
     Typography,
 } from '@mui/material';
 import { Send, DeleteOutline } from '@mui/icons-material';
-import { mainTopics, subTopics, members } from './Options';
+import { mainTopics, subTopics, members, classes, numbers } from './Options';
 import Select from './Select';
-import StudentIdValidator from '../validator/StudentIdValidator';
+import { db } from '../config/firebase.config';
+import { collection, addDoc } from 'firebase/firestore';
 import '../App.css';
 import Axios from 'axios';
 
 const initialValues = {
-    studentId: '',
+    class: '',
+    number: '',
     mainTopic: '',
     subTopic: '',
     otherTopic: '',
     isSent: false,
-    members: '',
-    memberInfo1: '',
-    memberInfo2: '',
+    memNum: '',
+    mem1Class: '',
+    mem1Num: '',
+    mem2Class: '',
+    mem2Num: '',
 };
+
+const Collection = collection(db, 'studentData');
 
 const Submitbtn = styled(Button)({
     border: '1px solid rgb(25, 118, 210)',
@@ -61,16 +66,27 @@ const Form = () => {
         setValues({ ...values, [e.target.name]: e.target.value });
     };
 
-    const handleTopicChange = (value) => {
-        setValues({ ...values, mainTopic: value });
-    };
-
-    const handleSubTopicChange = (value) => {
-        setValues({ ...values, subTopic: value });
-    };
+    const handleSelect = (e) => {
+        setValues({ ...values, [e.target.name]: e.target.value });
+	};
+	
+	const createData = async () => {
+		await addDoc(Collection, {
+			class: values.class,
+			number: values.number,
+			topic: values.topic,
+			subTopic: values.subTopic,
+			otherTopic: values.otherTopic,
+			mem1Class: values.mem1Class,
+			mem1Num: values.mem1Num,
+			mem1Class: values.mem2Class,
+			mem1Num: values.mem2Num,
+		});
+	}
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+		e.preventDefault();
+		createData();
         setValues({ ...values, isSent: true });
         Axios.post("http://localhost:3004/pg_test", {
 				id: values['studentId'],
@@ -87,63 +103,64 @@ const Form = () => {
         setValues(initialValues);
     };
 
-    const handleMemberSelect = (value) => {
-        setValues({ ...values, members: value });
-    };
-
-    const handleValidation = () => {
-        if (values.mainTopic === '') {
+    const validateNum = () => {
+        if (
+            values.mem1Class === values.class &&
+            values.mem1Num === values.number &&
+            values.mem1Class !== '' &&
+            values.mem1Num !== ''
+        ) {
             return true;
-        } else if (values.mainTopic !== 8) {
-            if (values.subTopic === '') {
-                return true;
-            } else {
-                if (values.members === '') {
-                    return true;
-                } else if (values.members === 2) {
-                    if (values.memberInfo1.length < 5) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else if (values.members === 3) {
-                    if (
-                        values.memberInfo1.length < 5 ||
-                        values.memberInfo2.length < 5
-                    ) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            }
-        } else {
-            if (values.otherTopic === '') {
-                return true;
-            } else {
-                return false;
-            }
+        }
+        if (
+            values.mem2Class === values.class &&
+            values.mem2Num === values.number &&
+            values.mem2Class !== '' &&
+            values.mem2Num !== ''
+        ) {
+            return true;
         }
     };
 
-    const memberInput = (num) => {
+    const renderMemberSelect = (num) => {
         let fields = [];
         for (var i = 1; i < num; i++) {
             fields.push(
-                <FormControl fullWidth>
-                    <TextField
-                        label={'學生' + i}
-                        value={
-                            i === 1 ? values.memberInfo1 : values.memberInfo2
-                        }
-                        onChange={handleTextChange}
-                        name={'memberInfo' + i}
-                        error={handleValidation()}
-                    />
-                    <FormHelperText>輸入5碼學生班級座號</FormHelperText>
-                </FormControl>
+                <>
+                    <Box width={550}>
+                        <FormControl fullWidth>
+                            <InputLabel>{'組員' + i + '班級'}</InputLabel>
+                            <Select
+                                label={'組員' + i + '班級'}
+                                name={'mem' + i + 'Class'}
+                                options={classes}
+                                value={
+                                    i === 1
+                                        ? values.mem1Class
+                                        : values.mem2Class
+                                }
+                                onChange={handleSelect}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box width={550}>
+                        <FormControl fullWidth error={validateNum()}>
+                            <InputLabel>{'組員' + i + '座號'}</InputLabel>
+                            <Select
+                                label={'組員' + i + '座號'}
+                                name={'mem' + i + 'Num'}
+                                options={numbers}
+                                value={
+                                    i === 1 ? values.mem1Num : values.mem2Num
+                                }
+                                onChange={handleSelect}
+                            />
+                        </FormControl>
+                    </Box>
+                </>
             );
         }
+
         return (
             <Box
                 sx={{
@@ -158,6 +175,25 @@ const Form = () => {
         );
     };
 
+    const handleValidation = () => {
+        if (values.class === '' || values.number === '') {
+            return true;
+        }
+        if (values.mainTopic === '') {
+            return true;
+        } else if (values.mainTopic !== 7) {
+            if (values.subTopic === '') {
+                return true;
+            }
+        } else {
+            if (values.otherTopic === '') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    };
+
     switch (values.isSent) {
         case true:
             return (
@@ -169,36 +205,52 @@ const Form = () => {
         default:
             return (
                 <form onSubmit={handleSubmit}>
-                    <Box sx={{ my: { xs: 3 } }}>
-                        <FormControl fullWidth>
-                            <TextField
-                                variant="filled"
-                                label="學號"
-                                name="studentId"
-                                error={!StudentIdValidator(values.studentId)}
-                                value={values.studentId}
-                                onChange={handleTextChange}
-                            />
-                            {!StudentIdValidator(values.studentId) && (
-                                <FormHelperText>請輸入8碼學號</FormHelperText>
-                            )}
-                        </FormControl>
-                    </Box>
-                    {StudentIdValidator(values.studentId) && (
-                        <Box sx={{ my: { xs: 3 } }}>
+                    <Box
+                        sx={{
+                            my: { xs: 3 },
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-evenly',
+                        }}
+                    >
+                        <Box width={550}>
                             <FormControl fullWidth>
-                                <InputLabel>主題 *</InputLabel>
+                                <InputLabel>班級 *</InputLabel>
                                 <Select
-                                    label="主題 *"
-                                    name="mainTopic"
-                                    options={mainTopics}
-                                    value={values.mainTopic}
-                                    onChange={handleTopicChange}
+                                    label="班級 *"
+                                    name="class"
+                                    options={classes}
+                                    value={values.class}
+                                    onChange={handleSelect}
                                 />
                             </FormControl>
                         </Box>
-                    )}
-                    {values.mainTopic !== '' && values.mainTopic !== 8 && (
+                        <Box width={550}>
+                            <FormControl fullWidth>
+                                <InputLabel>座號 *</InputLabel>
+                                <Select
+                                    label="座號 *"
+                                    name="number"
+                                    options={numbers}
+                                    value={values.number}
+                                    onChange={handleSelect}
+                                />
+                            </FormControl>
+                        </Box>
+                    </Box>
+                    <Box sx={{ my: { xs: 3 } }}>
+                        <FormControl fullWidth>
+                            <InputLabel>主題 *</InputLabel>
+                            <Select
+                                label="主題 *"
+                                name="mainTopic"
+                                options={mainTopics}
+                                value={values.mainTopic}
+                                onChange={handleSelect}
+                            />
+                        </FormControl>
+                    </Box>
+                    {values.mainTopic !== '' && values.mainTopic !== 7 && (
                         <Box sx={{ my: { xs: 3 } }}>
                             <FormControl fullWidth>
                                 <InputLabel>副主題 *</InputLabel>
@@ -207,12 +259,12 @@ const Form = () => {
                                     name="subTopic"
                                     options={subTopics[values.mainTopic]}
                                     value={values.subTopic}
-                                    onChange={handleSubTopicChange}
+                                    onChange={handleSelect}
                                 />
                             </FormControl>
                         </Box>
                     )}
-                    {values.mainTopic === 8 && (
+                    {values.mainTopic === 7 && (
                         <Box sx={{ my: { xs: 3 } }}>
                             <FormControl fullWidth>
                                 <TextField
@@ -231,22 +283,22 @@ const Form = () => {
                                 <InputLabel>組員人數</InputLabel>
                                 <Select
                                     label="組員人數"
-                                    name="members"
+                                    name="memNum"
                                     options={members}
-                                    value={values.members}
-                                    onChange={handleMemberSelect}
+                                    value={values.memNum}
+                                    onChange={handleSelect}
                                 />
                             </FormControl>
                         </Box>
                     )}
-                    {values.members !== 1 && <>{memberInput(values.members)}</>}
+                    {values.memNum >= 2 && renderMemberSelect(values.memNum)}
                     <IconButton onClick={handleDelete}>
                         <DeleteOutline />
                     </IconButton>
                     <Submitbtn
                         type="submit"
                         disableRipple
-                        disabled={handleValidation()}
+                        //disabled={handleValidation() || validateNum()}
                         sx={{ float: 'right' }}
                     >
                         <div className="submitBtn" id="submitBtn">
