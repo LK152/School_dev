@@ -2,13 +2,17 @@ import { useState } from 'react';
 import {
 	Box,
 	Button,
+	Card,
+	Container,
+	CardContent,
+	Grid,
 	TextField,
-	InputLabel, 
-    Radio, 
-    RadioGroup, 
-    FormControlLabel, 
-    FormLabel, 
-	FormControl, 
+	InputLabel,
+	Radio,
+	RadioGroup,
+	FormControlLabel,
+	FormLabel,
+	FormControl,
 	styled,
 	IconButton,
 	Typography,
@@ -19,6 +23,7 @@ import Select from './Select';
 import { db } from '../config/firebase.config';
 import { collection, addDoc } from 'firebase/firestore';
 import '../App.css';
+import Navbar from './Navbar';
 
 const initialValues = {
 	class: '',
@@ -173,11 +178,14 @@ const Form = () => {
 		if (values.class === '' || values.number === '') {
 			return true;
 		}
-        if (values.memNum === '') {
-            return true;
-        }else if (values.memNum === 2 && (values.mem1Class === '' || values.mem1Num === '')) {
-            return true;
-        }
+		if (values.memNum === '') {
+			return true;
+		} else if (
+			values.memNum === 2 &&
+			(values.mem1Class === '' || values.mem1Num === '')
+		) {
+			return true;
+		}
 		if (values.mainTopic === '') {
 			return true;
 		} else if (values.mainTopic !== 7) {
@@ -203,108 +211,178 @@ const Form = () => {
 
 		default:
 			return (
-				<form onSubmit={handleSubmit}>
-					<Box
-						sx={{
-							my: { xs: 3 },
-							display: 'flex',
-							flexDirection: 'row',
-							justifyContent: 'space-evenly',
-						}}
-					>
-						<Box width={550}>
-							<FormControl fullWidth>
-								<InputLabel>班級 *</InputLabel>
-								<Select
-									label='班級 *'
-									name='class'
-									options={classes}
-									value={values.class}
-									onChange={handleChange}
-								/>
-							</FormControl>
-						</Box>
-						<Box width={550}>
-							<FormControl fullWidth>
-								<InputLabel>座號 *</InputLabel>
-								<Select
-									label='座號 *'
-									name='number'
-									options={numbers}
-									value={values.number}
-									onChange={handleChange}
-								/>
-							</FormControl>
-						</Box>
-					</Box>
-					<Box sx={{ my: { xs: 3 } }}>
-						<FormControl fullWidth>
-							<InputLabel>主題 *</InputLabel>
-							<Select
-								label='主題 *'
-								name='mainTopic'
-								options={mainTopics}
-								value={values.mainTopic}
-								onChange={handleChange}
-							/>
-						</FormControl>
-					</Box>
-					{values.mainTopic !== '' && values.mainTopic !== 7 && (
-						<Box sx={{ my: { xs: 3 } }}>
-							<FormControl fullWidth>
-								<InputLabel>副主題 *</InputLabel>
-								<Select
-									label='副主題 *'
-									name='subTopic'
-									options={subTopics[values.mainTopic]}
-									value={values.subTopic}
-									onChange={handleChange}
-								/>
-							</FormControl>
-						</Box>
-					)}
-					{values.mainTopic === 7 && (
-						<Box sx={{ my: { xs: 3 } }}>
-							<FormControl fullWidth>
-								<TextField
-									variant='filled'
-									label='其他'
-									name='otherTopic'
-									value={values.otherTopic}
-									onChange={handleChange}
-                                    autoComplete='off'
-								/>
-							</FormControl>
-						</Box>
-					)}
-					{(values.subTopic !== '' || values.otherTopic !== '') && (
-						<Box sx={{ my: { xs: 3 } }}>
-                            <FormControl component="fieldset">
-                                <FormLabel>小組人數</FormLabel>
-                                <RadioGroup row name="memNum" value={values.memNum} onChange={handleChange}>
-                                    <FormControlLabel value="1" control={<Radio />} label="1" />
-                                    <FormControlLabel value="2" control={<Radio />} label="2" />
-                                    <FormControlLabel value="3" control={<Radio />} label="3" />
-                                </RadioGroup>
-                            </FormControl>
-						</Box>
-					)}
-					{values.memNum >= 2 && renderMemberSelect(values.memNum)}
-					<IconButton onClick={handleDelete}>
-						<DeleteOutline />
-					</IconButton>
-					<Submitbtn
-						type='submit'
-						disableRipple
-						disabled={handleValidation() || validateNum()}
-						sx={{ float: 'right' }}
-					>
-						<div className='submitBtn' id='submitBtn'>
-							送出
-							<Send id='sendIcon' />
-						</div>
-					</Submitbtn>
-				</form>
+				<>
+					<Navbar />
+					<Container sx={{ mt: 10 }}>
+						<Card raised>
+							<CardContent>
+								<Grid
+									container
+									rowGap={8}
+									display='flex'
+									flexDirection='column'
+								>
+									<Grid item xs={12}>
+										<Typography
+											variant='h2'
+											align='center'
+											sx={{ mt: { xs: 6 } }}
+										>
+											麗山高中
+										</Typography>
+									</Grid>
+									<form onSubmit={handleSubmit}>
+										<Box
+											sx={{
+												my: { xs: 3 },
+												display: 'flex',
+												flexDirection: 'row',
+												justifyContent: 'space-evenly',
+											}}
+										>
+											<Box width={550}>
+												<FormControl fullWidth>
+													<InputLabel>
+														班級 *
+													</InputLabel>
+													<Select
+														label='班級 *'
+														name='class'
+														options={classes}
+														value={values.class}
+														onChange={handleChange}
+													/>
+												</FormControl>
+											</Box>
+											<Box width={550}>
+												<FormControl fullWidth>
+													<InputLabel>
+														座號 *
+													</InputLabel>
+													<Select
+														label='座號 *'
+														name='number'
+														options={numbers}
+														value={values.number}
+														onChange={handleChange}
+													/>
+												</FormControl>
+											</Box>
+										</Box>
+										<Box sx={{ my: { xs: 3 } }}>
+											<FormControl fullWidth>
+												<InputLabel>主題 *</InputLabel>
+												<Select
+													label='主題 *'
+													name='mainTopic'
+													options={mainTopics}
+													value={values.mainTopic}
+													onChange={handleChange}
+												/>
+											</FormControl>
+										</Box>
+										{values.mainTopic !== '' &&
+											values.mainTopic !== 7 && (
+												<Box sx={{ my: { xs: 3 } }}>
+													<FormControl fullWidth>
+														<InputLabel>
+															副主題 *
+														</InputLabel>
+														<Select
+															label='副主題 *'
+															name='subTopic'
+															options={
+																subTopics[
+																	values
+																		.mainTopic
+																]
+															}
+															value={
+																values.subTopic
+															}
+															onChange={
+																handleChange
+															}
+														/>
+													</FormControl>
+												</Box>
+											)}
+										{values.mainTopic === 7 && (
+											<Box sx={{ my: { xs: 3 } }}>
+												<FormControl fullWidth>
+													<TextField
+														variant='filled'
+														label='其他'
+														name='otherTopic'
+														value={
+															values.otherTopic
+														}
+														onChange={handleChange}
+														autoComplete='off'
+													/>
+												</FormControl>
+											</Box>
+										)}
+										{(values.subTopic !== '' ||
+											values.otherTopic !== '') && (
+											<Box sx={{ my: { xs: 3 } }}>
+												<FormControl component='fieldset'>
+													<FormLabel>
+														小組人數
+													</FormLabel>
+													<RadioGroup
+														row
+														name='memNum'
+														value={values.memNum}
+														onChange={handleChange}
+													>
+														<FormControlLabel
+															value='1'
+															control={<Radio />}
+															label='1'
+														/>
+														<FormControlLabel
+															value='2'
+															control={<Radio />}
+															label='2'
+														/>
+														<FormControlLabel
+															value='3'
+															control={<Radio />}
+															label='3'
+														/>
+													</RadioGroup>
+												</FormControl>
+											</Box>
+										)}
+										{values.memNum >= 2 &&
+											renderMemberSelect(values.memNum)}
+										<IconButton onClick={handleDelete}>
+											<DeleteOutline />
+										</IconButton>
+										<Submitbtn
+											type='submit'
+											disableRipple
+											disabled={
+												handleValidation() ||
+												validateNum()
+											}
+											sx={{ float: 'right' }}
+										>
+											<div
+												className='submitBtn'
+												id='submitBtn'
+											>
+												送出
+												<Send id='sendIcon' />
+											</div>
+										</Submitbtn>
+									</form>
+								</Grid>
+							</CardContent>
+						</Card>
+					</Container>
+				</>
 			);
 	}
 };
