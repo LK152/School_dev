@@ -28,7 +28,7 @@ const State = {
     canClick: false,
 };
 
-const Navbar = (props) => {
+const Navbar = () => {
     const [state, setState] = useState(State);
 
     const responseGoogleSuccess = (res) => {
@@ -38,8 +38,6 @@ const Navbar = (props) => {
             imgUrl: res.profileObj.imageUrl,
         };
         setState({ ...state, isLoggedIn: true, userInfo: userInfo });
-		props.auth(/^u+[0-9]+@lssh.tp.edu.tw$/.test(state.userInfo.emailId));
-		console.log(/^u+[0-9]+@lssh.tp.edu.tw$/.test(state.userInfo.emailId))
     };
 
     const responseGoogleError = (res) => {
@@ -59,7 +57,6 @@ const Navbar = (props) => {
             canClick: false,
             userInfo: userInfo,
         });
-        props.auth(false);
     };
 
     const handleClose = () => {
@@ -79,11 +76,7 @@ const Navbar = (props) => {
                         首頁
                     </Button>
                     <Typography
-                        to={
-                            state.isLoggedIn === true
-                                ? '/self-learning-form'
-                                : '/'
-                        }
+                        to={state.isLoggedIn && '/self-learning-form'}
                         component={Link}
                         color="inherit"
                         sx={{ textDecoration: 'none', flexGrow: 1, ml: 2 }}
@@ -97,6 +90,7 @@ const Navbar = (props) => {
                                 onSuccess={responseGoogleSuccess}
                                 onFailure={responseGoogleError}
                                 isSignedIn={true}
+                                hostedDomain="lssh.tp.edu.tw"
                                 cookiePolicy="single_host_origin"
                                 render={(renderProps) => (
                                     <Button
@@ -114,9 +108,7 @@ const Navbar = (props) => {
                                     size="small"
                                     sx={{ ml: 2 }}
                                 >
-                                    <Avatar
-                                        src={state.userInfo.imgUrl}
-                                    />
+                                    <Avatar src={state.userInfo.imgUrl} />
                                 </IconButton>
                                 <Menu
                                     anchorEl={state.anchorEl}
