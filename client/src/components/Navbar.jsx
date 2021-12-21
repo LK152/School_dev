@@ -79,9 +79,17 @@ const Navbar = () => {
                         to={state.isLoggedIn && '/self-learning-form'}
                         component={Link}
                         color="inherit"
-                        sx={{ textDecoration: 'none', flexGrow: 1, ml: 2 }}
+                        sx={{ textDecoration: 'none', ml: 2 }}
                     >
                         自主學習表單
+                    </Typography>
+                    <Typography
+                        to={state.isLoggedIn && '/self-learning-results'}
+                        component={Link}
+                        color="inherit"
+                        sx={{ textDecoration: 'none', flexGrow: 1, ml: 2 }}
+                    >
+                        自主學習結果
                     </Typography>
                     <div>
                         {state.isLoggedIn === false ? (

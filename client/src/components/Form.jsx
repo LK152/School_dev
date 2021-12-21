@@ -23,7 +23,6 @@ import Select from './Select';
 import { db } from '../config/firebase.config';
 import { collection, addDoc } from 'firebase/firestore';
 import '../App.css';
-import Navbar from './Navbar';
 
 const initialValues = {
     class: '',
@@ -211,8 +210,6 @@ const Form = () => {
 
         default:
             return (
-                <>
-                    <Navbar />
                     <Container sx={{ mt: 10 }}>
                         <Card raised>
                             <CardContent>
@@ -382,7 +379,6 @@ const Form = () => {
                             </CardContent>
                         </Card>
                     </Container>
-                </>
             );
     }
 };
