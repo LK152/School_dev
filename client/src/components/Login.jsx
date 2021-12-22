@@ -20,6 +20,15 @@ const Home = () => {
                                 麗山高中
                             </Typography>
                         </Grid>
+                        <Container>
+                            <Typography
+                                variant="h4"
+                                align="center"
+                                sx={{ mb: { xs: 6 } }}
+                            >
+                                請登入學校帳號
+                            </Typography>
+                        </Container>
                     </Grid>
                 </CardContent>
             </Card>

@@ -28,7 +28,7 @@ const State = {
     canClick: false,
 };
 
-const Navbar = () => {
+const Navbar = (props) => {
     const [state, setState] = useState(State);
 
     const responseGoogleSuccess = (res) => {
@@ -38,6 +38,7 @@ const Navbar = () => {
             imgUrl: res.profileObj.imageUrl,
         };
         setState({ ...state, isLoggedIn: true, userInfo: userInfo });
+        props.auth(true);
     };
 
     const responseGoogleError = (res) => {
@@ -57,6 +58,7 @@ const Navbar = () => {
             canClick: false,
             userInfo: userInfo,
         });
+        props.auth(false);
     };
 
     const handleClose = () => {
@@ -76,7 +78,7 @@ const Navbar = () => {
                         首頁
                     </Button>
                     <Typography
-                        to={state.isLoggedIn && '/self-learning-form'}
+                        to='/self-learning-form'
                         component={Link}
                         color="inherit"
                         sx={{ textDecoration: 'none', ml: 2 }}
@@ -84,7 +86,7 @@ const Navbar = () => {
                         自主學習表單
                     </Typography>
                     <Typography
-                        to={state.isLoggedIn && '/self-learning-results'}
+                        to='/self-learning-results'
                         component={Link}
                         color="inherit"
                         sx={{ textDecoration: 'none', flexGrow: 1, ml: 2 }}

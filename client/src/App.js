@@ -1,18 +1,22 @@
 import './App.css';
+import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import Form from './components/Form';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Results from './components/Results';
 import Navbar from './components/Navbar';
+import Login from './components/Login';
 
-function App() {
+const App = () => {
+  const [isLoggedIn, setAuth] = useState(false);
+
   return (
       <Router>
-        <Navbar />
+        <Navbar auth={setAuth} />
         <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route path="/self-learning-form" element={<Form />} />
-          <Route path="/self-learning-results" element={<Results />} />
+          <Route exact path="/" element={isLoggedIn ? <Home /> : <Login />} />
+          <Route path="/self-learning-form" element={isLoggedIn ? <Form /> : <Login />} />
+          <Route path="/self-learning-results" element={isLoggedIn ? <Results /> : <Login />} />
         </Routes>
       </Router>
   );
