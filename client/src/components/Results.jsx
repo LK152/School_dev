@@ -24,10 +24,10 @@ const Results = () => {
 					{users.map((user) => {
 						return (
 							<>
-                                <h1>{user.class}</h1>
-                                <h1>{user.number}</h1>
-								<h1>{user.topic}</h1>
-								<h1>{user.subTopic}</h1>
+                                <Typography>{user.class}</Typography>
+                                <Typography>{user.number}</Typography>
+								<Typography>{user.topic}</Typography>
+								<Typography>{user.subTopic}</Typography>
 							</>
 						);
 					})}
