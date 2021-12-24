@@ -17,7 +17,7 @@ const App = () => {
       <Routes>
         <Route exact path="/" element={isLoggedIn ? <Home /> : <Login />} />
         <Route path="/self-learning-form" element={isLoggedIn ? <Form id={id} /> : <Login />} />
-        <Route path="/self-learning-results" element={isLoggedIn ? <Results /> : <Login />} />
+        <Route path="/self-learning-results" element={isLoggedIn ? <Results id={id} /> : <Login />} />
       </Routes>
     </Router>
   );
