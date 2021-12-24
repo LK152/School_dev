@@ -9,16 +9,17 @@ import Login from './components/Login';
 
 const App = () => {
   const [isLoggedIn, setAuth] = useState(false);
-
+  const [id, setId] = useState('');
+  
   return (
-      <Router>
-        <Navbar auth={setAuth} />
-        <Routes>
-          <Route exact path="/" element={isLoggedIn ? <Home /> : <Login />} />
-          <Route path="/self-learning-form" element={isLoggedIn ? <Form /> : <Login />} />
-          <Route path="/self-learning-results" element={isLoggedIn ? <Results /> : <Login />} />
-        </Routes>
-      </Router>
+    <Router>
+      <Navbar auth={setAuth} id={setId} />
+      <Routes>
+        <Route exact path="/" element={isLoggedIn ? <Home /> : <Login />} />
+        <Route path="/self-learning-form" element={isLoggedIn ? <Form id={id} /> : <Login />} />
+        <Route path="/self-learning-results" element={isLoggedIn ? <Results /> : <Login />} />
+      </Routes>
+    </Router>
   );
 }
 

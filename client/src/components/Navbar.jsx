@@ -39,6 +39,7 @@ const Navbar = (props) => {
         };
         setState({ ...state, isLoggedIn: true, userInfo: userInfo });
         props.auth(true);
+        props.id(userInfo.emailId.substring(1, 9));
     };
 
     const responseGoogleError = (res) => {
@@ -139,6 +140,9 @@ const Navbar = (props) => {
                                             src={state.userInfo.imgUrl}
                                             sx={{ width: 64, height: 64 }}
                                         />
+                                        <Typography sx={{ mx: 2, my: 1 }}>
+                                            {state.userInfo.name.substring(10)}
+                                        </Typography>
                                         <Typography sx={{ mx: 2, my: 1 }}>
                                             {state.userInfo.emailId}
                                         </Typography>

@@ -21,7 +21,7 @@ const Results = () => {
 		<Container sx={{ mt: 10 }}>
 			<Card raised>
 				<CardContent>
-					{users.map((user) => {
+					{users.map((user, index) => {
 						return (
 							<>
                                 <Typography>{user.class}</Typography>
