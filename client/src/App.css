@@ -3,9 +3,3 @@
     transform-origin: left !important;
     transition: transform .3s !important;
 }
-
-.submitBtn {
-    z-index: 1;
-    display: flex;
-    align-items: center;
-}

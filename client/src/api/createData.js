@@ -1,10 +1,8 @@
 import { db } from '../config/firebase.config';
-import { collection, addDoc } from 'firebase/firestore';
+import { setDoc, doc } from 'firebase/firestore';
 
-const Collection = collection(db, 'studentData');
-
-const createData = async (data) => {
-    await addDoc(Collection, data);
+const CreateData = async (data) => {
+    await setDoc(doc(db, "studentData", data.studentId), data);
 };
 
-export default createData;
+export default CreateData;
