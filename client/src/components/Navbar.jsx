@@ -12,7 +12,7 @@ import {
     Button,
     Typography,
 } from '@mui/material';
-import { Logout, Home } from '@mui/icons-material';
+import { Logout } from '@mui/icons-material';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { Link } from 'react-router-dom';
 
@@ -74,26 +74,31 @@ const Navbar = (props) => {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
-                    <Button to="/" component={Link} color="inherit">
-                        <Home />
-                        首頁
-                    </Button>
                     <Typography
-                        to='/self-learning-form'
+                        to="/"
                         component={Link}
-                        color="inherit"
+                        color="common.white"
+                        sx={{ textDecoration: 'none', ml: 2 }}
+                    >
+                        首頁
+                    </Typography>
+                    <Typography
+                        to="/self-learning-form"
+                        component={Link}
+                        color="common.white"
                         sx={{ textDecoration: 'none', ml: 2 }}
                     >
                         自主學習表單
                     </Typography>
                     <Typography
-                        to='/self-learning-results'
+                        to="/self-learning-results"
                         component={Link}
-                        color="inherit"
-                        sx={{ textDecoration: 'none', flexGrow: 1, ml: 2 }}
+                        color="common.white"
+                        sx={{ textDecoration: 'none', ml: 2 }}
                     >
                         自主學習結果
                     </Typography>
+                    <div style={{ flexGrow: 1 }} />
                     <div>
                         {state.isLoggedIn === false ? (
                             <GoogleLogin

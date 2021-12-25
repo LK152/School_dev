@@ -4,7 +4,13 @@ import './index.css';
 import App from './App';
 import { ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material';
 
-let defaultTheme = createTheme();
+let defaultTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#F3905F'
+    }
+  }
+});
 const Theme = responsiveFontSizes(defaultTheme);
 
 ReactDOM.render(

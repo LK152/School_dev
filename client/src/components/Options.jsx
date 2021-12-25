@@ -35,9 +35,9 @@ const subTopics = [
 		{ label: '線上藝能台英聯盟', value: 5 },
 	],
 	[
-		{ label: '能力檢定-資訊', value: 0 },
-		{ label: '能力檢定-英文', value: 1 },
-		{ label: '能力檢定-其他', value: 2 },
+		{ label: '資訊', value: 0 },
+		{ label: '英文', value: 1 },
+		{ label: '其他', value: 2 },
 	],
 	[
 		{ label: '服務星嵐', value: 0 },
