@@ -110,8 +110,8 @@ const Navbar = (props) => {
                                 cookiePolicy="single_host_origin"
                                 render={(renderProps) => (
                                     <Button
-                                        color="inherit"
-                                        onClick={renderProps.onClick}
+                                        onClick={renderProps.onClick} 
+                                        sx={{ color: 'common.white' }}
                                     >
                                         登入
                                     </Button>

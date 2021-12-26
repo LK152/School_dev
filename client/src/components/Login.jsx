@@ -26,7 +26,7 @@ const Home = () => {
                                 align="center"
                                 sx={{ mb: { xs: 6 } }}
                             >
-                                請登入學校帳號
+                                請登入
                             </Typography>
                         </Container>
                     </Grid>

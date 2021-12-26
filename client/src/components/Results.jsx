@@ -69,20 +69,29 @@ const Results = (props) => {
 		DeleteData(props.id);
 	};
 
+	const handleEdit = () => {
+		props.setDoc(users);
+	};
+
 	return (
 		<Container sx={{ my: 10 }}>
 			<Card raised>
 				<CardContent>
-					<Grid container direction='column' spacing={4}>
-						<Grid item xs={12}>
-							<Typography variant='h2' align='center'>
-								自主學習結果
-							</Typography>
-						</Grid>
-						{empty === false ? (
-							users.map((doc) => {
-								return (
-									<>
+					<Grid item xs={12}>
+						<Typography variant='h2' align='center'>
+							自主學習結果
+						</Typography>
+					</Grid>
+					{empty === false ? (
+						users.map((doc, index) => {
+							return (
+								<>
+									<Grid
+										container
+										direction='column'
+										spacing={4} 
+										key={index}
+									>
 										<Grid container item direction='row'>
 											<Grid item xs={6}>
 												<Typography
@@ -173,23 +182,24 @@ const Results = (props) => {
 											<Grid item>
 												<IconButton
 													component={Link}
-													to='/self-learning-form'
+													to='/self-learning-edit'
+													onClick={handleEdit}
 												>
 													<Edit />
 												</IconButton>
 											</Grid>
 										</Grid>
-									</>
-								);
-							})
-						) : (
-							<Grid item xs={12}>
-								<Typography variant='h1' align='center'>
-									無表單紀錄
-								</Typography>
-							</Grid>
-						)}
-					</Grid>
+									</Grid>
+								</>
+							);
+						})
+					) : (
+						<Grid item xs={12}>
+							<Typography variant='h1' align='center'>
+								無表單紀錄
+							</Typography>
+						</Grid>
+					)}
 				</CardContent>
 			</Card>
 		</Container>
