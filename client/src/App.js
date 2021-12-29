@@ -34,7 +34,6 @@ const App = () => {
 					path='/self-learning-edit'
 					element={isLoggedIn ? <Edit doc={doc} /> : <Login />}
 				/>
-        {console.log(doc)}
 			</Routes>
 		</Router>
 	);
