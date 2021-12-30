@@ -11,7 +11,7 @@ import Edit from './components/Edit';
 const App = () => {
 	const [isLoggedIn, setAuth] = useState(false);
 	const [id, setId] = useState('');
-  const [doc, setDoc] = useState([]);
+  	const [doc, setDoc] = useState([]);
 
 	return (
 		<Router>
