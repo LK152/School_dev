@@ -11,7 +11,7 @@ import Edit from './components/Edit';
 const App = () => {
 	const [isLoggedIn, setAuth] = useState(false);
 	const [id, setId] = useState('');
-  	const [doc, setDoc] = useState([]);
+	const [document, setDoc] = useState([]);
 
 	return (
 		<Router>
@@ -28,11 +28,17 @@ const App = () => {
 				/>
 				<Route
 					path='/self-learning-results'
-					element={isLoggedIn ? <Results id={id} setDoc={setDoc} /> : <Login />}
+					element={
+						isLoggedIn ? (
+							<Results id={id} setDoc={setDoc} />
+						) : (
+							<Login />
+						)
+					}
 				/>
-        <Route
+				<Route
 					path='/self-learning-edit'
-					element={isLoggedIn ? <Edit doc={doc} /> : <Login />}
+					element={isLoggedIn ? <Edit document={document} /> : <Login />}
 				/>
 			</Routes>
 		</Router>
