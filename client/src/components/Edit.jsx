@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
 	Button,
@@ -19,7 +20,7 @@ import { Save, Cancel } from '@mui/icons-material';
 import { mainTopics, subTopics, classes, numbers } from './Options';
 import Select from './Select';
 import EditDoc from '../api/EditDoc';
-import useSessionState from '../hooks/useSessionState';
+import { ModalContext } from '../context/ModalContext';
 import '../App.css';
 
 const Submitbtn = styled(Button)({
@@ -49,24 +50,24 @@ const Submitbtn = styled(Button)({
 	},
 });
 
-const Form = (props) => {
-	const [values, setValues] = useSessionState('doc', props.document);
+const Form = () => {
+	const { documentObj, infoObj } = useContext(ModalContext);
+	const [values, setValues] = documentObj;
+	const [info] = infoObj;
 
 	const navigate = useNavigate();
 
 	const handleChange = (e) => {
 		setValues({ ...values, [e.target.name]: e.target.value });
-		sessionStorage.removeItem('doc');
 	};
 
 	const handleCancel = () => {
 		navigate('/self-learning-results');
-		sessionStorage.removeItem('doc');
 	}
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		EditDoc(props.document.studentId, values);
+		EditDoc(info.userInfo.studentId, values);
 		navigate('/self-learning-results');
 	};
 

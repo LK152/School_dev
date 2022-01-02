@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import {
 	IconButton,
@@ -10,36 +10,30 @@ import {
 } from '@mui/material';
 import { Edit, DeleteForever } from '@mui/icons-material';
 import { db } from '../config/firebase.config';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import DeleteDoc from '../api/DeleteDoc';
-import useSessionState from '../hooks/useSessionState';
+import { ModalContext } from '../context/ModalContext';
 
-const Results = (props) => {
+const Results = () => {
 	const [empty, setEmpty] = useState(false);
-	const [document, setDoc] = useSessionState('data', []);
+	const { documentObj, infoObj } = useContext(ModalContext);
+	const [document, setDoc] = documentObj;
+	const [info] = infoObj;
 
-	useEffect(() => {
-		let isMounted = true;
-		const getUsers = async () => {
-			const dataRef = doc(db, 'studentData', document.studentId);
-			const data = await getDoc(dataRef);
-			if (isMounted) {
-				if (data.exists()) {
-					setDoc(data.data());
-				} else {
-					setEmpty(true);
+	useEffect(
+		() =>
+			onSnapshot(
+				doc(db, 'studentData', info.userInfo.studentId),
+				(snapshot) => {
+					if (snapshot.exists()) {
+						setDoc(snapshot.data());
+					} else {
+						setEmpty(true);
+					}
 				}
-			}
-		};
-		
-		if (sessionStorage.getItem('data') === null) {
-			getUsers();
-		}
-		
-		return () => {
-			isMounted = false;
-		};
-	}, [document.studentId, setDoc]);
+			),
+		[info.userInfo.studentId, setDoc]
+	);
 
 	const renderMember = (num, doc) => {
 		const fields = [];
@@ -65,12 +59,8 @@ const Results = (props) => {
 	};
 
 	const handleDelete = () => {
-		DeleteDoc(props.id);
+		DeleteDoc(info.userInfo.studentId);
 		setEmpty(true);
-	};
-
-	const handleEdit = () => {
-		props.setDoc(document);
 	};
 
 	return (
@@ -87,7 +77,7 @@ const Results = (props) => {
 							container
 							direction='column'
 							spacing={4}
-							key={doc.studentId}
+							key={document.studentId}
 						>
 							<Grid container item direction='row'>
 								<Grid item xs={6}>
@@ -154,7 +144,6 @@ const Results = (props) => {
 									<IconButton
 										component={Link}
 										to='/self-learning-edit'
-										onClick={handleEdit}
 									>
 										<Edit />
 									</IconButton>

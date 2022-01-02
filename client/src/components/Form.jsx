@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
 	Button,
@@ -21,20 +21,8 @@ import { Send, DeleteOutline } from '@mui/icons-material';
 import { mainTopics, subTopics, classes, numbers } from './Options';
 import Select from './Select';
 import CreateDoc from '../api/CreateDoc';
+import { initialValues, ModalContext } from '../context/ModalContext';
 import '../App.css';
-
-const initialValues = {
-	class: '',
-	number: '',
-	mainTopic: '',
-	subTopic: '',
-	otherTopic: '',
-	memNum: '1',
-	mem1Class: '',
-	mem1Num: '',
-	mem2Class: '',
-	mem2Num: '',
-};
 
 const Submitbtn = styled(Button)({
 	border: '2px solid #F3905F',
@@ -63,8 +51,10 @@ const Submitbtn = styled(Button)({
 	},
 });
 
-const Form = (props) => {
-	const [values, setValues] = useState(initialValues);
+const Form = () => {
+	const { valuesObj, infoObj } = useContext(ModalContext);
+	const [values, setValues] = valuesObj;
+	const [info] = infoObj;
 
 	const navigate = useNavigate();
 
@@ -75,7 +65,7 @@ const Form = (props) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const data = {
-			studentId: props.id,
+			studentId: info.userInfo.studentId,
 			class: values.class,
 			number: values.number,
 			topic: mainTopics[values.mainTopic].value,
