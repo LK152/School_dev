@@ -77,7 +77,6 @@ const Results = () => {
 							container
 							direction='column'
 							spacing={4}
-							key={document.studentId}
 						>
 							<Grid container item direction='row'>
 								<Grid item xs={6}>
