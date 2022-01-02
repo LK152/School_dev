@@ -86,6 +86,7 @@ const Form = () => {
 		};
 		CreateDoc(data);
 		navigate('/self-learning-results')
+		handleDelete();
 	};
 
 	const handleDelete = () => {
