@@ -11,7 +11,7 @@ import { ModalContext } from './context/ModalContext';
 
 const App = () => {
 	const { infoObj } = useContext(ModalContext);
-	const [infoVal] = infoObj;
+	const [info] = infoObj;
 
 	return (
 		<Router>
@@ -20,19 +20,19 @@ const App = () => {
 				<Route
 					exact
 					path='/'
-					element={infoVal.isLoggedIn ? <Home /> : <Login />}
+					element={info ? <Home /> : <Login />}
 				/>
 				<Route
 					path='/self-learning-form'
-					element={infoVal.isLoggedIn ? <Form /> : <Login />}
+					element={info ? <Form /> : <Login />}
 				/>
 				<Route
 					path='/self-learning-results'
-					element={infoVal.isLoggedIn ? <Results /> : <Login />}
+					element={info ? <Results /> : <Login />}
 				/>
 				<Route
 					path='/self-learning-edit'
-					element={infoVal.isLoggedIn ? <Edit /> : <Login />}
+					element={info ? <Edit /> : <Login />}
 				/>
 			</Routes>
 		</Router>

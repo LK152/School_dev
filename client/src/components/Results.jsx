@@ -23,7 +23,7 @@ const Results = () => {
 	useEffect(
 		() =>
 			onSnapshot(
-				doc(db, 'studentData', info.userInfo.studentId),
+				doc(db, 'studentData', info.displayName.substring(1, 9)),
 				(snapshot) => {
 					if (snapshot.exists()) {
 						setDoc(snapshot.data());
@@ -32,7 +32,7 @@ const Results = () => {
 					}
 				}
 			),
-		[info.userInfo.studentId, setDoc]
+		[info.displayName, setDoc]
 	);
 
 	const renderMember = (num, doc) => {
@@ -59,7 +59,7 @@ const Results = () => {
 	};
 
 	const handleDelete = () => {
-		DeleteDoc(info.userInfo.studentId);
+		DeleteDoc(info.displayName.substring(1, 9));
 		setEmpty(true);
 	};
 
