@@ -13,12 +13,6 @@ const State = {
     canClick: false,
 };
 
-export const userState = {
-	isAdmin: false, 
-	email: '', 
-    group: '',
-};
-
 export const initialValues = {
     class: '',
     number: '',
@@ -36,7 +30,6 @@ const ModalProvider = ({ children }) => {
     const [info, setInfo] = useState(State);
     const [document, setDoc] = useState([]);
     const [values, setValues] = useState(initialValues);
-    const [userInfo, setUser] = useState(userState);
 
     return (
         <ModalContext.Provider
@@ -44,7 +37,6 @@ const ModalProvider = ({ children }) => {
                 infoObj: [info, setInfo],
                 documentObj: [document, setDoc],
                 valuesObj: [values, setValues],
-                userInfoObj: [userInfo, setUser],
             }}
         >
             {children}

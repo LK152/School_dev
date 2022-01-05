@@ -1,4 +1,4 @@
-import { db } from "../config/firebase.config";
+import { db } from '../service/firestore';
 import { doc, deleteDoc } from "firebase/firestore";
 
 const DeleteDoc = async (id) => {

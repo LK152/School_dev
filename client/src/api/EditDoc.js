@@ -1,4 +1,4 @@
-import { db } from '../config/firebase.config';
+import { db } from '../service/firestore';
 import { doc, updateDoc } from 'firebase/firestore';
 
 const EditDoc = async (id, data) => {

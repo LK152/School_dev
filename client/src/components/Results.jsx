@@ -9,7 +9,7 @@ import {
 	Grid,
 } from '@mui/material';
 import { Edit, DeleteForever } from '@mui/icons-material';
-import { db } from '../config/firebase.config';
+import { db } from '../service/firestore';
 import { doc, onSnapshot } from 'firebase/firestore';
 import DeleteDoc from '../api/DeleteDoc';
 import { ModalContext } from '../context/ModalContext';

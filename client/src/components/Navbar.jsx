@@ -12,62 +12,51 @@ import {
     Button,
     Typography,
 } from '@mui/material';
-import { db } from '../config/firebase.config';
-import { doc, onSnapshot } from 'firebase/firestore';
 import { Logout } from '@mui/icons-material';
-import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { Link } from 'react-router-dom';
-import { ModalContext, userState } from '../context/ModalContext';
-
-const CLIENT_ID = process.env.REACT_APP_GOOGLE_ID;
+import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
+import { auth, provider } from '../service/firestore';
+import { ModalContext } from '../context/ModalContext';
 
 const Navbar = () => {
-    const { infoObj, userInfoObj } = useContext(ModalContext);
+    const { infoObj } = useContext(ModalContext);
     const [info, setInfo] = infoObj;
-    const [userInfo, setUser] = userInfoObj;
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                let userInfo = {
+                    name: user.displayName,
+                    email: user.email,
+                    imgURL: user.photoURL,
+                    studentId: user.email.substring(1, 9),
+                };
     
-    useEffect(
-        () =>
-            onSnapshot(
-                doc(db, 'userData', info.userInfo.emailId),
-                (snapshot) => {
-                    if (snapshot.exists()) {
-                        setUser(snapshot.data());
-                    }
-                    console.log(snapshot.data());
-                }
-            ),
-        [info.userInfo.emailId, setUser]
-    );
-
-    const responseGoogleSuccess = (res) => {
-        let userInfo = {
-            name: res.profileObj.name,
-            emailId: res.profileObj.email,
-            imgUrl: res.profileObj.imageUrl,
-            studentId: res.profileObj.email.substring(1, 9),
-        };
-        setInfo({ ...info, isLoggedIn: true, userInfo: userInfo });
-    };
-
-    const responseGoogleError = (res) => {
-        console.log(res);
-    };
-
-    const logout = (res) => {
-        console.log(res);
-        let userInfo = {
-            name: '',
-            emailId: '',
-            imgUrl: '',
-        };
-        setInfo({
-            ...info,
-            isLoggedIn: false,
-            canClick: false,
-            userInfo: userInfo,
+                setInfo({ ...info, isLoggedIn: true, userInfo: userInfo });
+            } else {
+                signOutWithGoogle();
+            }
         });
-        setUser(userState);
+    }, []);
+
+    const signInWithGoogle = async () => {
+        await signInWithPopup(auth, provider);
+    };
+
+    const signOutWithGoogle = async () => {
+        await signOut(auth).then(() => {
+            let userInfo = {
+                name: '',
+                emailId: '',
+                imgUrl: '',
+            };
+            setInfo({
+                ...info,
+                isLoggedIn: false,
+                canClick: false,
+                userInfo: userInfo,
+            });
+        });
     };
 
     const handleClose = () => {
@@ -90,47 +79,32 @@ const Navbar = () => {
                     >
                         首頁
                     </Typography>
-                    {userInfo.isAdmin ? (
-                        <Typography>lol</Typography>
-                    ) : (
-                        <>
-                            <Typography
-                                to="/self-learning-form"
-                                component={Link}
-                                color="common.white"
-                                sx={{ textDecoration: 'none', ml: 2 }}
-                            >
-                                自主學習表單
-                            </Typography>
-                            <Typography
-                                to="/self-learning-results"
-                                component={Link}
-                                color="common.white"
-                                sx={{ textDecoration: 'none', ml: 2 }}
-                            >
-                                自主學習結果
-                            </Typography>
-                        </>
-                    )}
+                    <Typography
+                        to="/self-learning-form"
+                        component={Link}
+                        color="common.white"
+                        sx={{ textDecoration: 'none', ml: 2 }}
+                    >
+                        自主學習表單
+                    </Typography>
+                    <Typography
+                        to="/self-learning-results"
+                        component={Link}
+                        color="common.white"
+                        sx={{ textDecoration: 'none', ml: 2 }}
+                    >
+                        自主學習結果
+                    </Typography>
                     <div style={{ flexGrow: 1 }} />
                     <div>
                         {info.isLoggedIn === false ? (
-                            <GoogleLogin
-                                clientId={CLIENT_ID}
-                                onSuccess={responseGoogleSuccess}
-                                onFailure={responseGoogleError}
-                                isSignedIn={true}
-                                hostedDomain="lssh.tp.edu.tw"
-                                cookiePolicy="single_host_origin"
-                                render={(renderProps) => (
-                                    <Button
-                                        onClick={renderProps.onClick}
-                                        sx={{ color: 'common.white' }}
-                                    >
-                                        登入
-                                    </Button>
-                                )}
-                            />
+                            <Button
+                                onClick={signInWithGoogle}
+                            >
+                                <Typography color="common.white">
+                                    登入
+                                </Typography>
+                            </Button>
                         ) : (
                             <>
                                 <IconButton
@@ -138,7 +112,7 @@ const Navbar = () => {
                                     size="small"
                                     sx={{ ml: 2 }}
                                 >
-                                    <Avatar src={info.userInfo.imgUrl} />
+                                    <Avatar src={info.userInfo.imgURL} />
                                 </IconButton>
                                 <Menu
                                     anchorEl={info.anchorEl}
@@ -156,7 +130,7 @@ const Navbar = () => {
                                         }}
                                     >
                                         <Avatar
-                                            src={info.userInfo.imgUrl}
+                                            src={info.userInfo.imgURL}
                                             sx={{ width: 64, height: 64 }}
                                         />
                                         <Typography sx={{ mx: 2, my: 1 }}>
@@ -167,21 +141,12 @@ const Navbar = () => {
                                         </Typography>
                                     </Box>
                                     <Divider />
-                                    <GoogleLogout
-                                        clientId={CLIENT_ID}
-                                        render={(renderProps) => (
-                                            <MenuItem
-                                                onClick={renderProps.onClick}
-                                            >
-                                                <ListItemIcon>
-                                                    <Logout fontSize="small" />
-                                                </ListItemIcon>
-                                                登出
-                                            </MenuItem>
-                                        )}
-                                        onLogoutSuccess={logout}
-                                        icon={false}
-                                    ></GoogleLogout>
+                                    <MenuItem onClick={signOutWithGoogle}>
+                                        <ListItemIcon>
+                                            <Logout fontSize="small" />
+                                        </ListItemIcon>
+                                        登出
+                                    </MenuItem>
                                 </Menu>
                             </>
                         )}

@@ -1,4 +1,4 @@
-import { db } from '../config/firebase.config';
+import { db } from '../service/firestore';
 import { setDoc, doc } from 'firebase/firestore';
 
 const CreateDoc = async (data) => {
