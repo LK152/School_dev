@@ -37,7 +37,7 @@ const Navbar = () => {
                 signOutWithGoogle();
             }
         });
-    }, []);
+    }, [info, setInfo, signOutWithGoogle]);
 
     const signInWithGoogle = async () => {
         await signInWithPopup(auth, provider);
