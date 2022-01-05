@@ -13,7 +13,7 @@ const State = {
     canClick: false,
 };
 
-const userState = {
+export const userState = {
 	isAdmin: false, 
 	email: '', 
     group: '',

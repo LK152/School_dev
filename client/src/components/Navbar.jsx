@@ -17,7 +17,7 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { Logout } from '@mui/icons-material';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { Link } from 'react-router-dom';
-import { ModalContext } from '../context/ModalContext';
+import { ModalContext, userState } from '../context/ModalContext';
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_ID;
 
@@ -25,16 +25,16 @@ const Navbar = () => {
     const { infoObj, userInfoObj } = useContext(ModalContext);
     const [info, setInfo] = infoObj;
     const [userInfo, setUser] = userInfoObj;
-
+    
     useEffect(
         () =>
             onSnapshot(
-                doc(db, 'userData', 'learningplan@lssh.tp.edu.tw'),
+                doc(db, 'userData', info.userInfo.emailId),
                 (snapshot) => {
                     if (snapshot.exists()) {
                         setUser(snapshot.data());
-					}
-					console.log(snapshot.data())
+                    }
+                    console.log(snapshot.data());
                 }
             ),
         [info.userInfo.emailId, setUser]
@@ -67,6 +67,7 @@ const Navbar = () => {
             canClick: false,
             userInfo: userInfo,
         });
+        setUser(userState);
     };
 
     const handleClose = () => {
@@ -89,22 +90,28 @@ const Navbar = () => {
                     >
                         首頁
                     </Typography>
-                    <Typography
-                        to="/self-learning-form"
-                        component={Link}
-                        color="common.white"
-                        sx={{ textDecoration: 'none', ml: 2 }}
-                    >
-                        自主學習表單
-                    </Typography>
-                    <Typography
-                        to="/self-learning-results"
-                        component={Link}
-                        color="common.white"
-                        sx={{ textDecoration: 'none', ml: 2 }}
-                    >
-                        自主學習結果
-                    </Typography>
+                    {userInfo.isAdmin ? (
+                        <Typography>lol</Typography>
+                    ) : (
+                        <>
+                            <Typography
+                                to="/self-learning-form"
+                                component={Link}
+                                color="common.white"
+                                sx={{ textDecoration: 'none', ml: 2 }}
+                            >
+                                自主學習表單
+                            </Typography>
+                            <Typography
+                                to="/self-learning-results"
+                                component={Link}
+                                color="common.white"
+                                sx={{ textDecoration: 'none', ml: 2 }}
+                            >
+                                自主學習結果
+                            </Typography>
+                        </>
+                    )}
                     <div style={{ flexGrow: 1 }} />
                     <div>
                         {info.isLoggedIn === false ? (
