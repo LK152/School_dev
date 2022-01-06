@@ -67,7 +67,7 @@ const Form = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		EditDoc(info.userInfo.studentId, values);
+		EditDoc(info.email.substring(1, 9), values);
 		navigate('/self-learning-results');
 	};
 

@@ -26,7 +26,7 @@ const Home = () => {
                                 align="center"
                                 sx={{ mb: { xs: 6 } }}
                             >
-                                請登入
+                                右上角登入
                             </Typography>
                         </Container>
                     </Grid>

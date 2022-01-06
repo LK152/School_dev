@@ -19,6 +19,9 @@ import { auth } from '../service/firestore';
 import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 
 const provider = new GoogleAuthProvider();
+provider.setCustomParameters({
+	hd: 'lssh.tp.edu.tw',
+});
 
 const Navbar = () => {
 	const { infoObj } = useContext(ModalContext);
