@@ -16,13 +16,7 @@ import { Logout } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { ModalContext } from '../context/ModalContext';
 import { auth } from '../service/firestore';
-import {
-    signInWithPopup,
-    GoogleAuthProvider,
-    signOut,
-    setPersistence,
-    browserSessionPersistence,
-} from 'firebase/auth';
+import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({
@@ -40,17 +34,14 @@ const Navbar = () => {
     const [info] = infoObj;
     const [state, setState] = useState(initialState);
 
-    const signInWithGoogle = () => {
-        setPersistence(auth, browserSessionPersistence).then(() => {
-            return signInWithPopup(auth, provider);
-        });
+    const signInWithGoogle = async () => {
+        await signInWithPopup(auth, provider);
     };
 
     const signOutWithGoogle = async () => {
         await signOut(auth).then(() => {
             setState(initialState);
-		});
-		await auth.signOut();
+        });
     };
 
     const handleClose = () => {
