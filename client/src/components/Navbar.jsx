@@ -49,7 +49,8 @@ const Navbar = () => {
     const signOutWithGoogle = async () => {
         await signOut(auth).then(() => {
             setState(initialState);
-        });
+		});
+		await auth.signOut();
     };
 
     const handleClose = () => {
