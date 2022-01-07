@@ -16,10 +16,10 @@ import { Logout } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { ModalContext } from '../context/ModalContext';
 import { auth } from '../service/firestore';
-import { signInWithRedirect, GoogleAuthProvider, signOut } from 'firebase/auth';
+import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 
 const provider = new GoogleAuthProvider();
-provider.setCustomParameters({ hd: 'lssh.tp.edu.tw', prompt: 'select_account' });
+provider.setCustomParameters({ 'hd': 'lssh.tp.edu.tw', 'prompt': 'select_account' });
 auth.languageCode = 'it';
 
 const initialState = {
@@ -33,7 +33,7 @@ const Navbar = () => {
 	const [state, setState] = useState(initialState);
 
 	const signInWithGoogle = async () => {
-		await signInWithRedirect(auth, provider);
+		await signInWithPopup(auth, provider);
 	};
 
 	const signOutWithGoogle = async () => {
