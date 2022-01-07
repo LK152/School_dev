@@ -1,12 +1,16 @@
 import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import {
+	Button, 
 	IconButton,
 	Container,
 	Card,
 	CardContent,
 	Typography,
 	Grid,
+	Dialog,
+	DialogActions,
+	DialogTitle,
 } from '@mui/material';
 import { Edit, DeleteForever } from '@mui/icons-material';
 import { db } from '../service/firestore';
@@ -16,22 +20,20 @@ import { ModalContext } from '../context/ModalContext';
 
 const Results = () => {
 	const [empty, setEmpty] = useState(false);
+	const [open, setOpen] = useState(false);
 	const { documentObj, infoObj } = useContext(ModalContext);
 	const [document, setDoc] = documentObj;
 	const [info] = infoObj;
 
 	useEffect(
 		() =>
-			onSnapshot(
-				doc(db, 'studentData', info.uid),
-				(snapshot) => {
-					if (snapshot.exists()) {
-						setDoc(snapshot.data());
-					} else {
-						setEmpty(true);
-					}
+			onSnapshot(doc(db, 'studentData', info.uid), (snapshot) => {
+				if (snapshot.exists()) {
+					setDoc(snapshot.data());
+				} else {
+					setEmpty(true);
 				}
-			),
+			}),
 		[info.uid, setDoc]
 	);
 
@@ -58,9 +60,18 @@ const Results = () => {
 		return <>{fields}</>;
 	};
 
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
 	const handleDelete = () => {
 		DeleteDoc(info.uid);
 		setEmpty(true);
+		setOpen(false);
 	};
 
 	return (
@@ -73,11 +84,7 @@ const Results = () => {
 						</Typography>
 					</Grid>
 					{empty === false ? (
-						<Grid
-							container
-							direction='column'
-							spacing={4}
-						>
+						<Grid container direction='column' spacing={4}>
 							<Grid container item direction='row'>
 								<Grid item xs={6}>
 									<Typography variant='h5' align='center'>
@@ -135,9 +142,16 @@ const Results = () => {
 								justifyContent='space-between'
 							>
 								<Grid item>
-									<IconButton onClick={handleDelete}>
+									<IconButton onClick={handleClickOpen}>
 										<DeleteForever />
 									</IconButton>
+									<Dialog open={open} onClose={handleClose}>
+										<DialogTitle>確定刪除?</DialogTitle>
+										<DialogActions>
+											<Button onClick={handleClose}>否</Button>
+											<Button onClick={handleDelete} autoFocus>是</Button>
+										</DialogActions>
+									</Dialog>
 								</Grid>
 								<Grid item>
 									<IconButton

@@ -1,7 +1,7 @@
 import './App.css';
 import { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { BrowserView, MobileView } from 'react-device-detect'
+import { BrowserView, MobileView } from 'react-device-detect';
 import Home from './components/Home';
 import Form from './components/Form';
 import Results from './components/Results';
@@ -17,18 +17,9 @@ const App = () => {
 
 	return (
 		<Router>
-			<BrowserView>
-				<Navbar />
-			</BrowserView>
-			<MobileView>
-				<MobileNavbar />
-			</MobileView>
+			<Navbar />
 			<Routes>
-				<Route
-					exact
-					path='/'
-					element={info ? <Home /> : <Login />}
-				/>
+				<Route exact path='/' element={info ? <Home /> : <Login />} />
 				<Route
 					path='/self-learning-form'
 					element={info ? <Form /> : <Login />}
