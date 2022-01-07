@@ -1,7 +1,7 @@
 import './App.css';
 import { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { BrowserView, MobileView } from 'react-device-detect';
+import { useMediaQuery } from '@mui/material';
 import Home from './components/Home';
 import Form from './components/Form';
 import Results from './components/Results';
@@ -14,6 +14,7 @@ import { ModalContext } from './context/ModalContext';
 const App = () => {
 	const { infoObj } = useContext(ModalContext);
 	const [info] = infoObj;
+	const isMobile = useMediaQuery('(max-width: 442px)')
 
 	return (
 		<Router>
