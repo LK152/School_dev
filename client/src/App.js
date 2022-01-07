@@ -1,12 +1,14 @@
 import './App.css';
 import { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserView, MobileView } from 'react-device-detect'
 import Home from './components/Home';
 import Form from './components/Form';
 import Results from './components/Results';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Edit from './components/Edit';
+import MobileNavbar from './mobile/components/MobileNavbar';
 import { ModalContext } from './context/ModalContext';
 
 const App = () => {
@@ -15,7 +17,12 @@ const App = () => {
 
 	return (
 		<Router>
-			<Navbar />
+			<BrowserView>
+				<Navbar />
+			</BrowserView>
+			<MobileView>
+				<MobileNavbar />
+			</MobileView>
 			<Routes>
 				<Route
 					exact
