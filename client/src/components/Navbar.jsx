@@ -19,6 +19,8 @@ import { auth } from '../service/firestore';
 import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 
 const provider = new GoogleAuthProvider();
+provider.addScope('profile');
+provider.addScope('email')
 provider.setCustomParameters({
     prompt: 'select_account',
     hd: 'lssh.tp.edu.tw',
