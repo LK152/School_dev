@@ -23,7 +23,7 @@ const Results = () => {
 	useEffect(
 		() =>
 			onSnapshot(
-				doc(db, 'studentData', info.displayName.substring(1, 9)),
+				doc(db, 'studentData', info.uid),
 				(snapshot) => {
 					if (snapshot.exists()) {
 						setDoc(snapshot.data());
@@ -32,7 +32,7 @@ const Results = () => {
 					}
 				}
 			),
-		[info.displayName, setDoc]
+		[info.uid, setDoc]
 	);
 
 	const renderMember = (num, doc) => {

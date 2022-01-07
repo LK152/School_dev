@@ -65,7 +65,7 @@ const Form = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const data = {
-			studentId: info.email.substring(1, 9),
+			uid: info.uid,
 			class: values.class,
 			number: values.number,
 			topic: mainTopics[values.mainTopic].value,
