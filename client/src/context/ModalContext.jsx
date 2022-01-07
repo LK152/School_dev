@@ -22,13 +22,15 @@ const ModalProvider = ({ children }) => {
 	const [document, setDoc] = useState([]);
 	const [values, setValues] = useState(initialValues);
 
-	useEffect(
-		() =>
-			onAuthStateChanged(auth, (user) => {
-				setInfo(user ? user : null)
-			}),
-		[]
-	);
+	useEffect(() => {
+		const unSub = onAuthStateChanged(auth, (user) => {
+			setInfo(user ? user : null);
+		});
+
+		return () => {
+			unSub();
+		};
+	}, []);
 
 	return (
 		<ModalContext.Provider
