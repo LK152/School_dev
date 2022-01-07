@@ -1,20 +1,17 @@
 import './App.css';
 import { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useMediaQuery } from '@mui/material';
 import Home from './components/Home';
 import Form from './components/Form';
 import Results from './components/Results';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Edit from './components/Edit';
-import MobileNavbar from './mobile/components/MobileNavbar';
 import { ModalContext } from './context/ModalContext';
 
 const App = () => {
 	const { infoObj } = useContext(ModalContext);
 	const [info] = infoObj;
-	const isMobile = useMediaQuery('(max-width: 442px)')
 
 	return (
 		<Router>
