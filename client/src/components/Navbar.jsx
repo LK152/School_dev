@@ -40,8 +40,8 @@ const Navbar = () => {
     const [info] = infoObj;
     const [state, setState] = useState(initialState);
 
-    const signInWithGoogle = async () => {
-        await setPersistence(auth, browserSessionPersistence).then(() => {
+    const signInWithGoogle = () => {
+        setPersistence(auth, browserSessionPersistence).then(() => {
             return signInWithPopup(auth, provider);
         });
     };
