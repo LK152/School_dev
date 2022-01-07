@@ -19,11 +19,7 @@ import { auth } from '../service/firestore';
 import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 
 const provider = new GoogleAuthProvider();
-provider.addScope('https://www.googleapis.com/auth/plus.login');
-provider.setCustomParameters({
-	prompt: 'select_account',
-	hd: 'lssh.tp.edu.tw',
-});
+provider.setCustomParameters({ hd: 'lssh.tp.edu.tw', prompt: 'select_account' });
 auth.languageCode = 'it';
 
 const initialState = {
