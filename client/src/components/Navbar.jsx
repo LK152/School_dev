@@ -23,6 +23,7 @@ provider.setCustomParameters({
     prompt: 'select_account',
     hd: 'lssh.tp.edu.tw',
 });
+auth.languageCode = 'it';
 
 const initialState = {
     anchorEl: null,
