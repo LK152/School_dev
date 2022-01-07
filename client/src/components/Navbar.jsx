@@ -20,7 +20,8 @@ import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({
-	hd: 'lssh.tp.edu.tw',
+	hd: 'lssh.tp.edu.tw', 
+	prompt: 'select_account'
 });
 
 const Navbar = () => {
