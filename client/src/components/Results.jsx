@@ -59,7 +59,7 @@ const Results = () => {
 	};
 
 	const handleDelete = () => {
-		DeleteDoc(info.displayName.substring(1, 9));
+		DeleteDoc(info.uid);
 		setEmpty(true);
 	};
 
