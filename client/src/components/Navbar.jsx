@@ -16,7 +16,7 @@ import { Logout } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { ModalContext } from '../context/ModalContext';
 import { auth } from '../service/firestore';
-import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
+import { signInWithRedirect, GoogleAuthProvider, signOut } from 'firebase/auth';
 
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({ hd: 'lssh.tp.edu.tw', prompt: 'select_account' });
@@ -33,7 +33,7 @@ const Navbar = () => {
 	const [state, setState] = useState(initialState);
 
 	const signInWithGoogle = async () => {
-		await signInWithPopup(auth, provider);
+		await signInWithRedirect(auth, provider);
 	};
 
 	const signOutWithGoogle = async () => {
