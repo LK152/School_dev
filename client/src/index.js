@@ -9,8 +9,11 @@ let defaultTheme = createTheme({
 	palette: {
 		primary: {
 			main: '#F3905F',
-		},
-	},
+		}, 
+		secondary: {
+			main: '#FFF'
+		}
+	}
 });
 const Theme = responsiveFontSizes(defaultTheme);
 
