@@ -41,9 +41,13 @@ const Navbar = () => {
 
 	const signOutWithGoogle = async () => {
 		await signOut(auth);
+		handleClick();
 	};
 
-	const handleClick = () => setOpen(!open);
+	const handleClick = () => {
+		setOpen(!open);
+		document.querySelector('body').style.position = !open ? 'fixed' : 'unset';
+	};
 
 	return (
 		<Box sx={{ flexGrow: 1 }}>

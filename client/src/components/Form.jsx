@@ -197,7 +197,7 @@ const Form = () => {
 					<Grid container direction='column' rowGap={6}>
 						<Grid item>
 							<Typography variant='h2' align='center'>
-								麗山高中自主學習表單
+								自主學習表單
 							</Typography>
 						</Grid>
 						<form onSubmit={handleSubmit}>

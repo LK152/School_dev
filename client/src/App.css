@@ -10,7 +10,7 @@
 }
 
 .navDropdown {
-	width: 100vw;
+	width: 100%;
 	height: 0;
 	overflow: hidden;
 	list-style: none;
@@ -28,6 +28,7 @@
 
 .navDropdown.active {
 	height: calc(100vh - 56px);
+	position: fixed;
 	-webkit-transition: height .5s cubic-bezier(0.25, 0.1, 0.25, 1);
 	-moz-transition: height .5s cubic-bezier(0.25, 0.1, 0.25, 1);
 	-o-transition: height .5s cubic-bezier(0.25, 0.1, 0.25, 1);

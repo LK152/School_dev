@@ -2,7 +2,7 @@ import { Card, CardContent, Container, Grid, Typography } from '@mui/material';
 
 const Home = () => {
     return (
-        <Container sx={{ mt: 10 }}>
+        <Container sx={{ mt: 10, mb: 100 }}>
             <Card raised>
                 <CardContent>
                     <Grid
