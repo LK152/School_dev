@@ -14,7 +14,7 @@ const Footer = () => {
 				justifyContent: 'center',
 			}}
 		>
-			<Box textAlign='center'>LK &copy; {new Date().getFullYear()}</Box>
+			<Box textAlign='center'>&copy; {new Date().getFullYear()} LK</Box>
 		</Box>
 	);
 };
