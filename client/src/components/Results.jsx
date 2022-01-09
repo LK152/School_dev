@@ -80,7 +80,7 @@ const Results = () => {
 				<CardContent>
 					<Grid item xs={12}>
 						<Typography variant='h2' align='center' mb={4}>
-							自主學習結果
+							自主學習紀錄
 						</Typography>
 					</Grid>
 					{empty === false ? (

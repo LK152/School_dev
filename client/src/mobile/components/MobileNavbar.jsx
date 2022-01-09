@@ -116,7 +116,7 @@ const Navbar = () => {
 						sx={{ border: 2, my: 3, width: '65vw' }}
 					>
 						<Typography className='navLink' variant='h4'>
-							自主學習結果
+							自主學習紀錄
 						</Typography>
 					</NavButton>
 				</li>

@@ -76,7 +76,7 @@ const Navbar = () => {
 						color='common.white'
 						sx={{ textDecoration: 'none', ml: 2 }}
 					>
-						自主學習結果
+						自主學習紀錄
 					</Typography>
 					<div style={{ flexGrow: 1 }} />
 					<div>
