@@ -15,7 +15,6 @@ import CellEditServerSidePersistence from './Test_edit'
 
 const back = () => {
     return (
-        1234546
         <Container>
             <CellEditServerSidePersistence ></CellEditServerSidePersistence>
         </Container>
