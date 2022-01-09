@@ -70,7 +70,7 @@ const Navbar = () => {
 							onClick={signInWithGoogle}
 							color='secondary'
 							variant='outlined'
-							sx={{ border: 2, my: 3, width: '50vw' }}
+							sx={{ border: 2, my: 3, width: '70vw' }}
 						>
 							<Typography className='navLink' variant='h2'>
 								登入
@@ -85,7 +85,7 @@ const Navbar = () => {
 						component={Link}
 						color='secondary'
 						variant='outlined'
-						sx={{ border: 2, my: 3, width: '50vw' }}
+						sx={{ border: 2, my: 3, width: '70vw' }}
 					>
 						<Typography className='navLink' variant='h2'>
 							首頁
@@ -99,7 +99,7 @@ const Navbar = () => {
 						component={Link}
 						color='secondary'
 						variant='outlined'
-						sx={{ border: 2, my: 3, width: '50vw' }}
+						sx={{ border: 2, my: 3, width: '70vw' }}
 					>
 						<Typography className='navLink' variant='h2'>
 							自主學習表單
@@ -113,7 +113,7 @@ const Navbar = () => {
 						component={Link}
 						color='secondary'
 						variant='outlined'
-						sx={{ border: 2, my: 3, width: '50vw' }}
+						sx={{ border: 2, my: 3, width: '70vw' }}
 					>
 						<Typography className='navLink' variant='h2'>
 							自主學習結果
@@ -126,7 +126,7 @@ const Navbar = () => {
 							onClick={signOutWithGoogle}
 							color='secondary'
 							variant='outlined'
-							sx={{ border: 2, my: 3, width: '50vw' }}
+							sx={{ border: 2, my: 3, width: '70vw' }}
 						>
 							<Typography className='navLink' variant='h2'>
 								登出
