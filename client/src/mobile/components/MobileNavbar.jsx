@@ -63,14 +63,14 @@ const Navbar = () => {
 					{info ? (
 						<Avatar
 							src={info.photoURL}
-							sx={{ width: 56, height: 56, mt: 3 }}
+							sx={{ width: 72, height: 72, my: 3 }}
 						/>
 					) : (
 						<NavButton
 							onClick={signInWithGoogle}
 							color='secondary'
 							variant='outlined'
-							sx={{ border: 2, my: 3 }}
+							sx={{ border: 2, my: 3, width: '400px' }}
 						>
 							<Typography className='navLink' variant='h2'>
 								登入
@@ -85,7 +85,7 @@ const Navbar = () => {
 						component={Link}
 						color='secondary'
 						variant='outlined'
-						sx={{ border: 2, my: 3 }}
+						sx={{ border: 2, my: 3, width: '400px' }}
 					>
 						<Typography className='navLink' variant='h2'>
 							首頁
@@ -99,7 +99,7 @@ const Navbar = () => {
 						component={Link}
 						color='secondary'
 						variant='outlined'
-						sx={{ border: 2, my: 3 }}
+						sx={{ border: 2, my: 3, width: '400px' }}
 					>
 						<Typography className='navLink' variant='h2'>
 							自主學習表單
@@ -113,7 +113,7 @@ const Navbar = () => {
 						component={Link}
 						color='secondary'
 						variant='outlined'
-						sx={{ border: 2, my: 3 }}
+						sx={{ border: 2, my: 3, width: '400px' }}
 					>
 						<Typography className='navLink' variant='h2'>
 							自主學習結果
@@ -126,7 +126,7 @@ const Navbar = () => {
 							onClick={signOutWithGoogle}
 							color='secondary'
 							variant='outlined'
-							sx={{ border: 2, my: 3 }}
+							sx={{ border: 2, my: 3, width: '400px' }}
 						>
 							<Typography className='navLink' variant='h2'>
 								登出
