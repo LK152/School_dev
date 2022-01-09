@@ -70,9 +70,9 @@ const Navbar = () => {
 							onClick={signInWithGoogle}
 							color='secondary'
 							variant='outlined'
-							sx={{ border: 2, my: 3, width: '70vw' }}
+							sx={{ border: 2, my: 3, width: '65vw' }}
 						>
-							<Typography className='navLink' variant='h2'>
+							<Typography className='navLink' variant='h4'>
 								登入
 							</Typography>
 						</NavButton>
@@ -85,9 +85,9 @@ const Navbar = () => {
 						component={Link}
 						color='secondary'
 						variant='outlined'
-						sx={{ border: 2, my: 3, width: '70vw' }}
+						sx={{ border: 2, my: 3, width: '65vw' }}
 					>
-						<Typography className='navLink' variant='h2'>
+						<Typography className='navLink' variant='h4'>
 							首頁
 						</Typography>
 					</NavButton>
@@ -99,9 +99,9 @@ const Navbar = () => {
 						component={Link}
 						color='secondary'
 						variant='outlined'
-						sx={{ border: 2, my: 3, width: '70vw' }}
+						sx={{ border: 2, my: 3, width: '65vw' }}
 					>
-						<Typography className='navLink' variant='h2'>
+						<Typography className='navLink' variant='h4'>
 							自主學習表單
 						</Typography>
 					</NavButton>
@@ -113,9 +113,9 @@ const Navbar = () => {
 						component={Link}
 						color='secondary'
 						variant='outlined'
-						sx={{ border: 2, my: 3, width: '70vw' }}
+						sx={{ border: 2, my: 3, width: '65vw' }}
 					>
-						<Typography className='navLink' variant='h2'>
+						<Typography className='navLink' variant='h4'>
 							自主學習結果
 						</Typography>
 					</NavButton>
@@ -126,7 +126,7 @@ const Navbar = () => {
 							onClick={signOutWithGoogle}
 							color='secondary'
 							variant='outlined'
-							sx={{ border: 2, my: 3, width: '70vw' }}
+							sx={{ border: 2, my: 3, width: '65vw' }}
 						>
 							<Typography className='navLink' variant='h2'>
 								登出
