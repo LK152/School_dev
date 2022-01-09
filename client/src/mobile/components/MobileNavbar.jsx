@@ -128,7 +128,7 @@ const Navbar = () => {
 							variant='outlined'
 							sx={{ border: 2, my: 3, width: '65vw' }}
 						>
-							<Typography className='navLink' variant='h2'>
+							<Typography className='navLink' variant='h4'>
 								登出
 							</Typography>
 						</NavButton>
