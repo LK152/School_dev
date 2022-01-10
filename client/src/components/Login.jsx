@@ -38,15 +38,20 @@ const Login = () => {
 	const [show, setShow] = useState(false);
 	const navigate = useNavigate();
 
-	useEffect(
-		() =>
-			onSnapshot(doc(db, 'userData', user.email), (snapshot) => {
-				if (snapshot.exists()) {
-					setIsAdmin(snapshot.data().isAdmin);
+	useEffect(() => {
+		if (user.email !== '') {
+			const unSub = onSnapshot(
+				doc(db, 'userData', user.email),
+				(snapshot) => {
+					if (snapshot.exists()) {
+						setIsAdmin(snapshot.data().isAdmin);
+					}
 				}
-			}),
-		[user.email, setIsAdmin]
-	);
+			);
+
+			return () => unSub();
+		}
+	}, [user.email, setIsAdmin]);
 
 	const handleChange = (e) => {
 		setUser({ ...user, [e.target.name]: e.target.value });
@@ -62,9 +67,9 @@ const Login = () => {
 
 	const handleLogin = (e) => {
 		e.preventDefault();
+		setLocalUser(user.remember ? user : null);
 		LoginUser(user)
 			.then(() => {
-				setLocalUser(user.remember ? user : null);
 				setUser(init);
 				navigate('/dashboard');
 			})
@@ -124,11 +129,7 @@ const Login = () => {
 								<Grid item>
 									<FormControlLabel
 										onChange={handleRemember}
-										control={
-											<Checkbox
-												defaultChecked={user.remember}
-											/>
-										}
+										control={<Checkbox />}
 										label='記住我'
 										defaultChecked
 									/>

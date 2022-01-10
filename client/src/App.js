@@ -8,14 +8,16 @@ import Edit from './components/Edit';
 import Footer from './components/Footer';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
+import Users from './components/Users';
 import MobileNavbar from './mobile/components/MobileNavbar';
 import { useModalContext } from './context/ModalContext';
 import useViewport from './hooks/useViewport';
 
 const App = () => {
-	const { infoObj, boolObj } = useModalContext();
+	const { infoObj, boolObj, adminObj } = useModalContext();
 	const [info] = infoObj;
-	const [isUser] = boolObj
+	const [isUser] = boolObj;
+	const [isAdmin] = adminObj;
 	const { width } = useViewport();
 	const breakpoint = 441;
 
@@ -36,14 +38,9 @@ const App = () => {
 					path='/self-learning-edit'
 					element={info ? <Edit /> : <Home />}
 				/>
-				<Route 
-					path='/user-login' 
-					element={!info && <Login />} 
-				/>
-				<Route
-					path='/dashboard'
-					element={isUser ? <Dashboard /> : <Home />} 
-				/>
+				<Route path='/user-login' element={!info && <Login />} />
+				<Route path='/dashboard' element={isUser && <Dashboard />} />
+				<Route path='/users' element={isAdmin && <Users />} />
 			</Routes>
 			<Footer />
 		</Router>
