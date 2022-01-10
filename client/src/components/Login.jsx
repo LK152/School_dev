@@ -81,7 +81,7 @@ const Login = () => {
                                     sx={{ float: 'right' }}
                                     disabled={
                                         user.email === '' ||
-                                        user.password.length < 6
+                                        user.password === ''
                                     }
                                 >
                                     登入
