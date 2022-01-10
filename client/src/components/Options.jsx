@@ -46,7 +46,6 @@ const subTopics = [
 	],
 	[
 		{ label: "選手培訓", value: 0 },
-		{ label: "其他", value: 1 },
 	],
 	[
 		{ label: "國文", value: 0 },

@@ -66,6 +66,16 @@ const Navbar = () => {
                     >
                         首頁
                     </Typography>
+					{info && !info.emailVerified && (
+						<Typography
+						to="/dashboard"
+						component={Link}
+						color="common.white"
+						sx={{ textDecoration: 'none', ml: 2 }}
+					>
+						Dashboard
+					</Typography>
+					)}
                     {info && info.emailVerified && (
                         <Typography
                             to="/self-learning-form"
