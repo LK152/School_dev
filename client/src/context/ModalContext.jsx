@@ -31,11 +31,9 @@ const ModalProvider = ({ children }) => {
     useEffect(() => {
         const unSub = onAuthStateChanged(auth, (user) => {
             setInfo(user ? user : null);
-            if (!user.emailVerified) {
-                setIsUser(true);
-			} else {
-				setIsUser(false);
-			}
+            if (user) {
+                setUser(user.emailVerified ? false : true);
+            }
         });
 
         return () => {
