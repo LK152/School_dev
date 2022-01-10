@@ -33,7 +33,9 @@ const ModalProvider = ({ children }) => {
             setInfo(user ? user : null);
             if (!user.emailVerified) {
                 setIsUser(true);
-            }
+			} else {
+				setIsUser(false);
+			}
         });
 
         return () => {
