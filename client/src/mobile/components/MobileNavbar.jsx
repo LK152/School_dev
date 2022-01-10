@@ -31,8 +31,9 @@ const NavButton = styled(Button)({
 });
 
 const Navbar = () => {
-    const { infoObj } = useContext(ModalContext);
+    const { infoObj, boolObj } = useContext(ModalContext);
     const [info] = infoObj;
+    const [isUser] = boolObj;
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -115,42 +116,52 @@ const Navbar = () => {
                     </NavButton>
                 </li>
                 <li>
-                    {info &&
-                        (info.displayName ? (
-                            <NavButton
-                                onClick={handleClick}
-                                to="/self-learning-form"
-                                component={Link}
-                                color="secondary"
-                                variant="outlined"
-                                sx={{ border: 2, my: 3, width: '65vw' }}
-                            >
-                                <Typography className="navLink" variant="h4">
-                                    自主學習表單
-                                </Typography>
-                            </NavButton>
-                        ) : (
-                            <></>
-                        ))}
+                    {isUser && info && (
+                         <NavButton
+						 onClick={handleClick}
+						 to="/dashboard"
+						 component={Link}
+						 color="secondary"
+						 variant="outlined"
+						 sx={{ border: 2, my: 3, width: '65vw' }}
+					 >
+						 <Typography className="navLink" variant="h4">
+							 Dashboard
+						 </Typography>
+					 </NavButton>
+                    )}
                 </li>
                 <li>
-                    {info &&
-                        (info.displayName ? (
-                            <NavButton
-                                onClick={handleClick}
-                                to="/self-learning-results"
-                                component={Link}
-                                color="secondary"
-                                variant="outlined"
-                                sx={{ border: 2, my: 3, width: '65vw' }}
-                            >
-                                <Typography className="navLink" variant="h4">
-                                    自主學習紀錄
-                                </Typography>
-                            </NavButton>
-                        ) : (
-                            <></>
-                        ))}
+                    {info && !isUser && (
+                        <NavButton
+                            onClick={handleClick}
+                            to="/self-learning-form"
+                            component={Link}
+                            color="secondary"
+                            variant="outlined"
+                            sx={{ border: 2, my: 3, width: '65vw' }}
+                        >
+                            <Typography className="navLink" variant="h4">
+                                自主學習表單
+                            </Typography>
+                        </NavButton>
+                    )}
+                </li>
+                <li>
+                    {info && !isUser && (
+                        <NavButton
+                            onClick={handleClick}
+                            to="/self-learning-results"
+                            component={Link}
+                            color="secondary"
+                            variant="outlined"
+                            sx={{ border: 2, my: 3, width: '65vw' }}
+                        >
+                            <Typography className="navLink" variant="h4">
+                                自主學習紀錄
+                            </Typography>
+                        </NavButton>
+                    )}
                 </li>
                 {info && (
                     <li>

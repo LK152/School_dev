@@ -31,8 +31,9 @@ const initialState = {
 };
 
 const Navbar = () => {
-    const { infoObj } = useContext(ModalContext);
-    const [info] = infoObj;
+    const { infoObj, boolObj } = useContext(ModalContext);
+	const [info] = infoObj;
+	const [isUser] = boolObj;
     const [state, setState] = useState(initialState);
     const navigate = useNavigate();
 
@@ -66,7 +67,7 @@ const Navbar = () => {
                     >
                         首頁
                     </Typography>
-					{info && !info.emailVerified && (
+					{isUser && (
 						<Typography
 						to="/dashboard"
 						component={Link}
@@ -76,7 +77,7 @@ const Navbar = () => {
 						Dashboard
 					</Typography>
 					)}
-                    {info && info.emailVerified && (
+                    {!isUser && (
                         <Typography
                             to="/self-learning-form"
                             component={Link}
@@ -86,7 +87,7 @@ const Navbar = () => {
                             自主學習表單
                         </Typography>
                     )}
-                    {info && info.emailVerified && (
+                    {!isUser && (
                         <Typography
                             to="/self-learning-results"
                             component={Link}
@@ -111,7 +112,7 @@ const Navbar = () => {
                                     </Typography>
                                 </Button>
                             </>
-                        ) : info.emailVerified ? (
+                        ) : !isUser ? (
                             <>
                                 <IconButton
                                     onClick={handleClick}

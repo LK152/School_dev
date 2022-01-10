@@ -14,8 +14,9 @@ import { ModalContext } from './context/ModalContext';
 import useViewport from './hooks/useViewport';
 
 const App = () => {
-	const { infoObj } = useContext(ModalContext);
+	const { infoObj, boolObj } = useContext(ModalContext);
 	const [info] = infoObj;
+	const [isUser] = boolObj
 	const { width } = useViewport();
 	const breakpoint = 441;
 
@@ -42,7 +43,7 @@ const App = () => {
 				/>
 				<Route
 					path='/dashboard'
-					element={info ? !info.emailVerified && <Dashboard /> : <Home />} 
+					element={isUser ? <Dashboard /> : <Home />} 
 				/>
 			</Routes>
 			<Footer />

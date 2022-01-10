@@ -1,6 +1,7 @@
 import { auth } from '../service/firestore';
 import { createContext, useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
+import useSessionState from '../hooks/useSessionState';
 
 export const ModalContext = createContext();
 
@@ -25,17 +26,20 @@ const ModalProvider = ({ children }) => {
         email: '',
         password: '',
     });
+    const [isUser, setIsUser] = useSessionState('isUser', false);
 
     useEffect(() => {
         const unSub = onAuthStateChanged(auth, (user) => {
-			setInfo(user ? user : null);
-			console.log(user)
+            setInfo(user ? user : null);
+            if (!user.emailVerified) {
+                setIsUser(true);
+            }
         });
 
         return () => {
             unSub();
         };
-    }, []);
+    }, [setIsUser]);
 
     return (
         <ModalContext.Provider
@@ -44,6 +48,7 @@ const ModalProvider = ({ children }) => {
                 documentObj: [document, setDoc],
                 valuesObj: [values, setValues],
                 userObj: [user, setUser],
+                boolObj: [isUser, setIsUser],
             }}
         >
             {children}
