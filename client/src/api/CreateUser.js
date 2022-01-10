@@ -1,8 +1,8 @@
-import { db } from '../service/firestore';
-import { setDoc, doc } from 'firebase/firestore';
+import { auth } from '../service/firestore';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
-const CreateUser = async (data) => {
-    await setDoc(doc(db, "userData", data.uid), data);
+const CreateUser = async (user) => {
+    await createUserWithEmailAndPassword(auth, user.email, user.password)
 };
 
 export default CreateUser;

@@ -4,7 +4,9 @@
 }
 
 .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:after,
-.css-cio0x1-MuiInputBase-root-MuiFilledInput-root.Mui-focused:after {
+.css-cio0x1-MuiInputBase-root-MuiFilledInput-root.Mui-focused:after, 
+.css-llt6z7-MuiInputBase-root-MuiFilledInput-root:after, 
+.css-llt6z7-MuiInputBase-root-MuiFilledInput-root.Mui-focused:after {
 	transform-origin: left !important;
 	transition: transform 0.3s !important;
 }
