@@ -27,12 +27,11 @@ import '../App.css';
 const init = {
 	email: '',
 	password: '',
-	remember: false,
 };
 
 const Login = () => {
 	const { adminObj } = useModalContext();
-	const [isAdmin, setIsAdmin] = adminObj;
+	const [setIsAdmin] = adminObj;
 	const [localUser, setLocalUser] = useLocalState('localUser', null);
 	const [user, setUser] = useState(localUser ?? init);
 	const [show, setShow] = useState(false);
@@ -62,12 +61,11 @@ const Login = () => {
 	};
 
 	const handleRemember = (e) => {
-		setUser({ ...user, remember: e.target.checked });
+		setLocalUser(e.target.checked ? user : null);
 	};
 
 	const handleLogin = (e) => {
 		e.preventDefault();
-		setLocalUser(user.remember ? user : null);
 		LoginUser(user)
 			.then(() => {
 				setUser(init);
