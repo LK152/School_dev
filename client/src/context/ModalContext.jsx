@@ -32,7 +32,7 @@ const ModalProvider = ({ children }) => {
         const unSub = onAuthStateChanged(auth, (user) => {
             setInfo(user ? user : null);
             if (user) {
-                setUser(user.emailVerified ? false : true);
+                setIsUser(user.emailVerified ? false : true);
             }
         });
 
