@@ -32,8 +32,8 @@ const initialState = {
 
 const Navbar = () => {
     const { infoObj, boolObj } = useContext(ModalContext);
-	const [info] = infoObj;
-	const [isUser] = boolObj;
+    const [info] = infoObj;
+    const [isUser] = boolObj;
     const [state, setState] = useState(initialState);
     const navigate = useNavigate();
 
@@ -67,16 +67,16 @@ const Navbar = () => {
                     >
                         首頁
                     </Typography>
-					{isUser && (
-						<Typography
-						to="/dashboard"
-						component={Link}
-						color="common.white"
-						sx={{ textDecoration: 'none', ml: 2 }}
-					>
-						Dashboard
-					</Typography>
-					)}
+                    {isUser && (
+                        <Typography
+                            to="/dashboard"
+                            component={Link}
+                            color="common.white"
+                            sx={{ textDecoration: 'none', ml: 2 }}
+                        >
+                            Dashboard
+                        </Typography>
+                    )}
                     {!isUser && (
                         <Typography
                             to="/self-learning-form"
@@ -157,7 +157,12 @@ const Navbar = () => {
                                 </Menu>
                             </>
                         ) : (
-                            <Button onClick={() => signOut(auth)}>
+                            <Button
+                                onClick={() => {
+                                    signOut(auth);
+                                    navigate('/');
+                                }}
+                            >
                                 <Typography color="common.white">
                                     登出
                                 </Typography>

@@ -117,18 +117,18 @@ const Navbar = () => {
                 </li>
                 <li>
                     {isUser && info && (
-                         <NavButton
-						 onClick={handleClick}
-						 to="/dashboard"
-						 component={Link}
-						 color="secondary"
-						 variant="outlined"
-						 sx={{ border: 2, my: 3, width: '65vw' }}
-					 >
-						 <Typography className="navLink" variant="h4">
-							 Dashboard
-						 </Typography>
-					 </NavButton>
+                        <NavButton
+                            onClick={handleClick}
+                            to="/dashboard"
+                            component={Link}
+                            color="secondary"
+                            variant="outlined"
+                            sx={{ border: 2, my: 3, width: '65vw' }}
+                        >
+                            <Typography className="navLink" variant="h4">
+                                Dashboard
+                            </Typography>
+                        </NavButton>
                     )}
                 </li>
                 <li>
@@ -163,20 +163,35 @@ const Navbar = () => {
                         </NavButton>
                     )}
                 </li>
-                {info && (
-                    <li>
-                        <NavButton
-                            onClick={signOutWithGoogle}
-                            color="secondary"
-                            variant="outlined"
-                            sx={{ border: 2, my: 3, width: '65vw' }}
-                        >
-                            <Typography className="navLink" variant="h4">
-                                登出
-                            </Typography>
-                        </NavButton>
-                    </li>
-                )}
+                <li>
+                    {info &&
+                        (isUser ? (
+                            <NavButton
+                                onClick={() => {
+                                    signOut(auth);
+                                    navigate('/');
+                                }}
+                                color="secondary"
+                                variant="outlined"
+                                sx={{ border: 2, my: 3, width: '65vw' }}
+                            >
+                                <Typography className="navLink" variant="h4">
+                                    登出
+                                </Typography>
+                            </NavButton>
+                        ) : (
+                            <NavButton
+                                onClick={signOutWithGoogle}
+                                color="secondary"
+                                variant="outlined"
+                                sx={{ border: 2, my: 3, width: '65vw' }}
+                            >
+                                <Typography className="navLink" variant="h4">
+                                    登出
+                                </Typography>
+                            </NavButton>
+                        ))}
+                </li>
             </ul>
         </Box>
     );
