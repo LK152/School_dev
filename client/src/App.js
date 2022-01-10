@@ -14,9 +14,8 @@ import { ModalContext } from './context/ModalContext';
 import useViewport from './hooks/useViewport';
 
 const App = () => {
-	const { infoObj, userObj } = useContext(ModalContext);
+	const { infoObj } = useContext(ModalContext);
 	const [info] = infoObj;
-	const [user] = userObj;
 	const { width } = useViewport();
 	const breakpoint = 441;
 

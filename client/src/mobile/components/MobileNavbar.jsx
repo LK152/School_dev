@@ -31,9 +31,8 @@ const NavButton = styled(Button)({
 });
 
 const Navbar = () => {
-    const { infoObj, userObj } = useContext(ModalContext);
+    const { infoObj } = useContext(ModalContext);
     const [info] = infoObj;
-    const [user] = userObj;
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 

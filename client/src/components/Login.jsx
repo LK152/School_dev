@@ -20,9 +20,8 @@ const init = {
 };
 
 const Login = () => {
-    const { userObj, infoObj } = useContext(ModalContext);
+    const { userObj } = useContext(ModalContext);
     const [user, setUser] = userObj;
-    const [info] = infoObj;
     const navigate = useNavigate();
 
     const handleChange = (e) => {
