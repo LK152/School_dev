@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
 	Button, 
@@ -16,12 +16,12 @@ import { Edit, DeleteForever } from '@mui/icons-material';
 import { db } from '../service/firestore';
 import { doc, onSnapshot } from 'firebase/firestore';
 import DeleteDoc from '../api/DeleteDoc';
-import { ModalContext } from '../context/ModalContext';
+import { useModalContext } from '../context/ModalContext';
 
 const Results = () => {
 	const [empty, setEmpty] = useState(false);
 	const [open, setOpen] = useState(false);
-	const { documentObj, infoObj } = useContext(ModalContext);
+	const { documentObj, infoObj } = useModalContext();
 	const [document, setDoc] = documentObj;
 	const [info] = infoObj;
 

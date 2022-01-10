@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
 	Button,
@@ -21,7 +20,7 @@ import { Send, DeleteOutline } from '@mui/icons-material';
 import { mainTopics, subTopics, classes, numbers } from './Options';
 import Select from './Select';
 import CreateDoc from '../api/CreateDoc';
-import { initialValues, ModalContext } from '../context/ModalContext';
+import { initialValues, useModalContext } from '../context/ModalContext';
 import '../App.css';
 
 const Submitbtn = styled(Button)({
@@ -52,7 +51,7 @@ const Submitbtn = styled(Button)({
 });
 
 const Form = () => {
-	const { valuesObj, infoObj } = useContext(ModalContext);
+	const { valuesObj, infoObj } = useModalContext();
 	const [values, setValues] = valuesObj;
 	const [info] = infoObj;
 

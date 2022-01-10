@@ -1,5 +1,4 @@
 import './App.css';
-import { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import Form from './components/Form';
@@ -10,11 +9,11 @@ import Footer from './components/Footer';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import MobileNavbar from './mobile/components/MobileNavbar';
-import { ModalContext } from './context/ModalContext';
+import { useModalContext } from './context/ModalContext';
 import useViewport from './hooks/useViewport';
 
 const App = () => {
-	const { infoObj, boolObj } = useContext(ModalContext);
+	const { infoObj, boolObj } = useModalContext();
 	const [info] = infoObj;
 	const [isUser] = boolObj
 	const { width } = useViewport();
@@ -39,7 +38,7 @@ const App = () => {
 				/>
 				<Route 
 					path='/user-login' 
-					element={<Login />} 
+					element={!info && <Login />} 
 				/>
 				<Route
 					path='/dashboard'

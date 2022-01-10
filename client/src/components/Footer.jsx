@@ -14,7 +14,21 @@ const Footer = () => {
 				justifyContent: 'center',
 			}}
 		>
-			<Box textAlign='center'>&copy; {new Date().getFullYear()} LK</Box>
+			<Box textAlign='center'>
+				<strong style={{ color: '#FFF' }}>
+					臺北市立麗山高級中學
+				</strong>
+			</Box>
+			<Box textAlign='center'>
+				<a
+					href='http://163.21.208.45/content.php?c=220'
+					style={{ textDecoration: 'none', color: '#FFF' }}
+				>
+					<strong>114012 台北市內湖區環山路二段100號</strong>
+				</a>
+			</Box>
+
+			<Box textAlign='center' style={{ color: '#FFF'}}>&copy; {new Date().getFullYear()} LK</Box>
 		</Box>
 	);
 };
