@@ -12,7 +12,7 @@ import {
     Button,
     Typography,
 } from '@mui/material';
-import { Logout } from '@mui/icons-material';
+import { Logout, Mail } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { ModalContext } from '../context/ModalContext';
 import { auth } from '../service/firestore';
@@ -34,7 +34,8 @@ const Navbar = () => {
     const { infoObj, boolObj } = useContext(ModalContext);
     const [info] = infoObj;
     const [isUser] = boolObj;
-    const [state, setState] = useState(initialState);
+	const [state, setState] = useState(initialState);
+	const [mailState, setMailState] = useState(initialState);
     const navigate = useNavigate();
 
     const signInWithGoogle = async () => {
@@ -53,6 +54,14 @@ const Navbar = () => {
 
     const handleClick = (e) => {
         setState({ ...state, anchorEl: e.currentTarget, canClick: true });
+	};
+
+	const handleMailClose = () => {
+        setMailState({ ...mailState, anchorEl: null });
+    };
+	
+	const handleMailClick = (e) => {
+        setMailState({ ...mailState, anchorEl: e.currentTarget, canClick: true });
     };
 
     return (
@@ -114,6 +123,30 @@ const Navbar = () => {
                             </>
                         ) : !isUser ? (
                             <>
+                                <IconButton
+                                    onClick={handleMailClick}
+                                    size="small"
+                                    sx={{ ml: 2 }}
+                                    color="secondary"
+                                >
+                                    <Mail />
+                                </IconButton>
+                                <Menu
+                                    anchorEl={mailState.anchorEl}
+                                    open={
+                                        mailState.canClick === true &&
+                                        Boolean(mailState.anchorEl)
+                                    }
+                                    onClose={handleMailClose}
+                                >
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            alignItems: 'center',
+                                        }}
+                                    ></Box>
+                                </Menu>
                                 <IconButton
                                     onClick={handleClick}
                                     size="small"

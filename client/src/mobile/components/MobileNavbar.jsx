@@ -4,13 +4,15 @@ import {
     AppBar,
     Toolbar,
     Box,
+    Menu,
     IconButton,
     Avatar,
     Button,
     Typography,
     styled,
 } from '@mui/material';
-import { Menu, Close } from '@mui/icons-material';
+import MenuIcon from '@mui/icons-material/Menu';
+import { Close, Mail } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { ModalContext } from '../../context/ModalContext';
 import { auth } from '../../service/firestore';
@@ -30,11 +32,17 @@ const NavButton = styled(Button)({
     },
 });
 
+const initialState = {
+    anchorEl: null,
+    canClick: false,
+};
+
 const Navbar = () => {
     const { infoObj, boolObj } = useContext(ModalContext);
     const [info] = infoObj;
     const [isUser] = boolObj;
     const [open, setOpen] = useState(false);
+    const [mailState, setMailState] = useState(initialState);
     const navigate = useNavigate();
 
     const signInWithGoogle = async () => {
@@ -54,13 +62,50 @@ const Navbar = () => {
             : 'unset';
     };
 
+    const handleMailClose = () => {
+        setMailState({ ...mailState, anchorEl: null });
+    };
+
+    const handleMailClick = (e) => {
+        setMailState({
+            ...mailState,
+            anchorEl: e.currentTarget,
+            canClick: true,
+        });
+    };
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton onClick={handleClick}>
-                        {open ? <Close /> : <Menu />}
+                        {open ? <Close /> : <MenuIcon />}
                     </IconButton>
+                    <div style={{ flexGrow: 1 }} />
+                    <IconButton
+                        onClick={handleMailClick}
+                        size="small"
+                        sx={{ ml: 2 }}
+                        color="inherit"
+                    >
+                        <Mail />
+                    </IconButton>
+                    <Menu
+                        anchorEl={mailState.anchorEl}
+                        open={
+                            mailState.canClick === true &&
+                            Boolean(mailState.anchorEl)
+                        }
+                        onClose={handleMailClose}
+                    >
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                            }}
+                        ></Box>
+                    </Menu>
                 </Toolbar>
             </AppBar>
             <ul className={open ? 'navDropdown active' : 'navDropdown'}>

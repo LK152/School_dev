@@ -11,7 +11,7 @@ let defaultTheme = createTheme({
 			main: '#F3905F',
 		}, 
 		secondary: {
-			main: '#FFF'
+			main: '#FFF',
 		}
 	}
 });
