@@ -44,6 +44,7 @@ const Navbar = () => {
     const signOutWithGoogle = async () => {
         await signOut(auth);
         handleClick();
+        navigate('/');
     };
 
     const handleClick = () => {
@@ -164,33 +165,18 @@ const Navbar = () => {
                     )}
                 </li>
                 <li>
-                    {info &&
-                        (isUser ? (
-                            <NavButton
-                                onClick={() => {
-                                    signOut(auth);
-                                    navigate('/');
-                                }}
-                                color="secondary"
-                                variant="outlined"
-                                sx={{ border: 2, my: 3, width: '65vw' }}
-                            >
-                                <Typography className="navLink" variant="h4">
-                                    登出
-                                </Typography>
-                            </NavButton>
-                        ) : (
-                            <NavButton
-                                onClick={signOutWithGoogle}
-                                color="secondary"
-                                variant="outlined"
-                                sx={{ border: 2, my: 3, width: '65vw' }}
-                            >
-                                <Typography className="navLink" variant="h4">
-                                    登出
-                                </Typography>
-                            </NavButton>
-                        ))}
+                    {info && (
+                        <NavButton
+                            onClick={signOutWithGoogle}
+                            color="secondary"
+                            variant="outlined"
+                            sx={{ border: 2, my: 3, width: '65vw' }}
+                        >
+                            <Typography className="navLink" variant="h4">
+                                登出
+                            </Typography>
+                        </NavButton>
+                    )}
                 </li>
             </ul>
         </Box>
