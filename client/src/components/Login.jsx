@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
 	Grid,
 	TextField,
@@ -19,9 +19,6 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import LoginUser from '../api/LoginUser';
 import { useNavigate } from 'react-router-dom';
 import useLocalState from '../hooks/useLocalState';
-import { db } from '../service/firestore';
-import { doc, onSnapshot } from 'firebase/firestore';
-import { useModalContext } from '../context/ModalContext';
 import '../App.css';
 
 const init = {
@@ -30,27 +27,10 @@ const init = {
 };
 
 const Login = () => {
-	const { adminObj } = useModalContext();
-	const [setIsAdmin] = adminObj;
 	const [localUser, setLocalUser] = useLocalState('localUser', null);
 	const [user, setUser] = useState(localUser ?? init);
 	const [show, setShow] = useState(false);
 	const navigate = useNavigate();
-
-	useEffect(() => {
-		if (user.email !== '') {
-			const unSub = onSnapshot(
-				doc(db, 'userData', user.email),
-				(snapshot) => {
-					if (snapshot.exists()) {
-						setIsAdmin(snapshot.data().isAdmin);
-					}
-				}
-			);
-
-			return () => unSub();
-		}
-	}, [user.email, setIsAdmin]);
 
 	const handleChange = (e) => {
 		setUser({ ...user, [e.target.name]: e.target.value });
