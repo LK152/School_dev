@@ -37,7 +37,7 @@ const App = () => {
                     path="/self-learning-edit"
                     element={info ? <Edit /> : <Home />}
                 />
-                <Route path="/dashboard" element={isUser && <Dashboard />} />
+                <Route path="/dashboard" element={(isUser || isAdmin) && <Dashboard />} />
                 <Route path="/users" element={isAdmin && <Users />} />
             </Routes>
             <Footer />
