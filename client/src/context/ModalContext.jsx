@@ -29,11 +29,6 @@ const ModalProvider = ({ children }) => {
     useEffect(() => {
         const unSub = onAuthStateChanged(auth, (user) => {
             setInfo(user ? user : null);
-            if (user) {
-                setIsUser(user.emailVerified ? false : true);
-            } else {
-                setIsUser(false);
-            }
         });
 
         return () => {
@@ -48,13 +43,14 @@ const ModalProvider = ({ children }) => {
                 (snapshot) => {
                     if (snapshot.exists()) {
                         setIsAdmin(snapshot.data().isAdmin);
+                        setIsUser(!snapshot.data().isAdmin ? true : false)
                     }
                 }
             );
 
             return () => onSub();
         }
-    }, [info, setIsAdmin]);
+    }, [info, setIsAdmin, setIsUser]);
 
     const value = {
         infoObj: [info, setInfo],

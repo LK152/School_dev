@@ -18,7 +18,7 @@ import {
 import { Save, Cancel } from '@mui/icons-material';
 import { mainTopics, subTopics, classes, numbers } from './Options';
 import Select from './Select';
-import EditDoc from '../api/EditDoc';
+import axios from 'axios';
 import { useModalContext } from '../context/ModalContext';
 import '../App.css';
 
@@ -64,7 +64,7 @@ const Form = () => {
         navigate('/self-learning-results');
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const data = {
             class: values.class,
@@ -85,7 +85,11 @@ const Form = () => {
             mem2Class: values.mem2Class,
             mem2Num: values.mem2Num,
         };
-        EditDoc(info.uid, data);
+
+        await axios
+            .post('http://localhost:8000/updateDoc/' + info.uid, data)
+            .catch((err) => console.log(err));
+
         navigate('/self-learning-results');
     };
 

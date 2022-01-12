@@ -12,7 +12,7 @@ import {
     Button,
     Typography,
 } from '@mui/material';
-import { Logout, Mail, Settings } from '@mui/icons-material';
+import { Logout, Mail } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useModalContext } from '../context/ModalContext';
 import { auth } from '../service/firestore';
@@ -34,7 +34,7 @@ const Navbar = () => {
     const { infoObj, boolObj, adminObj } = useModalContext();
     const [info] = infoObj;
     const [isUser] = boolObj;
-    const [isAdmin, setIsAdmin] = adminObj;
+    const [isAdmin] = adminObj;
     const [state, setState] = useState(initialState);
     const [mailState, setMailState] = useState(initialState);
     const navigate = useNavigate();
@@ -82,7 +82,7 @@ const Navbar = () => {
                     >
                         首頁
                     </Typography>
-                    {isUser && (
+                    {(isUser || isAdmin) && (
                         <Typography
                             to="/dashboard"
                             component={Link}
@@ -102,7 +102,7 @@ const Navbar = () => {
                             管理用戶
                         </Typography>
                     )}
-                    {!isUser && info && (
+                    {(!isUser && !isAdmin) && info && (
                         <Typography
                             to="/self-learning-form"
                             component={Link}
@@ -112,7 +112,7 @@ const Navbar = () => {
                             自主學習表單
                         </Typography>
                     )}
-                    {!isUser && info && (
+                    {(!isUser && !isAdmin) && info && (
                         <Typography
                             to="/self-learning-results"
                             component={Link}
@@ -125,19 +125,12 @@ const Navbar = () => {
                     <div style={{ flexGrow: 1 }} />
                     <div>
                         {!info ? (
-                            <>
-                                <Button onClick={signInWithGoogle}>
-                                    <Typography color="common.white">
-                                        學生登入
-                                    </Typography>
-                                </Button>
-                                <Button onClick={() => navigate('/user-login')}>
-                                    <Typography color="common.white">
-                                        教師登入
-                                    </Typography>
-                                </Button>
-                            </>
-                        ) : !isUser ? (
+                            <Button onClick={signInWithGoogle}>
+                                <Typography color="common.white">
+                                    登入
+                                </Typography>
+                            </Button>
+                        ) : (
                             <>
                                 <IconButton
                                     onClick={handleMailClick}
@@ -204,25 +197,6 @@ const Navbar = () => {
                                         登出
                                     </MenuItem>
                                 </Menu>
-                            </>
-                        ) : (
-                            <>
-                                <IconButton color="secondary">
-                                    <Settings />
-                                </IconButton>
-                                <Button
-                                    onClick={() => {
-                                        signOut(auth);
-                                        navigate('/');
-                                        if (isAdmin) {
-                                            setIsAdmin(false);
-                                        }
-                                    }}
-                                >
-                                    <Typography color="common.white">
-                                        登出
-                                    </Typography>
-                                </Button>
                             </>
                         )}
                     </div>

@@ -9,35 +9,34 @@ import {
     FormControl,
     TextField,
     InputLabel,
-    FormHelperText,
 } from '@mui/material';
 import UsersTable from './UsersTable';
-import CreateUser from '../api/CreateUser';
 import Select from './Select';
-import { permit } from './Options';
+import axios from 'axios';
+import { permit, classes } from './Options';
 
 const init = {
     email: '',
-    password: '',
     isAdmin: false,
+    userClass: '',
 };
 
 const Users = () => {
     const [newUser, setNewUser] = useState(init);
+    const [update, setUpdate] = useState(false);
 
     const handleChange = (e) => {
         setNewUser({ ...newUser, [e.target.name]: e.target.value });
     };
 
-    const handleAddUser = (e) => {
+    const handleAddUser = async (e) => {
         e.preventDefault();
-        CreateUser(newUser)
-            .then(() => {
-                setNewUser(init);
-            })
-            .catch((err) => {
-                alert(err);
-            });
+
+        await axios.post(
+            'http://localhost:8000/addUser/' + newUser.email,
+            newUser
+        );
+        setUpdate(!update);
     };
 
     return (
@@ -51,7 +50,7 @@ const Users = () => {
                             </Typography>
                         </Grid>
                         <Grid item>
-                            <UsersTable />
+                            <UsersTable update={update} />
                         </Grid>
                         <Grid
                             item
@@ -60,7 +59,7 @@ const Users = () => {
                             justifyContent="space-evenly"
                             alignItems="center"
                         >
-                            <Grid item>
+                            <Grid item xs={3}>
                                 <FormControl fullWidth>
                                     <TextField
                                         onChange={handleChange}
@@ -70,23 +69,20 @@ const Users = () => {
                                         value={newUser.email}
                                     />
                                 </FormControl>
-                                <FormHelperText>用戶Email</FormHelperText>
                             </Grid>
-                            <Grid item>
+                            <Grid item xs={3}>
                                 <FormControl fullWidth>
-                                    <TextField
+                                    <InputLabel>班級</InputLabel>
+                                    <Select
+                                        label="班級"
+                                        options={classes}
+                                        value={newUser.userClass}
+                                        name="userClass"
                                         onChange={handleChange}
-                                        name="password"
-                                        variant="filled"
-                                        label="密碼"
-                                        value={newUser.password}
                                     />
-                                    <FormHelperText>
-                                        密碼長度大於6位數
-                                    </FormHelperText>
                                 </FormControl>
                             </Grid>
-                            <Grid item>
+                            <Grid item xs={3}>
                                 <FormControl fullWidth>
                                     <InputLabel>權限</InputLabel>
                                     <Select
@@ -102,10 +98,7 @@ const Users = () => {
                                 <Button
                                     onClick={handleAddUser}
                                     variant="contained"
-                                    disabled={
-                                        newUser.email === '' ||
-                                        newUser.password.length < 6
-                                    }
+                                    disabled={newUser.email === ''}
                                 >
                                     新增用戶
                                 </Button>

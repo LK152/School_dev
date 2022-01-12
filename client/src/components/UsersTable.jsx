@@ -1,22 +1,16 @@
 import { useEffect, useState } from 'react';
-import { db } from '../service/firestore';
-import { onSnapshot, collection } from 'firebase/firestore';
 import { DataGrid } from '@mui/x-data-grid';
+import { Button } from '@mui/material';
+import axios from 'axios';
 
 const UsersTable = () => {
     const [users, setUsers] = useState([]);
 
     useEffect(
         () =>
-            onSnapshot(collection(db, 'userData'), (querySnap) => {
-                const user = [];
-
-                querySnap.forEach((doc) => {
-                    user.push(doc.data());
-                });
-
-                setUsers(user);
-            }),
+            axios
+                .get('http://localhost:8000/getUsers')
+                .then((doc) => setUsers(doc.data)),
         []
     );
 
@@ -24,7 +18,7 @@ const UsersTable = () => {
         {
             field: 'id',
             headerName: 'ID',
-            width: 100,
+            width: 60,
         },
         {
             field: 'email',
@@ -32,14 +26,29 @@ const UsersTable = () => {
             width: 200,
         },
         {
-            field: 'password',
-            headerName: '密碼',
-            width: 160,
-        },
-        {
             field: 'permission',
             headerName: 'Permission',
             width: 160,
+        },
+        {
+            field: 'delete',
+            headerName: '刪除',
+            width: 100,
+            renderCell: (params) => {
+                const handleClick = async (e) => {
+                    e.stopPropagation();
+
+                    await axios.delete(
+                        'http://localhost:8000/deleteUser/' + params.row.email
+                    );
+                };
+
+                return (
+                    <Button variant="contained" onClick={handleClick}>
+                        刪除
+                    </Button>
+                );
+            },
         },
     ];
 
@@ -47,7 +56,6 @@ const UsersTable = () => {
         return {
             id: index,
             email: user.email,
-            password: user.password,
             permission: user.isAdmin ? 'Administrator' : 'Teacher',
         };
     });
@@ -57,8 +65,8 @@ const UsersTable = () => {
             <DataGrid
                 rows={rows}
                 columns={columns}
-                pageSize={10}
-                rowsPerPageOptions={[10]}
+                pageSize={100}
+                rowsPerPageOptions={[100]}
                 disableColumnFilter
                 disableColumnMenu
             />
