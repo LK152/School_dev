@@ -45,6 +45,18 @@ router.route('/addUser/:id').post((req, res) => {
         .catch(() => res.sendStatus(404));
 });
 
+router.route('/updateUser/:id').patch((req, res) => {
+    auth.getUserByEmail(req.params.id)
+        .then((user) => {
+            userDB
+                .doc(user.uid)
+                .update(req.body)
+                .then(() => res.sendStatus(200))
+                .catch(() => res.sendStatus(400));
+        })
+        .catch(() => res.sendStatus(404));
+});
+
 router.route('/deleteUser/:id').delete((req, res) => {
     auth.getUserByEmail(req.params.id)
         .then((user) => {
