@@ -88,7 +88,7 @@ const Form = () => {
 		};
 
 		await axios
-			.post(
+			.patch(
 				process.env.REACT_APP_API_URL + '/updateDoc/' + info.uid,
 				data
 			)
