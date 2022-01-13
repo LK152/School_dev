@@ -52,7 +52,7 @@ const Users = () => {
                 <CardContent>
                     <Grid container direction="column" spacing={2}>
                         <Grid item>
-                            <Typography variant="h2" textAlign="center">
+                            <Typography variant="h3" textAlign="center">
                                 用戶
                             </Typography>
                         </Grid>
@@ -72,7 +72,7 @@ const Users = () => {
                                         onChange={handleChange}
                                         name="email"
                                         variant="filled"
-                                        label="帳戶"
+                                        label="Email"
                                         value={newUser.email}
                                     />
                                 </FormControl>
