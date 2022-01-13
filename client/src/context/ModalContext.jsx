@@ -21,10 +21,10 @@ export const initialValues = {
 };
 
 const ModalProvider = ({ children }) => {
-	const [info, setInfo] = useState(null);
 	const [document, setDoc] = useState([]);
 	const [values, setValues] = useState(initialValues);
 	const [update, setUpdate] = useState(false);
+	const [info, setInfo] = useSessionState(null);
 	const [isUser, setIsUser] = useSessionState('isUser', false);
 	const [isAdmin, setIsAdmin] = useSessionState('isAdmin', false);
 
@@ -39,7 +39,7 @@ const ModalProvider = ({ children }) => {
 		return () => {
 			unSub();
 		};
-	}, [setIsAdmin]);
+	}, [setInfo, setIsAdmin]);
 
 	useEffect(() => {
 		if (info) {
@@ -58,10 +58,10 @@ const ModalProvider = ({ children }) => {
 	}, [info, setIsAdmin, setIsUser]);
 
 	const value = {
-		infoObj: [info, setInfo],
 		documentObj: [document, setDoc],
 		valuesObj: [values, setValues],
 		updateObj: [update, setUpdate],
+		infoObj: [info, setInfo],
 		boolObj: [isUser, setIsUser],
 		adminObj: [isAdmin, setIsAdmin],
 	};

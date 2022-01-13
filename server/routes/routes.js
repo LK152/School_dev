@@ -5,6 +5,10 @@ const auth = admin.auth();
 const studentDB = admin.firestore().collection('studentData');
 const userDB = admin.firestore().collection('userData');
 
+router.route('/').get((req, res) => {
+	res.status(200).send('API Deployed Successful')
+})
+
 router.route('/setDoc/:id').post((req, res) => {
 	studentDB
 		.doc(req.params.id)
