@@ -9,7 +9,9 @@ import {
 	FormControl,
 	TextField,
 	InputLabel,
+	IconButton,
 } from '@mui/material';
+import { Delete } from '@mui/icons-material';
 import UsersTable from './UsersTable';
 import Select from './Select';
 import axios from 'axios';
@@ -29,6 +31,10 @@ const Users = () => {
 
 	const handleChange = (e) => {
 		setNewUser({ ...newUser, [e.target.name]: e.target.value });
+	};
+
+	const handleDelete = () => {
+		setNewUser(init);
 	};
 
 	const handleAddUser = async (e) => {
@@ -113,6 +119,11 @@ const Users = () => {
 								>
 									新增用戶
 								</Button>
+							</Grid>
+							<Grid item>
+								<IconButton onClick={handleDelete}>
+									<Delete />
+								</IconButton>
 							</Grid>
 						</Grid>
 					</Grid>

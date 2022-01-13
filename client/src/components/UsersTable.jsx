@@ -100,7 +100,9 @@ const UsersTable = () => {
 				pageSize={100}
 				rowsPerPageOptions={[100]}
 				disableColumnFilter
-				disableColumnMenu
+				disableColumnMenu 
+				disableSelectionOnClick 
+				checkboxSelection
 			/>
 		</div>
 	);
