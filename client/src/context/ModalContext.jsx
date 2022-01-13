@@ -44,7 +44,7 @@ const ModalProvider = ({ children }) => {
 	useEffect(() => {
 		if (info) {
 			const onSub = onSnapshot(
-				doc(db, 'userData', info.email),
+				doc(db, 'userData', info.uid),
 				(snapshot) => {
 					if (snapshot.exists()) {
 						setIsAdmin(snapshot.data().isAdmin);
