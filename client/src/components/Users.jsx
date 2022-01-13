@@ -48,7 +48,7 @@ const Users = () => {
 			.then(() => {
 				setNewUser(init);
 				setUpdate(!update);
-			});
+			}).catch((err) => alert(err))
 	};
 
 	return (
