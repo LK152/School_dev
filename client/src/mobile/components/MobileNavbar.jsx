@@ -38,9 +38,10 @@ const initialState = {
 };
 
 const Navbar = () => {
-	const { infoObj, boolObj } = useModalContext();
+	const { infoObj, boolObj, adminObj } = useModalContext();
 	const [info] = infoObj;
 	const [isUser] = boolObj;
+	const [isAdmin] = adminObj;
 	const [open, setOpen] = useState(false);
 	const [mailState, setMailState] = useState(initialState);
 	const navigate = useNavigate();
@@ -130,24 +131,7 @@ const Navbar = () => {
 							sx={{ border: 2, my: 3, width: '65vw' }}
 						>
 							<Typography className='navLink' variant='h4'>
-								學生登入
-							</Typography>
-						</NavButton>
-					)}
-				</li>
-				<li>
-					{!info && (
-						<NavButton
-							onClick={() => {
-								navigate('/user-login');
-								handleClick();
-							}}
-							color='secondary'
-							variant='outlined'
-							sx={{ border: 2, my: 3, width: '65vw' }}
-						>
-							<Typography className='navLink' variant='h4'>
-								教師登入
+								登入
 							</Typography>
 						</NavButton>
 					)}
@@ -167,7 +151,7 @@ const Navbar = () => {
 					</NavButton>
 				</li>
 				<li>
-					{isUser && info && (
+					{(isUser || isAdmin) && info && (
 						<NavButton
 							onClick={handleClick}
 							to='/dashboard'
@@ -183,7 +167,7 @@ const Navbar = () => {
 					)}
 				</li>
 				<li>
-					{info && !isUser && (
+					{(isUser || isAdmin) && !isUser && (
 						<NavButton
 							onClick={handleClick}
 							to='/self-learning-form'
@@ -199,7 +183,7 @@ const Navbar = () => {
 					)}
 				</li>
 				<li>
-					{info && !isUser && (
+					{info && !isUser && !isAdmin && (
 						<NavButton
 							onClick={handleClick}
 							to='/self-learning-results'
