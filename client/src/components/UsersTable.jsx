@@ -54,7 +54,8 @@ const UsersTable = () => {
                     e.stopPropagation();
 
                     await axios.delete(
-                        'http://localhost:8000/deleteUser/' + params.row.email
+                        'https://school-server-2022.herokuapp.com/deleteUser/' +
+                            params.row.email
                     );
 
                     setUpdate(!update);
