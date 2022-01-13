@@ -6,8 +6,8 @@ const studentDB = admin.firestore().collection('studentData');
 const userDB = admin.firestore().collection('userData');
 
 router.route('/').get((req, res) => {
-	res.status(200).send('API Deployed Successful')
-})
+	res.status(200).send('API Deployed Successful');
+});
 
 router.route('/setDoc/:id').post((req, res) => {
 	studentDB
@@ -34,11 +34,13 @@ router.route('/deleteDoc/:id').delete((req, res) => {
 });
 
 router.route('/addUser/:id').post((req, res) => {
-	userDB
-		.doc(req.params.id)
-		.set(req.body)
-		.then(() => res.sendStatus(201))
-		.catch(() => res.sendStatus(400));
+	auth.getUserByEmail(req.params.id).then((user) => {
+		userDB
+			.doc(user.uid)
+			.set(req.body)
+			.then(() => res.sendStatus(201))
+			.catch(() => res.sendStatus(400));
+	});
 });
 
 router.route('/deleteUser/:id').delete((req, res) => {
