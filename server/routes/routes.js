@@ -42,7 +42,7 @@ router.route('/addUser/:id').post((req, res) => {
                 .then(() => res.sendStatus(201))
                 .catch(() => res.sendStatus(400));
         })
-        .catch(() => res.sendStatus(404));
+        .catch(() => res.status(404).send("user not found"));
 });
 
 router.route('/updateUser/:id').patch((req, res) => {
@@ -54,7 +54,7 @@ router.route('/updateUser/:id').patch((req, res) => {
                 .then(() => res.sendStatus(200))
                 .catch(() => res.sendStatus(400));
         })
-        .catch(() => res.sendStatus(404));
+        .catch(() => res.status(404).send("user not found"));
 });
 
 router.route('/deleteUser/:id').delete((req, res) => {
@@ -66,7 +66,7 @@ router.route('/deleteUser/:id').delete((req, res) => {
                 .then(() => res.sendStatus(200))
                 .catch(() => res.sendStatus(405));
         })
-        .catch(() => res.sendStatus(404));
+        .catch(() => res.status(404).send("user not found"));
 });
 
 module.exports = router;
