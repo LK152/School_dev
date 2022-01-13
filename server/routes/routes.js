@@ -40,7 +40,7 @@ router.route('/addUser/:id').post((req, res) => {
 			.set(req.body)
 			.then(() => res.sendStatus(201))
 			.catch(() => res.sendStatus(400));
-	});
+	}).catch(() => res.sendStatus(404))
 });
 
 router.route('/deleteUser/:id').delete((req, res) => {
