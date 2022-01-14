@@ -24,7 +24,7 @@ const ModalProvider = ({ children }) => {
 	const [document, setDoc] = useState([]);
 	const [values, setValues] = useState(initialValues);
 	const [update, setUpdate] = useState(false);
-	const [info, setInfo] = useSessionState(null);
+	const [info, setInfo] = useSessionState('userInfo', null);
 	const [isUser, setIsUser] = useSessionState('isUser', false);
 	const [isAdmin, setIsAdmin] = useSessionState('isAdmin', false);
 
