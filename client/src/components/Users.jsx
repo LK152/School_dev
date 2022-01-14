@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import {
     Container,
-    Button,
     Card,
     CardContent,
     Grid,
@@ -11,6 +10,7 @@ import {
     InputLabel,
     IconButton,
 } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import { Delete } from '@mui/icons-material';
 import UsersTable from './UsersTable';
 import Select from './Select';
@@ -27,6 +27,7 @@ const init = {
 
 const Users = () => {
     const [newUser, setNewUser] = useState(init);
+    const [loading, setLoading] = useState(false);
     const { updateObj } = useModalContext();
     const [update, setUpdate] = updateObj;
 
@@ -46,6 +47,7 @@ const Users = () => {
 
     const handleAddUser = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
         await axios
             .post(
@@ -54,6 +56,7 @@ const Users = () => {
             )
             .then(() => {
                 setNewUser(init);
+                setLoading(false);
                 setUpdate(!update);
             })
             .catch((err) => alert(err.response.data.error));
@@ -118,8 +121,9 @@ const Users = () => {
                                 </Grid>
                             )}
                             <Grid item>
-                                <Button
+                                <LoadingButton
                                     onClick={handleAddUser}
+                                    loading={loading}
                                     variant="contained"
                                     disabled={
                                         newUser.email === '' ||
@@ -128,8 +132,10 @@ const Users = () => {
                                         )
                                     }
                                 >
-                                    新增用戶
-                                </Button>
+                                    <Typography color="common.white">
+                                        新增用戶
+                                    </Typography>
+                                </LoadingButton>
                             </Grid>
                             <Grid item>
                                 <IconButton onClick={handleDelete}>

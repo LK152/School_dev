@@ -22,7 +22,7 @@ const StudentDashboard = () => {
             setRecord(docs);
         });
 
-        return () => {unSub()};
+        return () => unSub();
     }, [setRecord]);
 
     const columns = [
