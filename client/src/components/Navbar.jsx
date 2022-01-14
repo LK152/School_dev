@@ -31,10 +31,9 @@ const initialState = {
 };
 
 const Navbar = () => {
-	const { infoObj, boolObj, adminObj } = useModalContext();
+	const { infoObj, authObj } = useModalContext();
 	const [info] = infoObj;
-	const [isUser] = boolObj;
-	const [isAdmin] = adminObj;
+	const [authState] = authObj;
 	const [state, setState] = useState(initialState);
 	const [mailState, setMailState] = useState(initialState);
 	const navigate = useNavigate();
@@ -82,7 +81,7 @@ const Navbar = () => {
 					>
 						首頁
 					</Typography>
-					{(isUser || isAdmin) && (
+					{(authState.isUser || authState.isAdmin) && (
 						<Typography
 							to='/dashboard'
 							component={Link}
@@ -92,7 +91,7 @@ const Navbar = () => {
 							Dashboard
 						</Typography>
 					)}
-					{isAdmin && (
+					{authState.isAdmin && (
 						<Typography
 							to='/users'
 							component={Link}
@@ -102,7 +101,7 @@ const Navbar = () => {
 							管理用戶
 						</Typography>
 					)}
-					{!isUser && !isAdmin && info && (
+					{!authState.isUser && !authState.isAdmin && info && (
 						<Typography
 							to='/self-learning-form'
 							component={Link}
@@ -112,7 +111,7 @@ const Navbar = () => {
 							自主學習表單
 						</Typography>
 					)}
-					{!isUser && !isAdmin && info && (
+					{!authState.isUser && !authState.isAdmin && info && (
 						<Typography
 							to='/self-learning-results'
 							component={Link}

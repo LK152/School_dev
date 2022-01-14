@@ -21,26 +21,28 @@ export const initialValues = {
 };
 
 const ModalProvider = ({ children }) => {
-	const [document, setDoc] = useState([]);
+	const [authState, setAuth] = useState({
+		isAdmin: false,
+		isUser: false,
+	});
 	const [values, setValues] = useState(initialValues);
 	const [update, setUpdate] = useState(false);
+	const [document, setDoc] = useSessionState('doc', []);
 	const [info, setInfo] = useSessionState('userInfo', null);
-	const [isUser, setIsUser] = useSessionState('isUser', false);
-	const [isAdmin, setIsAdmin] = useSessionState('isAdmin', false);
 
-	useEffect(() => {
-		const unSub = onAuthStateChanged(auth, (user) => {
-			setInfo(user ? user : null);
-			if (!user) {
-				setIsAdmin(false);
-				setIsUser(false);
-			}
-		});
-
-		return () => {
-			unSub();
-		};
-	}, [setInfo, setIsAdmin, setIsUser]);
+	useEffect(
+		() =>
+			onAuthStateChanged(auth, (user) => {
+				setInfo(user ? user : null);
+				if (!user) {
+					setAuth({
+						isAdmin: false,
+						isUser: false,
+					});
+				}
+			}),
+		[setInfo, setAuth]
+	);
 
 	useEffect(() => {
 		if (info) {
@@ -48,26 +50,29 @@ const ModalProvider = ({ children }) => {
 				doc(db, 'userData', info.uid),
 				(snapshot) => {
 					if (snapshot.exists()) {
-						setIsAdmin(snapshot.data().isAdmin);
-						setIsUser(snapshot.data().isAdmin ? false : true);
+						setAuth({
+							isAdmin: snapshot.data().isAdmin,
+							isUser: !snapshot.data().isAdmin,
+						});
 					} else {
-						setIsAdmin(false);
-						setIsUser(false);
+						setAuth({
+							isAdmin: false,
+							isUser: false,
+						});
 					}
 				}
 			);
 
 			return () => onSub();
 		}
-	}, [info, setIsAdmin, setIsUser]);
+	}, [info, setAuth]);
 
 	const value = {
 		documentObj: [document, setDoc],
 		valuesObj: [values, setValues],
 		updateObj: [update, setUpdate],
 		infoObj: [info, setInfo],
-		boolObj: [isUser, setIsUser],
-		adminObj: [isAdmin, setIsAdmin],
+		authObj: [authState, setAuth],
 	};
 
 	return (
