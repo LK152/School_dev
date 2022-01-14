@@ -33,13 +33,14 @@ const ModalProvider = ({ children }) => {
 			setInfo(user ? user : null);
 			if (!user) {
 				setIsAdmin(false);
+				setIsUser(false);
 			}
 		});
 
 		return () => {
 			unSub();
 		};
-	}, [setInfo, setIsAdmin]);
+	}, [setInfo, setIsAdmin, setIsUser]);
 
 	useEffect(() => {
 		if (info) {

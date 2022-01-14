@@ -64,7 +64,8 @@ const Form = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const data = {
-			uid: info.uid,
+			uid: info.uid, 
+			email: info.email, 
 			class: values.class,
 			number: values.number,
 			topic: mainTopics[values.mainTopic].value,
