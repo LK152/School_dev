@@ -62,7 +62,7 @@ const StudentDashboard = () => {
 			width: 160,
         },
         {
-			field: 'memnum',
+			field: 'memNum',
 			headerName: '組員人數',
 			width: 160,
         },
@@ -77,7 +77,7 @@ const StudentDashboard = () => {
             topic: doc.topicLabel, 
             subTopic: doc.subTopicLabel, 
             comment: doc.comment, 
-            memnum: doc.memNum
+            memnNum: doc.memNum
 		};
 	});
 
