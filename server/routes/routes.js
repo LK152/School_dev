@@ -64,7 +64,7 @@ router.route('/deleteUser/:id').delete((req, res) => {
                 .doc(user.uid)
                 .delete()
                 .then(() => res.sendStatus(200))
-                .catch(() => res.sendStatus(405));
+                .catch(() => res.sendStatus(400));
         })
         .catch(() => res.status(404).json({ error: 'user not found'}));
 });

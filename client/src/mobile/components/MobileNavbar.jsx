@@ -167,7 +167,23 @@ const Navbar = () => {
 					)}
 				</li>
 				<li>
-					{(isUser || isAdmin) && !isUser && (
+					{(isUser || isAdmin) && info && (
+						<NavButton
+							onClick={handleClick}
+							to='/users'
+							component={Link}
+							color='secondary'
+							variant='outlined'
+							sx={{ border: 2, my: 3, width: '65vw' }}
+						>
+							<Typography className='navLink' variant='h4'>
+								管理用戶
+							</Typography>
+						</NavButton>
+					)}
+				</li>
+				<li>
+					{info && !isUser && !isAdmin && (
 						<NavButton
 							onClick={handleClick}
 							to='/self-learning-form'
