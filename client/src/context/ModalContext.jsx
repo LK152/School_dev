@@ -49,7 +49,7 @@ const ModalProvider = ({ children }) => {
 				(snapshot) => {
 					if (snapshot.exists()) {
 						setIsAdmin(snapshot.data().isAdmin);
-						setIsUser(!snapshot.data().isAdmin ? false : true);
+						setIsUser(snapshot.data().isAdmin ? false : true);
 					} else {
 						setIsAdmin(false);
 						setIsUser(false);
