@@ -38,7 +38,7 @@ const initialState = {
 };
 
 const Navbar = () => {
-	const { infoObj, boolObj, authObj } = useModalContext();
+	const { infoObj, authObj } = useModalContext();
 	const [info] = infoObj;
 	const [authState] = authObj;
 	const [open, setOpen] = useState(false);
