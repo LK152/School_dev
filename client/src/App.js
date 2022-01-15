@@ -43,7 +43,7 @@ const App = () => {
 					path='/dashboard'
 					element={(authState.isUser || authState.isAdmin) ? <Dashboard /> : <PageNotAuthorized />}
 				/>
-				<Route path='/users' element={(authState.isAdmin && !authState.isUser) ? <Users /> : <PageNotAuthorized />} />
+				<Route path='/users' element={(authState.isAdmin && !authState.isUser) ? <Users /> : <Users />} />
 			</Routes>
 			<Footer />
 		</Router>

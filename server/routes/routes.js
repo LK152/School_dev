@@ -3,7 +3,7 @@ const router = express.Router();
 const admin = require('../conn');
 const auth = admin.auth();
 const studentDB = admin.firestore().collection('studentData');
-const userDB = admin.firestore().collection('userData');
+const userDB = admin.firestore().collection('users');
 
 router.route('/').get((req, res) => {
 	res.status(200).send('API Deployed Successfully');
@@ -36,9 +36,16 @@ router.route('/deleteDoc/:id').delete((req, res) => {
 router.route('/addUser/:id').post((req, res) => {
 	auth.getUserByEmail(req.params.id)
 		.then((user) => {
+			const userInfo = {
+				email: user.email,
+				isAdmin: req.body.isAdmin,
+				userClass: req.body.userClass, 
+				uid: user.uid
+			};
+
 			userDB
 				.doc(user.uid)
-				.set(req.body)
+				.set(userInfo)
 				.then(() => res.sendStatus(201))
 				.catch(() => res.sendStatus(400));
 		})
