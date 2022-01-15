@@ -47,7 +47,7 @@ const ModalProvider = ({ children }) => {
 	useEffect(() => {
 		if (info) {
 			const onSub = onSnapshot(
-				doc(db, 'userData', info.uid),
+				doc(db, 'users', info.uid),
 				(snapshot) => {
 					if (snapshot.exists()) {
 						setAuth({

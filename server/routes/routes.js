@@ -39,8 +39,8 @@ router.route('/addUser/:id').post((req, res) => {
 			const userInfo = {
 				email: user.email,
 				isAdmin: req.body.isAdmin,
-				userClass: req.body.userClass, 
-				uid: user.uid
+				userClass: req.body.userClass,
+				uid: user.uid,
 			};
 
 			userDB

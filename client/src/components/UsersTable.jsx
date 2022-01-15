@@ -26,7 +26,7 @@ const UsersTable = () => {
     });
 
     useEffect(() => {
-        const unSub = onSnapshot(collection(db, 'userData'), (snap) => {
+        const unSub = onSnapshot(collection(db, 'users'), (snap) => {
             const users = [];
 
             if (!snap.empty) {

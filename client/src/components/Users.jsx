@@ -16,6 +16,7 @@ import UsersTable from './UsersTable';
 import Select from './Select';
 import Axios from 'axios';
 import rateLimit from 'axios-rate-limit';
+import { useNavigate } from 'react-router-dom';
 import { permit, classes } from './Options';
 import { useModalContext } from '../context/ModalContext';
 
@@ -28,8 +29,10 @@ const init = {
 const Users = () => {
 	const [newUser, setNewUser] = useState(init);
 	const [loading, setLoading] = useState(false);
-	const { updateObj } = useModalContext();
+	const { updateObj, authObj } = useModalContext();
 	const [update, setUpdate] = updateObj;
+	const [authState] = authObj;
+	const navigate = useNavigate();
 
 	const axios = rateLimit(Axios.create(), {
 		maxRequests: 2,
@@ -49,17 +52,22 @@ const Users = () => {
 		e.preventDefault();
 		setLoading(true);
 
-		await axios
-			.post(
-				process.env.REACT_APP_API_URL + '/addUser/' + newUser.email,
-				newUser
-			)
-			.then(() => {
-				setNewUser(init);
-				setLoading(false);
-				setUpdate(!update);
-			})
-			.catch((err) => alert(err.response.data.error));
+		if (authState.isAdmin) {
+			await axios
+				.post(
+					process.env.REACT_APP_API_URL + '/addUser/' + newUser.email,
+					newUser
+				)
+				.then(() => {
+					setNewUser(init);
+					setLoading(false);
+					setUpdate(!update);
+				})
+				.catch((err) => alert(err.response.data.error));
+		} else {
+			alert('not authorized');
+			navigate('/');
+		}
 	};
 
 	return (
@@ -90,7 +98,8 @@ const Users = () => {
 										name='email'
 										variant='outlined'
 										label='Email'
-										value={newUser.email}
+										value={newUser.email} 
+										autoComplete='off'
 									/>
 								</FormControl>
 							</Grid>

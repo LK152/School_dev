@@ -78,7 +78,7 @@ const StudentDashboard = () => {
             email: doc.email,
             topic: doc.topicLabel,
             subTopic: doc.subTopicLabel,
-            comment: doc.comment !== '' ? doc.comment : '無',
+            comment: doc.comment !== '' ? doc.comment : 'N/A',
             memNum: doc.memNum,
             mem1:
                 doc.mem1Class !== '' && doc.mem1Num !== ''
@@ -86,14 +86,14 @@ const StudentDashboard = () => {
                       (doc.mem1Num < 10
                           ? '0' + doc.mem1Num.toString()
                           : doc.mem1Num.toString())
-                    : '無',
+                    : 'N/A',
             mem2:
                 doc.mem2Class !== '' && doc.mem2Num !== ''
                     ? doc.mem2Class.toString() +
                       (doc.mem2Num < 10
                           ? '0' + doc.mem2Num.toString()
                           : doc.mem2Num.toString())
-                    : '無',
+                    : 'N/A',
         };
     });
 
