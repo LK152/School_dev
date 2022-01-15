@@ -88,7 +88,7 @@ const Navbar = () => {
 							color='common.white'
 							sx={{ textDecoration: 'none', ml: 2 }}
 						>
-							Dashboard
+							分組
 						</Typography>
 					)}
 					{authState.isAdmin && (

@@ -165,7 +165,7 @@ const Navbar = () => {
                             sx={{ border: 2, my: 3, width: '65vw' }}
                         >
                             <Typography className="navLink" variant="h4">
-                                Dashboard
+                                分組
                             </Typography>
                         </NavButton>
                     )}

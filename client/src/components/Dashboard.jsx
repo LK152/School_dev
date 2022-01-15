@@ -58,7 +58,6 @@ const Dashboard = () => {
 								<Button
 									color='primary'
 									variant='contained'
-									sx={{ float: 'right' }}
 									onClick={handleExport}
 								>
 									<Typography color='common.white'>
