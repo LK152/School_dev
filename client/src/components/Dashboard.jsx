@@ -6,7 +6,6 @@ import XLSX from 'xlsx';
 import FS from 'file-saver';
 import { db } from '../service/firestore.js';
 import { onSnapshot, collection } from 'firebase/firestore';
-import useSessionState from '../hooks/useSessionState';
 
 const Dashboard = () => {
 	const { authObj, recordObj } = useModalContext();
