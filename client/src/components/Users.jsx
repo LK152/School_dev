@@ -81,7 +81,7 @@ const Users = () => {
 							</Typography>
 						</Grid>
 						<Grid item>
-							<UsersTable update={update} />
+							<UsersTable />
 						</Grid>
 						<Grid
 							item

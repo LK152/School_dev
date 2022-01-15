@@ -1,17 +1,40 @@
+import { useEffect } from 'react';
 import { Container, Card, CardContent, Grid, Typography, Button } from '@mui/material';
 import StudentDashboard from './StudentDashboard';
 import { useModalContext } from '../context/ModalContext';
 import XLSX from 'xlsx';
 import FS from 'file-saver';
+import { db } from '../service/firestore.js';
+import { onSnapshot, collection } from 'firebase/firestore';
+import useSessionState from '../hooks/useSessionState';
 
 const Dashboard = () => {
-	const file = JSON.parse(sessionStorage.getItem('record'));
-	const { authObj } = useModalContext();
+	const { authObj, recordObj } = useModalContext();
 	const [authState] = authObj;
+    const [studentRecord, setRecord] = recordObj;
 	const fileType =
 		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 	const fileExtent = '.xlsx';
-	const docs = file.map((doc) => {
+
+    useEffect(() => {
+        const unSub = onSnapshot(collection(db, 'studentData'), (snapshot) => {
+            const docs = [];
+
+            if (!snapshot.empty) {
+                snapshot.forEach((doc) => {
+                    docs.push(doc.data());
+                });
+            } else {
+                setRecord(null);
+            }
+
+            setRecord(docs);
+        });
+
+        return () => unSub();
+    }, [setRecord]);
+
+	const docs = studentRecord.map((doc) => {
 		return {
 			班級: doc.class,
 			座號: doc.number,

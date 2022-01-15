@@ -1,29 +1,9 @@
-import { useEffect } from 'react';
-import { db } from '../service/firestore';
-import { onSnapshot, collection } from 'firebase/firestore';
 import { DataGrid } from '@mui/x-data-grid';
-import useSessionState from '../hooks/useSessionState';
+import { useModalContext } from '../context/ModalContext';
 
 const StudentDashboard = () => {
-    const [studentRecord, setRecord] = useSessionState('record', []);
-
-    useEffect(() => {
-        const unSub = onSnapshot(collection(db, 'studentData'), (snapshot) => {
-            const docs = [];
-
-            if (!snapshot.empty) {
-                snapshot.forEach((doc) => {
-                    docs.push(doc.data());
-                });
-            } else {
-                setRecord(null);
-            }
-
-            setRecord(docs);
-        });
-
-        return () => unSub();
-    }, [setRecord]);
+    const { recordObj } = useModalContext();
+    const [studentRecord] = recordObj
 
     const columns = [
         {
