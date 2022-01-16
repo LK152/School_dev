@@ -83,7 +83,7 @@ const Dashboard = () => {
 								direction='row'
 								justifyContent='space-between'
 							>
-								<Grid item xs={1}>
+								<Grid item>
 									<FormControl fullWidth>
 										<Select
 											name='selection'
