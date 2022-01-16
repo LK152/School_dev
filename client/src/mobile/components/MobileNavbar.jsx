@@ -4,7 +4,6 @@ import {
 	AppBar,
 	Toolbar,
 	Box,
-	Menu,
 	IconButton,
 	Avatar,
 	Button,
@@ -12,7 +11,7 @@ import {
 	styled,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Close, Mail } from '@mui/icons-material';
+import { Close } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useModalContext } from '../../context/ModalContext';
 import { auth } from '../../service/firestore';
@@ -32,17 +31,11 @@ const NavButton = styled(Button)({
 	},
 });
 
-const initialState = {
-	anchorEl: null,
-	canClick: false,
-};
-
 const Navbar = () => {
 	const { infoObj, authObj } = useModalContext();
 	const [info] = infoObj;
 	const [authState] = authObj;
 	const [open, setOpen] = useState(false);
-	const [mailState, setMailState] = useState(initialState);
 	const navigate = useNavigate();
 
 	const signInWithGoogle = async () => {
@@ -63,18 +56,6 @@ const Navbar = () => {
 			: 'unset';
 	};
 
-	const handleMailClose = () => {
-		setMailState({ ...mailState, anchorEl: null });
-	};
-
-	const handleMailClick = (e) => {
-		setMailState({
-			...mailState,
-			anchorEl: e.currentTarget,
-			canClick: true,
-		});
-	};
-
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position='static'>
@@ -86,35 +67,6 @@ const Navbar = () => {
 							<MenuIcon color='secondary' />
 						)}
 					</IconButton>
-					<div style={{ flexGrow: 1 }} />
-					{info && (
-						<>
-							<IconButton
-								onClick={handleMailClick}
-								size='small'
-								sx={{ ml: 2 }}
-								color='inherit'
-							>
-								<Mail color='secondary' />
-							</IconButton>
-							<Menu
-								anchorEl={mailState.anchorEl}
-								open={
-									mailState.canClick === true &&
-									Boolean(mailState.anchorEl)
-								}
-								onClose={handleMailClose}
-							>
-								<Box
-									sx={{
-										display: 'flex',
-										flexDirection: 'column',
-										alignItems: 'center',
-									}}
-								></Box>
-							</Menu>
-						</>
-					)}
 				</Toolbar>
 			</AppBar>
 			<ul className={open ? 'navDropdown active' : 'navDropdown'}>

@@ -1,65 +1,66 @@
-import { useEffect } from 'react';
-import { Container, Card, CardContent, Grid, Typography, Button } from '@mui/material';
+import { useEffect, useState } from 'react';
+import {
+	Container,
+	Card,
+	CardContent,
+	Grid,
+	Typography,
+	Button,
+	FormControl,
+} from '@mui/material';
+import Select from './Select';
+import { exportClasses } from './Options';
 import StudentDashboard from './StudentDashboard';
 import { useModalContext } from '../context/ModalContext';
-import XLSX from 'xlsx';
-import FS from 'file-saver';
 import { db } from '../service/firestore.js';
-import { onSnapshot, collection } from 'firebase/firestore';
+import { onSnapshot, collection, query, where } from 'firebase/firestore';
+import exportXL from '../api/exportXL';
 
 const Dashboard = () => {
+	const [values, setValues] = useState({
+		selection: 0,
+	});
 	const { authObj, recordObj } = useModalContext();
 	const [authState] = authObj;
-    const [studentRecord, setRecord] = recordObj;
-	const fileType =
-		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-	const fileExtent = '.xlsx';
+	const [studentRecord, setRecord] = recordObj;
 
-    useEffect(() => {
-        const unSub = onSnapshot(collection(db, 'studentData'), (snapshot) => {
-            const docs = [];
+	useEffect(() => {
+		const unSub = onSnapshot(
+			authState.isAdmin
+				? values.selection !== 0
+					? query(
+							collection(db, 'studentData'),
+							where('class', '==', values.selection)
+					  )
+					: collection(db, 'studentData')
+				: query(
+						collection(db, 'studentData'),
+						where('class', '==', authState.class)
+				  ),
+			(snapshot) => {
+				const docs = [];
 
-            if (!snapshot.empty) {
-                snapshot.forEach((doc) => {
-                    docs.push(doc.data());
-                });
-            } else {
-                setRecord(null);
-            }
+				if (!snapshot.empty) {
+					snapshot.forEach((doc) => {
+						docs.push(doc.data());
+					});
+				} else {
+					setRecord([]);
+				}
 
-            setRecord(docs);
-        });
+				setRecord(docs);
+			}
+		);
 
-        return () => unSub();
-    }, [setRecord]);
-
-	const docs = studentRecord.map((doc) => {
-		return {
-			班級: doc.class,
-			座號: doc.number,
-			Email: doc.email,
-			主題: doc.topic,
-			副主題: doc.subTopic,
-			備註: doc.comment,
-			組員人數: doc.memNum,
-			組員1: doc.mem1Class.toString() + doc.mem1Num.toString(),
-			組員2: doc.mem2Class.toString() + doc.mem2Num.toString(),
-		};
-	});
-
-	const export2CSV = (APIData, fileName) => {
-		const ws = XLSX.utils.json_to_sheet(APIData);
-		const wb = { Sheets: { data: ws }, SheetNames: ['data'] };
-		const excelBuffer = XLSX.write(wb, {
-			bookType: 'xlsx',
-			type: 'array',
-		});
-		const data = new Blob([excelBuffer], { type: fileType });
-		FS.saveAs(data, fileName + fileExtent);
-	};
+		return () => unSub();
+	}, [setRecord, values, authState]);
 
 	const handleExport = () => {
-		export2CSV(docs, 'lol');
+		exportXL(studentRecord, 'das');
+	};
+
+	const handleSelect = (e) => {
+		setValues({ ...values, [e.target.name]: e.target.value });
 	};
 
 	return (
@@ -69,23 +70,40 @@ const Dashboard = () => {
 					<Grid container direction='column' spacing={2}>
 						<Grid item>
 							<Typography variant='h3' textAlign='center'>
-								學生紀錄
+								學生分組
 							</Typography>
 						</Grid>
 						<Grid item>
 							<StudentDashboard />
 						</Grid>
 						{authState.isAdmin && (
-							<Grid item>
-								<Button
-									color='primary'
-									variant='contained'
-									onClick={handleExport}
-								>
-									<Typography color='common.white'>
-										匯出
-									</Typography>
-								</Button>
+							<Grid
+								item
+								container
+								direction='row'
+								justifyContent='space-between'
+							>
+								<Grid item xs={1}>
+									<FormControl fullWidth>
+										<Select
+											name='selection'
+											options={exportClasses}
+											onChange={handleSelect}
+											value={values.selection}
+										/>
+									</FormControl>
+								</Grid>
+								<Grid item>
+									<Button
+										color='primary'
+										variant='contained'
+										onClick={handleExport}
+									>
+										<Typography color='common.white'>
+											匯出
+										</Typography>
+									</Button>
+								</Grid>
 							</Grid>
 						)}
 					</Grid>

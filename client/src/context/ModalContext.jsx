@@ -24,6 +24,7 @@ const ModalProvider = ({ children }) => {
 	const [authState, setAuth] = useState({
 		isAdmin: false,
 		isUser: false,
+		class: '',
 	});
 	const [values, setValues] = useState(initialValues);
 	const [update, setUpdate] = useState(false);
@@ -39,6 +40,7 @@ const ModalProvider = ({ children }) => {
 					setAuth({
 						isAdmin: false,
 						isUser: false,
+						class: '',
 					});
 				}
 			}),
@@ -47,22 +49,21 @@ const ModalProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (info) {
-			const onSub = onSnapshot(
-				doc(db, 'users', info.uid),
-				(snapshot) => {
-					if (snapshot.exists()) {
-						setAuth({
-							isAdmin: snapshot.data().isAdmin,
-							isUser: !snapshot.data().isAdmin,
-						});
-					} else {
-						setAuth({
-							isAdmin: false,
-							isUser: false,
-						});
-					}
+			const onSub = onSnapshot(doc(db, 'users', info.uid), (snapshot) => {
+				if (snapshot.exists()) {
+					setAuth({
+						isAdmin: snapshot.data().isAdmin,
+						isUser: !snapshot.data().isAdmin,
+						class: snapshot.data().userClass,
+					});
+				} else {
+					setAuth({
+						isAdmin: false,
+						isUser: false,
+						class: '',
+					});
 				}
-			);
+			});
 
 			return () => onSub();
 		}
@@ -73,8 +74,8 @@ const ModalProvider = ({ children }) => {
 		valuesObj: [values, setValues],
 		updateObj: [update, setUpdate],
 		infoObj: [info, setInfo],
-		authObj: [authState, setAuth], 
-		recordObj: [studentRecord, setRecord]
+		authObj: [authState, setAuth],
+		recordObj: [studentRecord, setRecord],
 	};
 
 	return (

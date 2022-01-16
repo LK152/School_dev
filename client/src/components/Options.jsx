@@ -113,9 +113,24 @@ const numbers = [
 ];
 
 const permit = [
-	{ label: 'Administrator', value: true },
-	{ label: 'Teacher', value: false },
+	{ label: '管理員', value: true },
+	{ label: '導師', value: false },
+];
+
+const exportClasses = [
+	{ label: '全部', value: 0 },
+	{ label: '201', value: 201 },
+	{ label: '202', value: 202 },
+	{ label: '203', value: 203 },
+	{ label: '204', value: 204 },
+	{ label: '205', value: 205 },
+	{ label: '206', value: 206 },
+	{ label: '207', value: 207 },
+	{ label: '208', value: 208 },
+	{ label: '209', value: 209 },
+	{ label: '210', value: 210 },
+	{ label: '211', value: 211 },
 ];
 
 // eslint-disable-next-line
-export { mainTopics, subTopics, classes, numbers, permit };
+export { mainTopics, subTopics, classes, numbers, permit, exportClasses };

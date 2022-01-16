@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import Axios from 'axios';
 import rateLimit from 'axios-rate-limit';
 import { db } from '../service/firestore';
@@ -9,111 +9,115 @@ import { useModalContext } from '../context/ModalContext';
 import useSessionState from '../hooks/useSessionState';
 
 const EternalUsers = {
-    user1: 'learningplan@lssh.tp.edu.tw',
-    user2: 'lib@lssh.tp.edu.tw',
+	user1: 'learningplan@lssh.tp.edu.tw',
+	user2: 'lib@lssh.tp.edu.tw',
 };
 
 const UsersTable = () => {
-    const [users, setUsers] = useSessionState('users', []);
-    const { updateObj, infoObj } = useModalContext();
-    const [update, setUpdate] = updateObj;
-    const [info] = infoObj;
+	const [users, setUsers] = useSessionState('users', []);
+	const { updateObj, infoObj } = useModalContext();
+	const [update, setUpdate] = updateObj;
+	const [info] = infoObj;
 
-    const axios = rateLimit(Axios.create(), {
-        maxRequests: 2,
-        perMilliseconds: 1000,
-        maxRPS: 2,
-    });
+	const axios = rateLimit(Axios.create(), {
+		maxRequests: 2,
+		perMilliseconds: 1000,
+		maxRPS: 2,
+	});
 
-    useEffect(() => {
-        const unSub = onSnapshot(collection(db, 'users'), (snap) => {
-            const users = [];
+	useEffect(() => {
+		const unSub = onSnapshot(collection(db, 'users'), (snap) => {
+			const users = [];
 
-            if (!snap.empty) {
-                snap.forEach((user) => {
-                    users.push(user.data());
-                });
-            }
+			if (!snap.empty) {
+				snap.forEach((user) => {
+					users.push(user.data());
+				});
+			}
 
-            setUsers(users);
-        });
+			setUsers(users);
+		});
 
-        return () => unSub();
-    }, [update, setUsers]);
+		return () => unSub();
+	}, [update, setUsers]);
 
-    const columns = [
-        {
-            field: 'id',
-            headerName: 'ID',
-            width: 60,
-        },
-        {
-            field: 'email',
-            headerName: '帳戶',
-            width: 200,
-        },
-        {
-            field: 'permission',
-            headerName: 'Permission',
-            width: 160,
-            editable: true,
-        },
-        {
-            field: 'delete',
-            headerName: '刪除',
-            width: 100,
-            renderCell: (params) => {
-                const handleClick = async (e) => {
-                    e.stopPropagation();
+	const columns = [
+		{
+			field: 'id',
+			headerName: '順序',
+			width: 100,
+		},
+		{
+			field: 'email',
+			headerName: '帳戶',
+			width: 300,
+		},
+		{
+			field: 'permission',
+			headerName: '權限',
+			width: 160,
+		},
+		{
+			field: 'class',
+			headerName: '班級',
+			width: 160,
+		},
+		{
+			field: 'delete',
+			headerName: '刪除',
+			width: 100,
+			renderCell: (params) => {
+				const handleClick = async (e) => {
+					e.stopPropagation();
 
-                    await axios.delete(
-                        process.env.REACT_APP_API_URL +
-                            '/deleteUser/' +
-                            params.row.email
-                    );
+					await axios.delete(
+						process.env.REACT_APP_API_URL +
+							'/deleteUser/' +
+							params.row.email
+					);
 
-                    setUpdate(!update);
-                };
+					setUpdate(!update);
+				};
 
-                return (
-                    <Button
-                        variant="contained"
-                        onClick={handleClick}
-                        disabled={
-                            params.row.email === info.email ||
-                            params.row.email === EternalUsers.user1 ||
-                            params.row.email === EternalUsers.user2
-                        }
-                    >
-                        刪除
-                    </Button>
-                );
-            },
-        },
-    ];
+				return (
+					<Button
+						variant='contained'
+						onClick={handleClick}
+						disabled={
+							params.row.email === info.email ||
+							params.row.email === EternalUsers.user1 ||
+							params.row.email === EternalUsers.user2
+						}
+					>
+						<Typography color='common.white'>刪除</Typography>
+					</Button>
+				);
+			},
+		},
+	];
 
-    const rows = users.map((user, index) => {
-        return {
-            id: index,
-            email: user.email,
-            permission: user.isAdmin ? 'Administrator' : 'Teacher',
-        };
-    });
+	const rows = users.map((user, index) => {
+		return {
+			id: index,
+			email: user.email,
+			permission: user.isAdmin ? '管理員' : '導師',
+			class: user.userClass,
+		};
+	});
 
-    return (
-        <div style={{ height: 400, width: '100%' }}>
-            <DataGrid
-                rows={rows}
-                columns={columns}
-                pageSize={100}
-                rowsPerPageOptions={[100]}
-                disableColumnFilter
-                disableColumnMenu
-                disableSelectionOnClick
-                checkboxSelection
-            />
-        </div>
-    );
+	return (
+		<div style={{ height: 400, width: '100%' }}>
+			<DataGrid
+				rows={rows}
+				columns={columns}
+				pageSize={100}
+				rowsPerPageOptions={[100]}
+				disableColumnFilter
+				disableColumnMenu
+				disableSelectionOnClick 
+			/>
+		</div>
+	);
 };
 
 export default UsersTable;

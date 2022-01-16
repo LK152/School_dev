@@ -3,13 +3,14 @@ import { useModalContext } from '../context/ModalContext';
 
 const StudentDashboard = () => {
     const { recordObj } = useModalContext();
-    const [studentRecord] = recordObj
+    const [studentRecord] = recordObj;
 
     const columns = [
         {
             field: 'id',
             headerName: '班級座號',
-            width: 100,
+            width: 100, 
+            editable: true
         },
         {
             field: 'email',
@@ -81,7 +82,7 @@ const StudentDashboard = () => {
         <div style={{ height: 400, width: '100%' }}>
             <DataGrid
                 rows={rows}
-                columns={columns}
+                columns={columns} 
                 pageSize={100}
                 rowsPerPageOptions={[100]}
                 disableColumnFilter

@@ -11,6 +11,7 @@ import PageNotAuthorized from './components/PageNotAuthorized';
 import Dashboard from './components/Dashboard';
 import Users from './components/Users';
 import MobileNavbar from './mobile/components/MobileNavbar';
+import lsshStar from './images/lsshStar.png';
 import { useModalContext } from './context/ModalContext';
 import useViewport from './hooks/useViewport';
 
@@ -20,9 +21,34 @@ const App = () => {
 	const [authState] = authObj;
 	const { width } = useViewport();
 	const breakpoint = 441;
+	const imgBP = 630;
 
 	return (
 		<Router>
+			{width > imgBP ? (
+				<img
+					alt='麗山之星'
+					src={lsshStar}
+					style={{
+						position: 'fixed',
+						bottom: '20%',
+						right: 10,
+						zIndex: -1,
+					}}
+				/>
+			) : (
+				<img
+					alt='麗山之星'
+					src={lsshStar}
+					style={{
+						position: 'fixed',
+						bottom: '20%',
+						right: 0,
+						zIndex: -1, 
+						width: 300
+					}}
+				/>
+			)}
 			{width > breakpoint ? <Navbar /> : <MobileNavbar />}
 			<Routes>
 				<Route exact path='*' element={<PageNotFound />} />
@@ -41,9 +67,24 @@ const App = () => {
 				/>
 				<Route
 					path='/dashboard'
-					element={(authState.isUser || authState.isAdmin) ? <Dashboard /> : <PageNotAuthorized />}
+					element={
+						authState.isUser || authState.isAdmin ? (
+							<Dashboard />
+						) : (
+							<PageNotAuthorized />
+						)
+					}
 				/>
-				<Route path='/users' element={(authState.isAdmin && !authState.isUser) ? <Users /> : <PageNotAuthorized />} />
+				<Route
+					path='/users'
+					element={
+						authState.isAdmin && !authState.isUser ? (
+							<Users />
+						) : (
+							<PageNotAuthorized />
+						)
+					}
+				/>
 			</Routes>
 			<Footer />
 		</Router>
