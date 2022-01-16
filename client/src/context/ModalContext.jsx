@@ -8,7 +8,8 @@ const ModalContext = createContext();
 
 export const initialValues = {
 	class: '',
-	number: '',
+	number: '', 
+	name: '', 
 	mainTopic: '',
 	subTopic: '',
 	otherTopic: '',
@@ -44,7 +45,7 @@ const ModalProvider = ({ children }) => {
 					});
 				}
 			}),
-		[setInfo, setAuth]
+		[setInfo, setAuth, setRecord, setDoc]
 	);
 
 	useEffect(() => {

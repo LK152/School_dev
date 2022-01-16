@@ -21,19 +21,34 @@ const App = () => {
 	const [authState] = authObj;
 	const { width } = useViewport();
 	const breakpoint = 441;
-	const imgBP = 630;
+	const imgBP1 = 880;
+	const imgBP2 = 630;
 
 	return (
 		<Router>
-			{width > imgBP ? (
+			{width > imgBP1 ? (
 				<img
 					alt='麗山之星'
 					src={lsshStar}
 					style={{
 						position: 'fixed',
-						bottom: '20%',
-						right: 10,
+						bottom: '30%',
+						right: '50%',
 						zIndex: -1,
+						transform: 'translate(50%, 50%)',
+					}}
+				/>
+			) : width > imgBP2 ? (
+				<img
+					alt='麗山之星'
+					src={lsshStar}
+					style={{
+						position: 'fixed',
+						bottom: '30%',
+						right: '50%',
+						zIndex: -1,
+						width: 500,
+						transform: 'translate(50%, 50%)',
 					}}
 				/>
 			) : (
@@ -42,10 +57,11 @@ const App = () => {
 					src={lsshStar}
 					style={{
 						position: 'fixed',
-						bottom: '20%',
-						right: 0,
-						zIndex: -1, 
-						width: 300
+						bottom: '30%',
+						right: '50%',
+						zIndex: -1,
+						width: 300,
+						transform: 'translate(50%, 50%)',
 					}}
 				/>
 			)}
