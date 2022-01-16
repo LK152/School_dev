@@ -105,21 +105,7 @@ const Results = () => {
 								<Grid item xs={6}>
 									<Typography variant='h5' align='center'>
 										{document.class}
-										{document.number < 10
-											? '0' + document.number
-											: document.number}
-									</Typography>
-								</Grid>
-							</Grid>
-							<Grid container item direction='row'>
-								<Grid item xs={6}>
-									<Typography variant='h5' align='center'>
-										姓名
-									</Typography>
-								</Grid>
-								<Grid item xs={6}>
-									<Typography variant='h5' align='center'>
-										{document.name}
+										{document.number}
 									</Typography>
 								</Grid>
 							</Grid>

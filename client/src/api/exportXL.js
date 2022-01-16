@@ -9,11 +9,10 @@ const exportXL = (records, fileName) => {
 	const docs = records.map((doc) => {
 		return {
 			班級: doc.class,
-			座號: doc.number, 
-			姓名: doc.name, 
+			座號: doc.number,
 			Email: doc.email,
-			主題: doc.topicLabel,
-			副主題: doc.subTopicLabel,
+			主題: doc.topic,
+			副主題: doc.subTopic,
 			備註: doc.comment,
 			組員人數: doc.memNum,
 			組員1: doc.mem1Class.toString() + doc.mem1Num.toString(),
