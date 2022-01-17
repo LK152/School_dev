@@ -17,7 +17,7 @@ import Select from './Select';
 import Axios from 'axios';
 import rateLimit from 'axios-rate-limit';
 import { useNavigate } from 'react-router-dom';
-import { permit, classes } from './Options';
+import { permit, teachers } from './Options';
 import { useModalContext } from '../context/ModalContext';
 
 const init = {
@@ -118,10 +118,10 @@ const Users = () => {
 							{!newUser.isAdmin && (
 								<Grid item sm={4} xs={12}>
 									<FormControl fullWidth>
-										<InputLabel>班級</InputLabel>
+										<InputLabel>導師</InputLabel>
 										<Select
-											label='班級'
-											options={classes}
+											label='導師'
+											options={teachers}
 											value={newUser.userClass}
 											name='userClass'
 											onChange={handleChange}

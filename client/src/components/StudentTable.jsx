@@ -80,7 +80,6 @@ const StudentTable = () => {
             field: 'id',
             headerName: '班級座號',
             width: 100,
-            editable: true,
         },
         {
             field: 'name',
