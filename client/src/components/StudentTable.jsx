@@ -5,19 +5,84 @@ import {
     GridToolbarDensitySelector,
     GridToolbarExport,
 } from '@mui/x-data-grid';
+import { Grid, FormControl, Typography, Button } from '@mui/material';
 import { useModalContext } from '../context/ModalContext';
 import { db } from '../service/firestore.js';
 import { onSnapshot, collection, query, where } from 'firebase/firestore';
-import { exportClasses } from './Options';
+import { exportClasses, teachers } from './Options';
 import Select from './Select';
+import Axios from 'axios';
+import rateLimit from 'axios-rate-limit';
+
+const columns = [
+    {
+        field: 'id',
+        headerName: '學生Email',
+        width: 200,
+    },
+    {
+        field: 'classNumber',
+        headerName: '班級座號',
+        width: 100,
+    },
+    {
+        field: 'name',
+        headerName: '姓名',
+        width: 80,
+    },
+    {
+        field: 'topic',
+        headerName: '主題',
+        width: 120,
+    },
+    {
+        field: 'subTopic',
+        headerName: '副主題',
+        width: 120,
+    },
+    {
+        field: 'comment',
+        headerName: '備註',
+        width: 160,
+    },
+    {
+        field: 'memNum',
+        headerName: '組員人數',
+        width: 100,
+    },
+    {
+        field: 'mem1',
+        headerName: '組員1',
+        width: 80,
+    },
+    {
+        field: 'mem2',
+        headerName: '組員2',
+        width: 80,
+    },
+    {
+        field: 'group',
+        headerName: '分組',
+        width: 100,
+    },
+];
 
 const StudentTable = () => {
     const [values, setValues] = useState({
         selection: 0,
+        selectedGroup: 201,
+        group: '',
     });
+    const [selected, setSelected] = useState([]);
     const { recordObj, authObj } = useModalContext();
     const [studentRecord, setRecord] = recordObj;
     const [authState] = authObj;
+
+    const axios = rateLimit(Axios.create(), {
+        maxRequests: 2,
+        perMilliseconds: 1000,
+        maxRPS: 2,
+    });
 
     useEffect(() => {
         const unSub = onSnapshot(
@@ -75,63 +140,86 @@ const StudentTable = () => {
         );
     };
 
-    const columns = [
-        {
-            field: 'id',
-            headerName: '班級座號',
-            width: 100,
-        },
-        {
-            field: 'name',
-            headerName: '姓名',
-            width: 100,
-        },
-        {
-            field: 'email',
-            headerName: '學生Email',
-            width: 200,
-        },
-        {
-            field: 'topic',
-            headerName: '主題',
-            width: 140,
-        },
-        {
-            field: 'subTopic',
-            headerName: '副主題',
-            width: 80,
-        },
-        {
-            field: 'comment',
-            headerName: '備註',
-            width: 160,
-        },
-        {
-            field: 'memNum',
-            headerName: '組員人數',
-            width: 100,
-        },
-        {
-            field: 'mem1',
-            headerName: '組員1',
-            width: 100,
-        },
-        {
-            field: 'mem2',
-            headerName: '組員2',
-            width: 100,
-        },
-    ];
+    const teacher = teachers.filter((res) => {
+        return res.value === values.selectedGroup;
+    });
+
+    const [object] = teacher;
+
+    const handleUpdate = async () => {
+        const data = {
+            selected: selected,
+            group: object.label,
+        };
+
+        await axios.patch(process.env.REACT_APP_API_URL + '/updateGroup', data);
+    };
+
+    const handleDelete = async () => {
+        await axios.patch(
+            process.env.REACT_APP_API_URL + '/deleteGroup',
+            selected
+        )
+    };
+
+    const CustomFooter = () => {
+        return (
+            <Grid
+                container
+                direction='row'
+                alignItems='center'
+                columnSpacing={2}
+            >
+                <Grid item>
+                    <Typography variant='h6' sx={{ ml: 2 }}>
+                        分配老師
+                    </Typography>
+                </Grid>
+                <Grid item sm={2} xs={4}>
+                    <FormControl fullWidth>
+                        <Select
+                            name='selectedGroup'
+                            value={values.selectedGroup}
+                            options={teachers}
+                            onChange={handleSelect}
+                            sx={{ ml: 10 }}
+                        />
+                    </FormControl>
+                </Grid>
+                <div style={{ flexGrow: 1 }} />
+                <Grid item>
+                    <Button
+                        variant='contained'
+                        sx={{ mr: 2 }}
+                        disabled={false}
+                        onClick={handleUpdate}
+                    >
+                        <Typography color='common.white'>新增</Typography>
+                    </Button>
+                </Grid>
+                <Grid item>
+                    <Button
+                        variant='contained'
+                        sx={{ mr: 2 }}
+                        disabled={false}
+                        onClick={handleDelete}
+                    >
+                        <Typography color='common.white'>刪除</Typography>
+                    </Button>
+                </Grid>
+            </Grid>
+        );
+    };
 
     const rows = studentRecord.map((doc) => {
         return {
-            id:
+            id: doc.email,
+            name: doc.name,
+            classNumber:
                 doc.class.toString() +
                 (doc.number < 10
                     ? '0' + doc.number.toString()
                     : doc.number.toString()),
-            name: doc.name,
-            email: doc.email,
             topic: doc.topicLabel,
             subTopic: doc.subTopicLabel,
             comment: doc.comment !== '' ? doc.comment : 'N/A',
@@ -150,6 +238,7 @@ const StudentTable = () => {
                           ? '0' + doc.mem2Num.toString()
                           : doc.mem2Num.toString())
                     : 'N/A',
+            group: doc.group,
         };
     });
 
@@ -160,10 +249,13 @@ const StudentTable = () => {
                 columns={columns}
                 pageSize={100}
                 rowsPerPageOptions={[100]}
-                components={{ Toolbar: CustomToolbar }}
+                components={{ Toolbar: CustomToolbar, Footer: CustomFooter }}
+                onSelectionModelChange={(select) => setSelected(select)}
+                selectionModel={selected}
                 disableColumnFilter
                 disableColumnMenu
                 disableSelectionOnClick
+                checkboxSelection
             />
         </div>
     );
