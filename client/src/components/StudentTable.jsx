@@ -13,7 +13,6 @@ import { exportClasses, teachers } from './Options';
 import Select from './Select';
 import Axios from 'axios';
 import rateLimit from 'axios-rate-limit';
-import useViewport from '../hooks/useViewport';
 
 const columns = [
 	{
@@ -78,7 +77,6 @@ const StudentTable = () => {
 	const { recordObj, authObj } = useModalContext();
 	const [studentRecord, setRecord] = recordObj;
 	const [authState] = authObj;
-	const { width } = useViewport;
 
 	const axios = rateLimit(Axios.create(), {
 		maxRequests: 2,
