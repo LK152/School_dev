@@ -16,95 +16,95 @@ import { useModalContext } from './context/ModalContext';
 import useViewport from './hooks/useViewport';
 
 const App = () => {
-	const { infoObj, authObj } = useModalContext();
-	const [info] = infoObj;
-	const [authState] = authObj;
-	const { width } = useViewport();
-	const breakpoint = 441;
-	const imgBP1 = 880;
-	const imgBP2 = 630;
+    const { infoObj, authObj } = useModalContext();
+    const [info] = infoObj;
+    const [authState] = authObj;
+    const { width } = useViewport();
+    const breakpoint = 441;
+    const imgBP1 = 880;
+    const imgBP2 = 630;
 
-	return (
-		<Router>
-			{width > imgBP1 ? (
-				<img
-					alt='麗山之星'
-					src={lsshStar}
-					style={{
-						position: 'fixed',
-						bottom: '30%',
-						right: '50%',
-						zIndex: -1,
-						transform: 'translate(50%, 50%)',
-					}}
-				/>
-			) : width > imgBP2 ? (
-				<img
-					alt='麗山之星'
-					src={lsshStar}
-					style={{
-						position: 'fixed',
-						bottom: '30%',
-						right: '50%',
-						zIndex: -1,
-						width: 500,
-						transform: 'translate(50%, 50%)',
-					}}
-				/>
-			) : (
-				<img
-					alt='麗山之星'
-					src={lsshStar}
-					style={{
-						position: 'fixed',
-						bottom: '30%',
-						right: '50%',
-						zIndex: -1,
-						width: 300,
-						transform: 'translate(50%, 50%)',
-					}}
-				/>
-			)}
-			{width > breakpoint ? <Navbar /> : <MobileNavbar />}
-			<Routes>
-				<Route exact path='*' element={<PageNotFound />} />
-				<Route exact path='/' element={<Home />} />
-				<Route
-					path='/self-learning-form'
-					element={info ? <Form /> : <Home />}
-				/>
-				<Route
-					path='/self-learning-results'
-					element={info ? <Results /> : <Home />}
-				/>
-				<Route
-					path='/self-learning-edit'
-					element={info ? <Edit /> : <Home />}
-				/>
-				<Route
-					path='/dashboard'
-					element={
-						authState.isUser || authState.isAdmin ? (
-							<Dashboard />
-						) : (
-							<PageNotAuthorized />
-						)
-					}
-				/>
-				<Route
-					path='/users'
-					element={
-						authState.isAdmin && !authState.isUser ? (
-							<Users />
-						) : (
-							<PageNotAuthorized />
-						)
-					}
-				/>
-			</Routes>
-			<Footer />
-		</Router>
-	);
+    return (
+        <Router>
+            {width > imgBP1 ? (
+                <img
+                    alt='麗山之星'
+                    src={lsshStar}
+                    style={{
+                        position: 'fixed',
+                        bottom: '40vh',
+                        right: '50%',
+                        zIndex: -1,
+                        transform: 'translate(50%, 50%)',
+                    }}
+                />
+            ) : width > imgBP2 ? (
+                <img
+                    alt='麗山之星'
+                    src={lsshStar}
+                    style={{
+                        position: 'fixed',
+                        bottom: '40vh',
+                        right: '50%',
+                        zIndex: -1,
+                        width: 500,
+                        transform: 'translate(50%, 50%)',
+                    }}
+                />
+            ) : (
+                <img
+                    alt='麗山之星'
+                    src={lsshStar}
+                    style={{
+                        position: 'fixed',
+                        bottom: '30vh',
+                        right: '50%',
+                        zIndex: -1,
+                        width: 300,
+                        transform: 'translate(50%, 50%)',
+                    }}
+                />
+            )}
+            {width > breakpoint ? <Navbar /> : <MobileNavbar />}
+            <Routes>
+                <Route exact path='*' element={<PageNotFound />} />
+                <Route exact path='/' element={<Home />} />
+                <Route
+                    path='/self-learning-form'
+                    element={info ? <Form /> : <Home />}
+                />
+                <Route
+                    path='/self-learning-results'
+                    element={info ? <Results /> : <Home />}
+                />
+                <Route
+                    path='/self-learning-edit'
+                    element={info ? <Edit /> : <Home />}
+                />
+                <Route
+                    path='/dashboard'
+                    element={
+                        authState.isUser || authState.isAdmin ? (
+                            <Dashboard />
+                        ) : (
+                            <PageNotAuthorized />
+                        )
+                    }
+                />
+                <Route
+                    path='/users'
+                    element={
+                        authState.isAdmin && !authState.isUser ? (
+                            <Users />
+                        ) : (
+                            <PageNotAuthorized />
+                        )
+                    }
+                />
+            </Routes>
+            <Footer />
+        </Router>
+    );
 };
 
 export default App;

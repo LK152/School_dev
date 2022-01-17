@@ -1,5 +1,5 @@
 import { Container, Card, CardContent, Grid, Typography } from '@mui/material';
-import StudentDashboard from './StudentDashboard';
+import StudentTable from './StudentTable';
 
 const Dashboard = () => {
 	return (
@@ -13,7 +13,7 @@ const Dashboard = () => {
 							</Typography>
 						</Grid>
 						<Grid item>
-							<StudentDashboard />
+							<StudentTable />
 						</Grid>
 					</Grid>
 				</CardContent>
