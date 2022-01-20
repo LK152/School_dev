@@ -90,7 +90,7 @@ router.route('/updateGroup').post((req, res) => {
 	}
 });
 
-router.route('/deleteGroup').delete((req, res) => {
+router.route('/deleteGroup').post((req, res) => {
 	for (var i = 0; i < req.body.length; i++) {
 		auth.getUserByEmail(req.body[i])
 			.then((user) => {
