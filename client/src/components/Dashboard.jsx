@@ -44,11 +44,11 @@ const Dashboard = () => {
 			group: object.label,
 		};
 
-		await axios.patch(process.env.REACT_APP_API_URL + '/updateGroup', data);
+		await axios.post(process.env.REACT_APP_API_URL + '/updateGroup', data);
 	};
 
 	const handleDelete = async () => {
-		await axios.patch(
+		await axios.post(
 			process.env.REACT_APP_API_URL + '/deleteGroup',
 			selected
 		);

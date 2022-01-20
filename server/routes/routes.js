@@ -76,7 +76,7 @@ router.route('/deleteUser/:id').delete((req, res) => {
 		.catch(() => res.status(404).json({ error: 'user not found' }));
 });
 
-router.route('/updateGroup/').patch((req, res) => {
+router.route('/updateGroup/').post((req, res) => {
 	for (var i = 0; i < req.body.selected.length; i++) {
 		auth.getUserByEmail(req.body.selected[i])
 			.then((user) => {
@@ -86,7 +86,7 @@ router.route('/updateGroup/').patch((req, res) => {
 	}
 });
 
-router.route('/deleteGroup').patch((req, res) => {
+router.route('/deleteGroup').post((req, res) => {
 	for (var i = 0; i < req.body.length; i++) {
 		auth.getUserByEmail(req.body[i])
 			.then((user) => {
