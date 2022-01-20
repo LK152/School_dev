@@ -3,6 +3,13 @@
 	padding: 0;
 }
 
+.minHeight {
+	min-height: calc(100vh - 100px);
+	background-image: url('./images/lsshStar.png');
+	background-repeat: no-repeat;
+	background-position: center bottom;
+}
+
 .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:after,
 .css-cio0x1-MuiInputBase-root-MuiFilledInput-root.Mui-focused:after, 
 .css-llt6z7-MuiInputBase-root-MuiFilledInput-root:after, 
@@ -39,4 +46,16 @@
 
 .navLink {
 	text-decoration: none;
+}
+
+@media (max-width: 880px) {
+	.minHeight {
+		background-size: 500px;
+	}
+}
+
+@media (max-width: 630px) {
+	.minHeight {
+		background-size: 300px;
+	}
 }

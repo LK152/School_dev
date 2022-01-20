@@ -21,7 +21,7 @@ import { permit, teachers } from './Options';
 import { useModalContext } from '../context/ModalContext';
 
 const init = {
-	email: '',
+	email: '@lssh.tp.edu.tw',
 	isAdmin: false,
 	userClass: '',
 };
@@ -59,11 +59,12 @@ const Users = () => {
 					newUser
 				)
 				.then(() => {
-					setNewUser(init);
-					setLoading(false);
 					setUpdate(!update);
 				})
 				.catch((err) => alert(err.response.data.error));
+
+			setNewUser(init);
+			setLoading(false);
 		} else {
 			alert('not authorized');
 			navigate('/');
@@ -98,7 +99,7 @@ const Users = () => {
 										name='email'
 										variant='outlined'
 										label='Email'
-										value={newUser.email} 
+										value={newUser.email}
 										autoComplete='off'
 									/>
 								</FormControl>

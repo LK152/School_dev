@@ -174,6 +174,20 @@ const Results = () => {
 								</Grid>
 							</Grid>
 							{renderMember(document.memNum, document)}
+							{document.group !== '' && (
+								<Grid container item direction='row'>
+									<Grid item xs={6}>
+										<Typography variant='h5' align='center'>
+											組別
+										</Typography>
+									</Grid>
+									<Grid item xs={6}>
+										<Typography variant='h5' align='center'>
+											{document.group}
+										</Typography>
+									</Grid>
+								</Grid>
+							)}
 							<Grid
 								container
 								item

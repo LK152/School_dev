@@ -3,16 +3,14 @@ import {
 	DataGrid,
 	GridToolbarContainer,
 	GridToolbarDensitySelector,
-	GridToolbarExport,
 } from '@mui/x-data-grid';
-import { Grid, FormControl, Typography, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import { useModalContext } from '../context/ModalContext';
 import { db } from '../service/firestore.js';
 import { onSnapshot, collection, query, where } from 'firebase/firestore';
-import { exportClasses, teachers } from './Options';
+import { exportClasses } from './Options';
 import Select from './Select';
-import Axios from 'axios';
-import rateLimit from 'axios-rate-limit';
+import exportXL from '../api/exportXL';
 
 const columns = [
 	{
@@ -67,22 +65,11 @@ const columns = [
 	},
 ];
 
-const StudentTable = () => {
-	const [values, setValues] = useState({
-		selection: 0,
-		selectedGroup: 201,
-		group: '',
-	});
-	const [selected, setSelected] = useState([]);
+const StudentTable = ({ values, selected, setSelected, handleSelect }) => {
+	const [pageSize, setPageSize] = useState(50);
 	const { recordObj, authObj } = useModalContext();
 	const [studentRecord, setRecord] = recordObj;
 	const [authState] = authObj;
-
-	const axios = rateLimit(Axios.create(), {
-		maxRequests: 2,
-		perMilliseconds: 1000,
-		maxRPS: 2,
-	});
 
 	useEffect(() => {
 		const unSub = onSnapshot(
@@ -115,8 +102,8 @@ const StudentTable = () => {
 		return () => unSub();
 	}, [setRecord, values, authState]);
 
-	const handleSelect = (e) => {
-		setValues({ ...values, [e.target.name]: e.target.value });
+	const handleExport = () => {
+		exportXL(studentRecord, '自主學習');
 	};
 
 	const CustomToolbar = () => {
@@ -133,86 +120,8 @@ const StudentTable = () => {
 					/>
 				)}
 				<GridToolbarDensitySelector size='medium' />
-				<GridToolbarExport
-					printOptions={{ disableToolbarButton: true }}
-				/>
+				<Button onClick={handleExport}>匯出</Button>
 			</GridToolbarContainer>
-		);
-	};
-
-	const teacher = teachers.filter((res) => {
-		return res.value === values.selectedGroup;
-	});
-
-	const [object] = teacher;
-
-	const handleUpdate = async () => {
-		const data = {
-			selected: selected,
-			group: object.label,
-		};
-
-		await axios.patch(process.env.REACT_APP_API_URL + '/updateGroup', data);
-	};
-
-	const handleDelete = async () => {
-		await axios.patch(
-			process.env.REACT_APP_API_URL + '/deleteGroup',
-			selected
-		);
-	};
-
-	const CustomFooter = () => {
-		return (
-			<Grid
-				container
-				direction='row'
-				alignItems='center'
-				columnSpacing={2}
-			>
-				<Grid item>
-					<Typography variant='h6' sx={{ ml: 2 }}>
-						分配老師
-					</Typography>
-				</Grid>
-				<Grid item sm={2} xs={4}>
-					<FormControl fullWidth>
-						<Select
-							name='selectedGroup'
-							value={values.selectedGroup}
-							options={teachers}
-							onChange={handleSelect}
-							sx={{ ml: 10 }}
-						/>
-					</FormControl>
-				</Grid>
-				<div style={{ flexGrow: 1 }} />
-				<Grid
-					item
-					container
-					direction='row'
-					justifyContent='space-between'
-				>
-					<Grid item>
-						<Button
-							variant='contained'
-							disabled={false}
-							onClick={handleDelete}
-						>
-							<Typography color='common.white'>刪除</Typography>
-						</Button>
-					</Grid>
-					<Grid item>
-						<Button
-							variant='contained'
-							disabled={false}
-							onClick={handleUpdate}
-						>
-							<Typography color='common.white'>新增</Typography>
-						</Button>
-					</Grid>
-				</Grid>
-			</Grid>
 		);
 	};
 
@@ -248,13 +157,14 @@ const StudentTable = () => {
 	});
 
 	return (
-		<div style={{ height: 400, width: '100%' }}>
+		<div style={{ height: '50vh', width: '100%' }}>
 			<DataGrid
 				rows={rows}
 				columns={columns}
-				pageSize={100}
-				rowsPerPageOptions={[100]}
-				components={{ Toolbar: CustomToolbar, Footer: CustomFooter }}
+				pageSize={pageSize}
+				onPageSizeChange={(newPS) => setPageSize(newPS)}
+				rowsPerPageOptions={[10, 25, 50, 100]}
+				components={{ Toolbar: CustomToolbar }}
 				onSelectionModelChange={(select) => setSelected(select)}
 				selectionModel={selected}
 				disableColumnFilter

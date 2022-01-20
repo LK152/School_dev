@@ -5,12 +5,15 @@ const exportXL = (records, fileName) => {
 	const fileType =
 		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 	const fileExtent = '.xlsx';
+	const AoO = []
+		.concat(records)
+		.sort((a, b) => a.class - b.class || a.number - b.number);
 
-	const docs = records.map((doc) => {
+	const docs = AoO.map((doc) => {
 		return {
 			班級: doc.class,
-			座號: doc.number, 
-			姓名: doc.name, 
+			座號: doc.number,
+			姓名: doc.name,
 			Email: doc.email,
 			主題: doc.topicLabel,
 			副主題: doc.subTopicLabel,
@@ -18,6 +21,7 @@ const exportXL = (records, fileName) => {
 			組員人數: doc.memNum,
 			組員1: doc.mem1Class.toString() + doc.mem1Num.toString(),
 			組員2: doc.mem2Class.toString() + doc.mem2Num.toString(),
+			組別: doc.group,
 		};
 	});
 
@@ -28,7 +32,7 @@ const exportXL = (records, fileName) => {
 		type: 'array',
 	});
 	const data = new Blob([excelBuffer], { type: fileType });
-    
+
 	return FS.saveAs(data, fileName + fileExtent);
 };
 
