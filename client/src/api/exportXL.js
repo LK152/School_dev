@@ -25,8 +25,35 @@ const exportXL = (records, fileName) => {
 		};
 	});
 
-	const ws = XLSX.utils.json_to_sheet(docs);
-	const wb = { Sheets: { data: ws }, SheetNames: ['data'] };
+	const wsNames = [
+		'全部',
+		'201',
+		'202',
+		'203',
+		'204',
+		'205',
+		'206',
+		'207',
+		'208',
+		'209',
+		'210',
+		'211',
+	];
+
+	const wsData = wsNames.reduce((item, key) => {
+		if (key === '全部') {
+			item[key] = XLSX.utils.json_to_sheet(docs);
+		} else {
+			item[key] = XLSX.utils.json_to_sheet(
+				docs.filter((docClass) => {
+					return docClass.班級.toString() === key;
+				})
+			);
+		}
+		return item;
+	}, {});
+
+	const wb = { Sheets: wsData, SheetNames: wsNames };
 	const excelBuffer = XLSX.write(wb, {
 		bookType: 'xlsx',
 		type: 'array',

@@ -22,7 +22,7 @@ import { permit, teachers } from './Options';
 import { useModalContext } from '../context/ModalContext';
 
 const init = {
-	email: '@lssh.tp.edu.tw',
+	email: '',
 	isAdmin: false,
 	userClass: '',
 };
@@ -30,6 +30,7 @@ const init = {
 const Users = () => {
 	const [newUser, setNewUser] = useState(init);
 	const [loading, setLoading] = useState(false);
+	const [emailInput, setEmailInput] = useState('');
 	const [listOfUsers, setLOU] = useState([]);
 	const { updateObj, authObj } = useModalContext();
 	const [update, setUpdate] = updateObj;
@@ -43,11 +44,21 @@ const Users = () => {
 	});
 
 	useEffect(() => {
-		axios
-			.get(process.env.REACT_APP_API_URL + '/getAllUsers')
-			.then((users) => setLOU(users))
-			.catch((err) => console.log(err));
-	});
+		const fetchData = async () => {
+			axios
+				.get(process.env.REACT_APP_API_URL + '/getAllUsers')
+				.then((users) => {
+					const userArr = [];
+
+					users.data.forEach((user) => userArr.push(user.email));
+					setLOU(userArr);
+				})
+				.catch((err) => console.log(err));
+		};
+
+		fetchData();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const handleChange = (e) => {
 		setNewUser({ ...newUser, [e.target.name]: e.target.value });
@@ -104,11 +115,23 @@ const Users = () => {
 							<Grid item sm={4} xs={12}>
 								<FormControl fullWidth>
 									<Autocomplete
+										freeSolo
+										value={newUser.email}
+										onChange={(_e, newValue) =>
+											setNewUser({
+												...newUser,
+												email: newValue,
+											})
+										}
+										inputValue={emailInput}
+										onInputChange={(_e, newInput) =>
+											setEmailInput(newInput)
+										}
 										options={listOfUsers}
 										renderInput={(params) => (
 											<TextField
 												{...params}
-												label='Email'
+												label='email'
 											/>
 										)}
 									/>

@@ -13,6 +13,7 @@ import StudentTable from './StudentTable';
 import { teachers } from './Options';
 import Axios from 'axios';
 import rateLimit from 'axios-rate-limit';
+import { useModalContext } from '../context/ModalContext';
 
 const Dashboard = () => {
 	const [selected, setSelected] = useState([]);
@@ -21,6 +22,8 @@ const Dashboard = () => {
 		selectedGroup: 201,
 		group: '',
 	});
+	const { authObj } = useModalContext();
+	const [authState] = authObj;
 
 	const axios = rateLimit(Axios.create(), {
 		maxRequests: 2,
@@ -72,62 +75,64 @@ const Dashboard = () => {
 								handleSelect={handleSelect}
 							/>
 						</Grid>
-						<Grid
-							item
-							container
-							direction='row'
-							alignItems='center'
-							columnSpacing={2}
-						>
-							<Grid item>
-								<Typography variant='h6' sx={{ ml: 2 }}>
-									分配組別
-								</Typography>
-							</Grid>
-							<Grid item sm={2} xs={4}>
-								<FormControl fullWidth>
-									<Select
-										name='selectedGroup'
-										value={values.selectedGroup}
-										options={teachers}
-										onChange={handleSelect}
-										sx={{ ml: 10 }}
-									/>
-								</FormControl>
-							</Grid>
-							<div style={{ flexGrow: 1 }} />
+						{authState.isAdmin && (
 							<Grid
 								item
 								container
 								direction='row'
-								justifyContent='space-between'
+								alignItems='center'
+								columnSpacing={2}
 							>
 								<Grid item>
-									<Button
-										variant='contained'
-										disabled={selected.length === 0}
-										onClick={handleDelete}
-										sx={{ margin: 2 }}
-									>
-										<Typography color='common.white'>
-											刪除
-										</Typography>
-									</Button>
+									<Typography variant='h6' sx={{ ml: 2 }}>
+										分配組別
+									</Typography>
 								</Grid>
-								<Grid item>
-									<Button
-										variant='contained'
-										disabled={selected.length === 0}
-										onClick={handleUpdate}
-										sx={{ margin: 2 }}
-									>
-										<Typography color='common.white'>
-											新增
-										</Typography>
-									</Button>
+								<Grid item sm={2} xs={4}>
+									<FormControl fullWidth>
+										<Select
+											name='selectedGroup'
+											value={values.selectedGroup}
+											options={teachers}
+											onChange={handleSelect}
+											sx={{ ml: 10 }}
+										/>
+									</FormControl>
+								</Grid>
+								<div style={{ flexGrow: 1 }} />
+								<Grid
+									item
+									container
+									direction='row'
+									justifyContent='space-between'
+								>
+									<Grid item>
+										<Button
+											variant='contained'
+											disabled={selected.length === 0}
+											onClick={handleDelete}
+											sx={{ margin: 2 }}
+										>
+											<Typography color='common.white'>
+												刪除
+											</Typography>
+										</Button>
+									</Grid>
+									<Grid item>
+										<Button
+											variant='contained'
+											disabled={selected.length === 0}
+											onClick={handleUpdate}
+											sx={{ margin: 2 }}
+										>
+											<Typography color='common.white'>
+												新增
+											</Typography>
+										</Button>
+									</Grid>
 								</Grid>
 							</Grid>
-						</Grid>
+						)}
 					</Grid>
 				</CardContent>
 			</Card>

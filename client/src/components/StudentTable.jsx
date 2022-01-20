@@ -5,6 +5,7 @@ import {
 	GridToolbarDensitySelector,
 } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
+import { Download } from '@mui/icons-material';
 import { useModalContext } from '../context/ModalContext';
 import { db } from '../service/firestore.js';
 import { onSnapshot, collection, query, where } from 'firebase/firestore';
@@ -111,16 +112,17 @@ const StudentTable = ({ values, selected, setSelected, handleSelect }) => {
 			<GridToolbarContainer
 				sx={{ display: 'flex', justifyContent: 'space-between' }}
 			>
-				{authState.isAdmin && (
-					<Select
-						name='selection'
-						options={exportClasses}
-						onChange={handleSelect}
-						value={values.selection}
-					/>
-				)}
+				<Select
+					name='selection'
+					options={exportClasses}
+					onChange={handleSelect}
+					value={values.selection}
+				/>
 				<GridToolbarDensitySelector size='medium' />
-				<Button onClick={handleExport}>匯出</Button>
+				<Button onClick={handleExport}>
+					<Download />
+					匯出
+				</Button>
 			</GridToolbarContainer>
 		);
 	};
@@ -164,13 +166,13 @@ const StudentTable = ({ values, selected, setSelected, handleSelect }) => {
 				pageSize={pageSize}
 				onPageSizeChange={(newPS) => setPageSize(newPS)}
 				rowsPerPageOptions={[10, 25, 50, 100]}
-				components={{ Toolbar: CustomToolbar }}
+				components={{ Toolbar: authState.isAdmin && CustomToolbar }}
 				onSelectionModelChange={(select) => setSelected(select)}
 				selectionModel={selected}
 				disableColumnFilter
 				disableColumnMenu
 				disableSelectionOnClick
-				checkboxSelection
+				checkboxSelection={authState.isAdmin}
 			/>
 		</div>
 	);
