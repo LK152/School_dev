@@ -80,7 +80,11 @@ router.route('/updateGroup/').post((req, res) => {
 	for (var i = 0; i < req.body.selected.length; i++) {
 		auth.getUserByEmail(req.body.selected[i])
 			.then((user) => {
-				studentDB.doc(user.uid).update({ group: req.body.group });
+				studentDB
+					.doc(user.uid)
+					.update({ group: req.body.group })
+					.then(() => res.sendStatus(201))
+					.catch(() => res.sendStatus(400));
 			})
 			.catch(() => res.status(404).json({ error: 'user not found' }));
 	}
@@ -90,7 +94,11 @@ router.route('/deleteGroup').delete((req, res) => {
 	for (var i = 0; i < req.body.length; i++) {
 		auth.getUserByEmail(req.body[i])
 			.then((user) => {
-				studentDB.doc(user.uid).update({ group: '' });
+				studentDB
+					.doc(user.uid)
+					.update({ group: '' })
+					.then(() => res.sendStatus(200))
+					.catch(() => res.sendStatus(400));
 			})
 			.catch(() => res.status(404).json({ error: 'user not found' }));
 	}
