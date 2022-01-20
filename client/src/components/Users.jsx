@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
 	Container,
 	Card,
@@ -9,6 +9,7 @@ import {
 	TextField,
 	InputLabel,
 	IconButton,
+	Autocomplete,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Delete } from '@mui/icons-material';
@@ -29,6 +30,7 @@ const init = {
 const Users = () => {
 	const [newUser, setNewUser] = useState(init);
 	const [loading, setLoading] = useState(false);
+	const [listOfUsers, setLOU] = useState([]);
 	const { updateObj, authObj } = useModalContext();
 	const [update, setUpdate] = updateObj;
 	const [authState] = authObj;
@@ -38,6 +40,13 @@ const Users = () => {
 		maxRequests: 2,
 		perMilliseconds: 1000,
 		maxRPS: 2,
+	});
+
+	useEffect(() => {
+		axios
+			.get(process.env.REACT_APP_API_URL + '/getAllUsers')
+			.then((users) => setLOU(users))
+			.catch((err) => console.log(err));
 	});
 
 	const handleChange = (e) => {
@@ -94,13 +103,14 @@ const Users = () => {
 						>
 							<Grid item sm={4} xs={12}>
 								<FormControl fullWidth>
-									<TextField
-										onChange={handleChange}
-										name='email'
-										variant='outlined'
-										label='Email'
-										value={newUser.email}
-										autoComplete='off'
+									<Autocomplete
+										options={listOfUsers}
+										renderInput={(params) => (
+											<TextField
+												{...params}
+												label='Email'
+											/>
+										)}
 									/>
 								</FormControl>
 							</Grid>

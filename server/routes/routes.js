@@ -104,4 +104,19 @@ router.route('/deleteGroup').post((req, res) => {
 	}
 });
 
+router.route('/getAllUsers').get((req, res) => {
+	const listAllUsers = (NPT) => {
+		auth.listUsers(1000, NPT)
+			.then((results) => {
+				res.json(results.users);
+				if (results.pageToken) {
+					listAllUsers(results.pageToken);
+				}
+			})
+			.catch((err) => res.send(err));
+	};
+
+	listAllUsers();
+});
+
 module.exports = router;
