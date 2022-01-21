@@ -13,6 +13,7 @@ import Users from './components/Users';
 import Developer from './components/Developer';
 import MobileNavbar from './mobile/components/MobileNavbar';
 import { useModalContext } from './context/ModalContext';
+import lsshStar from './images/lsshStar.png';
 import useViewport from './hooks/useViewport';
 
 const App = () => {
@@ -26,6 +27,45 @@ const App = () => {
 		<Router>
 			<div className='minHeight'>
 				{width > breakpoint ? <Navbar /> : <MobileNavbar />}
+				{width > 880 ? (
+					<img
+						alt='lssh-star'
+						src={lsshStar}
+						style={{
+							position: 'fixed',
+							bottom: '20%',
+							left: '50%',
+							transform: 'translateX(-50%)',
+							zIndex: -1,
+						}}
+					/>
+				) : width > 630 ? (
+					<img
+						alt='lssh-star'
+						src={lsshStar}
+						style={{
+							width: 500,
+							position: 'fixed',
+							bottom: '20%',
+							left: '50%',
+							transform: 'translateX(-50%)',
+							zIndex: -1,
+						}}
+					/>
+				) : (
+					<img
+						alt='lssh-star'
+						src={lsshStar}
+						style={{
+							width: 300,
+							position: 'fixed',
+							bottom: '20%',
+							left: '50%',
+							transform: 'translateX(-50%)',
+							zIndex: -1,
+						}}
+					/>
+				)}
 				<Routes>
 					<Route exact path='*' element={<PageNotFound />} />
 					<Route exact path='/' element={<Home />} />
