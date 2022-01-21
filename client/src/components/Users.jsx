@@ -46,7 +46,7 @@ const Users = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			axios
-				.get(process.env.REACT_APP_API_URL + '/getAllUsers', JSON.stringify(authState))
+				.post(process.env.REACT_APP_API_URL + '/getAllUsers', authState)
 				.then((users) => {
 					const userArr = [];
 
@@ -57,7 +57,7 @@ const Users = () => {
 		};
 
 		fetchData();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const handleChange = (e) => {
