@@ -46,7 +46,7 @@ const Users = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			axios
-				.get(process.env.REACT_APP_API_URL + '/getAllUsers', authState)
+				.get(process.env.REACT_APP_API_URL + '/getAllUsers', JSON.stringify(authState))
 				.then((users) => {
 					const userArr = [];
 
@@ -93,7 +93,6 @@ const Users = () => {
 
 	return (
 		<Container sx={{ my: 10 }}>
-			{console.log(authState)}
 			<Card raised>
 				<CardContent>
 					<Grid container direction='column' spacing={2}>

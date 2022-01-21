@@ -109,7 +109,7 @@ router.route('/deleteGroup').post((req, res) => {
 });
 
 router.route('/getAllUsers').get((req, res) => {
-	if (req.body.isAdmin === true) {
+	if (req.body.isAdmin || req.body.isAdmin === "true") {
 		const listAllUsers = (NPT) => {
 			auth.listUsers(1000, NPT)
 				.then((results) => {
