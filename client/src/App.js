@@ -33,7 +33,7 @@ const App = () => {
 						src={lsshStar}
 						style={{
 							position: 'fixed',
-							bottom: '20%',
+							bottom: '10%',
 							left: '50%',
 							transform: 'translateX(-50%)',
 							zIndex: -1,

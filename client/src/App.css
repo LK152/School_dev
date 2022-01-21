@@ -4,7 +4,7 @@
 }
 
 .minHeight {
-	min-height: calc(100vh - 354.594px);
+	min-height: 100vh;
 }
 
 .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:after,

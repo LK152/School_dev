@@ -8,7 +8,8 @@ const Footer = () => {
 	return (
 		<Box
 			sx={{
-				width: '100vw',
+				width: '100vw', 
+				height: '360px', 
 				backgroundColor: '#F3905F',
 				position: 'relative',
 				left: 0,
