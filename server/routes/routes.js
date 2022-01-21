@@ -77,17 +77,19 @@ router.route('/deleteUser/:id').delete((req, res) => {
 });
 
 router.route('/updateGroup').post((req, res) => {
-	req.body.selected.forEach((id) => {
-		auth.getUserByEmail(id)
-			.then((user) => {
-				studentDB
-					.doc(user.uid)
-					.update({ group: req.body.group })
-					.then(() => res.sendStatus(201))
-					.catch(() => res.sendStatus(400));
-			})
-			.catch(() => res.status(404).json({ error: 'user not found' }));
-	});
+	if (Array.isArray(req.body.selected)) {
+		req.body.selected.forEach((id) => {
+			auth.getUserByEmail(id)
+				.then((user) => {
+					studentDB
+						.doc(user.uid)
+						.update({ group: req.body.group })
+						.then(() => res.sendStatus(201))
+						.catch(() => res.sendStatus(400));
+				})
+				.catch(() => res.status(404).json({ error: 'user not found' }));
+		});
+	}
 });
 
 router.route('/deleteGroup').post((req, res) => {
