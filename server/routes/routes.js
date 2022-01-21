@@ -93,16 +93,18 @@ router.route('/updateGroup').post((req, res) => {
 });
 
 router.route('/deleteGroup').post((req, res) => {
-	for (var i = 0; i < req.body.length; i++) {
-		auth.getUserByEmail(req.body[i])
-			.then((user) => {
-				studentDB
-					.doc(user.uid)
-					.update({ group: '' })
-					.then(() => res.sendStatus(200))
-					.catch(() => res.sendStatus(400));
-			})
-			.catch(() => res.status(404).json({ error: 'user not found' }));
+	if (Array.isArray(req.body)) {
+		req.body.forEach((id) => {
+			auth.getUserByEmail(id)
+				.then((user) => {
+					studentDB
+						.doc(user.uid)
+						.update({ group: '' })
+						.then(() => res.sendStatus(200))
+						.catch(() => res.sendStatus(400));
+				})
+				.catch(() => res.status(404).json({ error: 'user not found' }));
+		});
 	}
 });
 
