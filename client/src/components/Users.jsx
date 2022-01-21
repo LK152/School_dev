@@ -93,6 +93,7 @@ const Users = () => {
 
 	return (
 		<Container sx={{ my: 10 }}>
+			{console.log(authState)}
 			<Card raised>
 				<CardContent>
 					<Grid container direction='column' spacing={2}>
