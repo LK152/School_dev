@@ -46,7 +46,7 @@ const Users = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			axios
-				.get(process.env.REACT_APP_API_URL + '/getAllUsers')
+				.get(process.env.REACT_APP_API_URL + '/getAllUsers', authState)
 				.then((users) => {
 					const userArr = [];
 
