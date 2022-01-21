@@ -26,7 +26,7 @@ const PageNotFound = () => {
 								後端:&emsp;21屆張新約
 							</Typography>
 						</Grid>
-                        <Grid item>
+						<Grid item>
 							<Typography variant='h4' align='center'>
 								版面設計:&emsp;21屆高正
 							</Typography>
