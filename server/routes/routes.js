@@ -113,7 +113,7 @@ router.route('/getAllUsers').get((req, res) => {
 					listAllUsers(results.pageToken);
 				}
 			})
-			.catch((err) => res.send(err));
+			.catch(() => res.sendStatus(400));
 	};
 
 	listAllUsers();
