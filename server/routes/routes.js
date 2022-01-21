@@ -77,8 +77,8 @@ router.route('/deleteUser/:id').delete((req, res) => {
 });
 
 router.route('/updateGroup').post((req, res) => {
-	for (var i = 0; i < req.body.selected.length; i++) {
-		auth.getUserByEmail(req.body.selected[i])
+	req.body.selected.forEach((id) => {
+		auth.getUserByEmail(id)
 			.then((user) => {
 				studentDB
 					.doc(user.uid)
@@ -87,7 +87,7 @@ router.route('/updateGroup').post((req, res) => {
 					.catch(() => res.sendStatus(400));
 			})
 			.catch(() => res.status(404).json({ error: 'user not found' }));
-	}
+	});
 });
 
 router.route('/deleteGroup').post((req, res) => {
