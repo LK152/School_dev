@@ -107,6 +107,7 @@ const Footer = () => {
 								color='common.white'
 								sx={{
 									textDecoration: 'none',
+									fontSize: '0.875rem',
 								}}
 								component={Link}
 							>
