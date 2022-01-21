@@ -88,7 +88,7 @@ const Dashboard = () => {
 										分配組別
 									</Typography>
 								</Grid>
-								<Grid item sm={2} xs={4}>
+								<Grid item sm={4} xs={8}>
 									<FormControl fullWidth>
 										<Select
 											name='selectedGroup'

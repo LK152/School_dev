@@ -10,6 +10,7 @@ import PageNotFound from './components/PageNotFound';
 import PageNotAuthorized from './components/PageNotAuthorized';
 import Dashboard from './components/Dashboard';
 import Users from './components/Users';
+import Developer from './components/Developer';
 import MobileNavbar from './mobile/components/MobileNavbar';
 import { useModalContext } from './context/ModalContext';
 import useViewport from './hooks/useViewport';
@@ -28,6 +29,7 @@ const App = () => {
 				<Routes>
 					<Route exact path='*' element={<PageNotFound />} />
 					<Route exact path='/' element={<Home />} />
+					<Route exact path='/developer' element={<Developer />} />
 					<Route
 						path='/self-learning-form'
 						element={info ? <Form /> : <Home />}
