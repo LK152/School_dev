@@ -13,7 +13,7 @@ const PageNotFound = () => {
 						</Grid>
 						<Grid item>
 							<Typography variant='h4' align='center'>
-								策畫者:&emsp;金佳龍
+								策劃者:&emsp;金佳龍
 							</Typography>
 						</Grid>
 						<Grid item>
@@ -28,7 +28,7 @@ const PageNotFound = () => {
 						</Grid>
 						<Grid item>
 							<Typography variant='h4' align='center'>
-								版面設計:&emsp;21屆高正
+								視覺設計:&emsp;21屆高正
 							</Typography>
 						</Grid>
 					</Grid>
