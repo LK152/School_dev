@@ -77,7 +77,7 @@ router.route('/deleteUser/:id').delete((req, res) => {
 });
 
 router.route('/updateGroup').post((req, res) => {
-	if (Array.isArray(req.body.selected)) {
+	if (Array.isArray(req.body.selected) && req.body.selected.length <= 100) {
 		req.body.selected.forEach((id) => {
 			auth.getUserByEmail(id)
 				.then((user) => {
@@ -89,11 +89,13 @@ router.route('/updateGroup').post((req, res) => {
 				})
 				.catch(() => res.status(404).json({ error: 'user not found' }));
 		});
+	} else {
+		res.sendStatus(406);
 	}
 });
 
 router.route('/deleteGroup').post((req, res) => {
-	if (Array.isArray(req.body)) {
+	if (Array.isArray(req.body) && req.body.length <= 100) {
 		req.body.forEach((id) => {
 			auth.getUserByEmail(id)
 				.then((user) => {
@@ -105,6 +107,8 @@ router.route('/deleteGroup').post((req, res) => {
 				})
 				.catch(() => res.status(404).json({ error: 'user not found' }));
 		});
+	} else {
+		res.sendStatus(406);
 	}
 });
 
