@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
 	Container,
 	Card,
@@ -15,10 +16,14 @@ import rateLimit from 'axios-rate-limit';
 import { useModalContext } from '../context/ModalContext';
 
 const Dashboard = () => {
-	const { authObj, selectObj, selectedObj } = useModalContext();
+	const [selected, setSelected] = useState([]);
+	const [values, setValues] = useState({
+		selection: 0,
+		selectedGroup: 201,
+		group: '',
+	});
+	const { authObj } = useModalContext();
 	const [authState] = authObj;
-	const [selected, setSelected] = selectObj;
-	const [selectedValues, setSelectedValues] = selectedObj;
 
 	const axios = rateLimit(Axios.create(), {
 		maxRequests: 2,
@@ -27,13 +32,13 @@ const Dashboard = () => {
 	});
 
 	const teacher = teachers.filter((res) => {
-		return res.value === selectedValues.selectedGroup;
+		return res.value === values.selectedGroup;
 	});
 
 	const [object] = teacher;
 
 	const handleSelect = (e) => {
-		setSelectedValues({ ...selectedValues, [e.target.name]: e.target.value });
+		setValues({ ...values, [e.target.name]: e.target.value });
 	};
 
 	const handleUpdate = async () => {
@@ -64,7 +69,7 @@ const Dashboard = () => {
 						</Grid>
 						<Grid item>
 							<StudentTable
-								values={selectedValues}
+								values={values}
 								selected={selected}
 								setSelected={setSelected}
 								handleSelect={handleSelect}
@@ -87,7 +92,7 @@ const Dashboard = () => {
 									<FormControl fullWidth>
 										<Select
 											name='selectedGroup'
-											value={selectedValues.selectedGroup}
+											value={values.selectedGroup}
 											options={teachers}
 											onChange={handleSelect}
 											sx={{ ml: 10 }}

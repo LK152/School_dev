@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
 	Container,
 	Card,
@@ -31,10 +31,10 @@ const Users = () => {
 	const [newUser, setNewUser] = useState(init);
 	const [loading, setLoading] = useState(false);
 	const [emailInput, setEmailInput] = useState('');
-	const { updateObj, authObj, userListObj } = useModalContext();
+	const [listOfUsers, setLOU] = useState([]);
+	const { updateObj, authObj } = useModalContext();
 	const [update, setUpdate] = updateObj;
 	const [authState] = authObj;
-	const [listOfUsers] = userListObj;
 	const navigate = useNavigate();
 
 	const axios = rateLimit(Axios.create(), {
@@ -42,6 +42,23 @@ const Users = () => {
 		perMilliseconds: 1000,
 		maxRPS: 2,
 	});
+
+	useEffect(() => {
+		const fetchData = async () => {
+			axios
+				.post(process.env.REACT_APP_API_URL + '/getAllUsers', authState)
+				.then((users) => {
+					const userArr = [];
+
+					users.data.forEach((user) => userArr.push(user.email));
+					setLOU(userArr);
+				})
+				.catch((err) => console.log(err));
+		};
+
+		fetchData();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const handleChange = (e) => {
 		setNewUser({ ...newUser, [e.target.name]: e.target.value });
