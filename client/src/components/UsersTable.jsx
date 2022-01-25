@@ -1,12 +1,8 @@
-import { useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Button, Typography } from '@mui/material';
 import Axios from 'axios';
 import rateLimit from 'axios-rate-limit';
-import { db } from '../service/firestore';
-import { collection, onSnapshot } from 'firebase/firestore';
 import { useModalContext } from '../context/ModalContext';
-import useSessionState from '../hooks/useSessionState';
 
 const EternalUsers = {
 	user1: 'learningplan@lssh.tp.edu.tw',
@@ -14,32 +10,16 @@ const EternalUsers = {
 };
 
 const UsersTable = () => {
-	const [users, setUsers] = useSessionState('users', []);
-	const { updateObj, infoObj } = useModalContext();
+	const { updateObj, infoObj, usersObj } = useModalContext();
 	const [update, setUpdate] = updateObj;
 	const [info] = infoObj;
+	const [users] = usersObj;
 
 	const axios = rateLimit(Axios.create(), {
 		maxRequests: 2,
 		perMilliseconds: 1000,
 		maxRPS: 2,
 	});
-
-	useEffect(() => {
-		const unSub = onSnapshot(collection(db, 'users'), (snap) => {
-			const users = [];
-
-			if (!snap.empty) {
-				snap.forEach((user) => {
-					users.push(user.data());
-				});
-			}
-
-			setUsers(users);
-		});
-
-		return () => unSub();
-	}, [update, setUsers]);
 
 	const columns = [
 		{
@@ -96,14 +76,14 @@ const UsersTable = () => {
 		},
 	];
 
-	const rows = users.map((user, index) => {
+	const rows = users ? users.map((user, index) => {
 		return {
 			id: index,
 			email: user.email,
 			permission: user.isAdmin ? '管理員' : '導師',
 			class: user.userClass,
 		};
-	});
+	}) : [];
 
 	return (
 		<div style={{ height: 400, width: '100%' }}>

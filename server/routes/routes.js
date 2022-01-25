@@ -112,23 +112,19 @@ router.route('/deleteGroup').post((req, res) => {
 	}
 });
 
-router.route('/getAllUsers').post((req, res) => {
-	if (req.body.isAdmin) {
-		const listAllUsers = (NPT) => {
-			auth.listUsers(1000, NPT)
-				.then((results) => {
-					res.json(results.users);
-					if (results.pageToken) {
-						listAllUsers(results.pageToken);
-					}
-				})
-				.catch(() => res.sendStatus(400));
-		};
+router.route('/getAllUsers').get((req, res) => {
+	const listAllUsers = (NPT) => {
+		auth.listUsers(1000, NPT)
+			.then((results) => {
+				res.json(results.users);
+				if (results.pageToken) {
+					listAllUsers(results.pageToken);
+				}
+			})
+			.catch(() => res.sendStatus(400));
+	};
 
-		listAllUsers();
-	} else {
-		res.sendStatus(401);
-	}
+	listAllUsers();
 });
 
 module.exports = router;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
 	DataGrid,
 	GridToolbarContainer,
@@ -7,8 +7,6 @@ import {
 import { Button } from '@mui/material';
 import { Download } from '@mui/icons-material';
 import { useModalContext } from '../context/ModalContext';
-import { db } from '../service/firestore.js';
-import { onSnapshot, collection, query, where } from 'firebase/firestore';
 import { exportClasses } from './Options';
 import Select from './Select';
 import exportXL from '../api/exportXL';
@@ -69,40 +67,9 @@ const columns = [
 const StudentTable = ({ values, selected, setSelected, handleSelect }) => {
 	const [pageSize, setPageSize] = useState(50);
 	const { recordObj, authObj } = useModalContext();
-	const [studentRecord, setRecord] = recordObj;
+	const [studentRecord] = recordObj;
 	const [authState] = authObj;
-
-	useEffect(() => {
-		const unSub = onSnapshot(
-			authState.isAdmin
-				? values.selection !== 0
-					? query(
-							collection(db, 'studentData'),
-							where('class', '==', values.selection)
-					  )
-					: collection(db, 'studentData')
-				: query(
-						collection(db, 'studentData'),
-						where('class', '==', authState.class)
-				  ),
-			(snapshot) => {
-				const docs = [];
-
-				if (!snapshot.empty) {
-					snapshot.forEach((doc) => {
-						docs.push(doc.data());
-					});
-				} else {
-					setRecord([]);
-				}
-
-				setRecord(docs);
-			}
-		);
-
-		return () => unSub();
-	}, [setRecord, values, authState]);
-
+	
 	const handleExport = () => {
 		exportXL(studentRecord, '自主學習');
 	};
