@@ -28,7 +28,6 @@ const ModalProvider = ({ children }) => {
 		class: '',
 	});
 	const [values, setValues] = useState(initialValues);
-	const [update, setUpdate] = useState(false);
 	const [document, setDoc] = useSessionState('doc', []);
 	const [info, setInfo] = useSessionState('userInfo', null);
 	const [studentRecord, setRecord] = useSessionState('record', []);
@@ -74,7 +73,6 @@ const ModalProvider = ({ children }) => {
 	const value = {
 		documentObj: [document, setDoc],
 		valuesObj: [values, setValues],
-		updateObj: [update, setUpdate],
 		infoObj: [info, setInfo],
 		authObj: [authState, setAuth],
 		recordObj: [studentRecord, setRecord],

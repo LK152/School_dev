@@ -32,8 +32,7 @@ const Users = () => {
 	const [loading, setLoading] = useState(false);
 	const [emailInput, setEmailInput] = useState('');
 	const [listOfUsers, setLOU] = useState([]);
-	const { updateObj, authObj } = useModalContext();
-	const [update, setUpdate] = updateObj;
+	const { authObj } = useModalContext();
 	const [authState] = authObj;
 	const navigate = useNavigate();
 
@@ -46,7 +45,7 @@ const Users = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			axios
-				.post(process.env.REACT_APP_API_URL + '/getAllUsers', authState)
+				.get(process.env.REACT_APP_API_URL + '/getAllUsers')
 				.then((users) => {
 					const userArr = [];
 
@@ -78,9 +77,6 @@ const Users = () => {
 					process.env.REACT_APP_API_URL + '/addUser/' + newUser.email,
 					newUser
 				)
-				.then(() => {
-					setUpdate(!update);
-				})
 				.catch((err) => alert(err.response.data.error));
 
 			setNewUser(init);

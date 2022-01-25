@@ -15,8 +15,7 @@ const EternalUsers = {
 
 const UsersTable = () => {
 	const [users, setUsers] = useSessionState('users', []);
-	const { updateObj, infoObj } = useModalContext();
-	const [update, setUpdate] = updateObj;
+	const { infoObj } = useModalContext();
 	const [info] = infoObj;
 
 	const axios = rateLimit(Axios.create(), {
@@ -39,7 +38,7 @@ const UsersTable = () => {
 		});
 
 		return () => unSub();
-	}, [update, setUsers]);
+	}, [setUsers]);
 
 	const columns = [
 		{
@@ -75,8 +74,6 @@ const UsersTable = () => {
 							'/deleteUser/' +
 							params.row.email
 					);
-
-					setUpdate(!update);
 				};
 
 				return (
