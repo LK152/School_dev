@@ -66,6 +66,17 @@ const subTopics = [
 ];
 
 const classes = [
+    { label: '101', value: 101 },
+    { label: '102', value: 102 },
+    { label: '103', value: 103 },
+    { label: '104', value: 104 },
+    { label: '105', value: 105 },
+    { label: '106', value: 106 },
+    { label: '107', value: 107 },
+    { label: '108', value: 108 },
+    { label: '109', value: 109 },
+    { label: '110', value: 110 },
+    { label: '111', value: 111 },
     { label: '201', value: 201 },
     { label: '202', value: 202 },
     { label: '203', value: 203 },
@@ -119,6 +130,17 @@ const permit = [
 
 const exportClasses = [
     { label: '全部', value: 0 },
+    { label: '101', value: 101 },
+    { label: '102', value: 102 },
+    { label: '103', value: 103 },
+    { label: '104', value: 104 },
+    { label: '105', value: 105 },
+    { label: '106', value: 106 },
+    { label: '107', value: 107 },
+    { label: '108', value: 108 },
+    { label: '109', value: 109 },
+    { label: '110', value: 110 },
+    { label: '111', value: 111 },
     { label: '201', value: 201 },
     { label: '202', value: 202 },
     { label: '203', value: 203 },
