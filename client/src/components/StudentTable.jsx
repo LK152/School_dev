@@ -66,24 +66,24 @@ const columns = [
 	},
 ];
 
-const StudentTable = ({ values, selected, setSelected, handleSelect }) => {
+const StudentTable = ({ handleSelect }) => {
 	const [pageSize, setPageSize] = useState(50);
-	const { recordObj, authObj } = useModalContext();
-	const [studentRecord, setRecord] = recordObj;
-	const [authState] = authObj;
+	const { studentRecord, setRecord, authState, selectedValues, selected, setSelected } = useModalContext();
+	const { isAdmin, teacherClass } = authState;
+	const { selection } = selectedValues
 
 	useEffect(() => {
 		const unSub = onSnapshot(
-			authState.isAdmin
-				? values.selection !== 0
+			isAdmin
+				? selection !== 0
 					? query(
 							collection(db, 'studentData'),
-							where('class', '==', values.selection)
+							where('class', '==', selection)
 					  )
 					: collection(db, 'studentData')
 				: query(
 						collection(db, 'studentData'),
-						where('class', '==', authState.class)
+						where('class', '==', teacherClass)
 				  ),
 			(snapshot) => {
 				const docs = [];
@@ -101,7 +101,7 @@ const StudentTable = ({ values, selected, setSelected, handleSelect }) => {
 		);
 
 		return () => unSub();
-	}, [setRecord, values, authState]);
+	}, [setRecord, teacherClass, isAdmin, selection]);
 
 	const handleExport = () => {
 		exportXL(studentRecord, '自主學習');
@@ -116,7 +116,7 @@ const StudentTable = ({ values, selected, setSelected, handleSelect }) => {
 					name='selection'
 					options={exportClasses}
 					onChange={handleSelect}
-					value={values.selection}
+					value={selection}
 				/>
 				<GridToolbarDensitySelector size='medium' />
 				<Button onClick={handleExport}>
@@ -166,13 +166,13 @@ const StudentTable = ({ values, selected, setSelected, handleSelect }) => {
 				pageSize={pageSize}
 				onPageSizeChange={(newPS) => setPageSize(newPS)}
 				rowsPerPageOptions={[10, 25, 50, 100]}
-				components={{ Toolbar: authState.isAdmin && CustomToolbar }}
+				components={{ Toolbar: isAdmin && CustomToolbar }}
 				onSelectionModelChange={(select) => setSelected(select)}
 				selectionModel={selected}
 				disableColumnFilter
 				disableColumnMenu
 				disableSelectionOnClick
-				checkboxSelection={authState.isAdmin}
+				checkboxSelection={isAdmin}
 			/>
 		</div>
 	);

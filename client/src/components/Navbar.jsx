@@ -31,9 +31,9 @@ const initialState = {
 };
 
 const Navbar = () => {
-	const { infoObj, authObj } = useModalContext();
-	const [info] = infoObj;
-	const [authState] = authObj;
+	const { info, authState } = useModalContext();
+	const { displayName, email, photoURL } = info ?? {};
+	const { isAdmin, isUser } = authState
 	const [state, setState] = useState(initialState);
 	const navigate = useNavigate();
 
@@ -68,7 +68,7 @@ const Navbar = () => {
 					>
 						首頁
 					</Typography>
-					{(authState.isUser || authState.isAdmin) && (
+					{(isUser || isAdmin) && (
 						<Typography
 							to='/dashboard'
 							component={Link}
@@ -78,7 +78,7 @@ const Navbar = () => {
 							分組
 						</Typography>
 					)}
-					{authState.isAdmin && (
+					{isAdmin && (
 						<Typography
 							to='/users'
 							component={Link}
@@ -88,7 +88,7 @@ const Navbar = () => {
 							管理用戶
 						</Typography>
 					)}
-					{!authState.isUser && !authState.isAdmin && info && (
+					{!isUser && !isAdmin && info && (
 						<Typography
 							to='/self-learning-form'
 							component={Link}
@@ -98,7 +98,7 @@ const Navbar = () => {
 							自主學習表單
 						</Typography>
 					)}
-					{!authState.isUser && !authState.isAdmin && info && (
+					{!isUser && !isAdmin && info && (
 						<Typography
 							to='/self-learning-results'
 							component={Link}
@@ -123,7 +123,7 @@ const Navbar = () => {
 									size='small'
 									sx={{ ml: 2 }}
 								>
-									<Avatar src={info.photoURL} />
+									<Avatar src={photoURL} />
 								</IconButton>
 								<Menu
 									anchorEl={state.anchorEl}
@@ -141,14 +141,14 @@ const Navbar = () => {
 										}}
 									>
 										<Avatar
-											src={info.photoURL}
+											src={photoURL}
 											sx={{ width: 64, height: 64 }}
 										/>
 										<Typography sx={{ mx: 2, my: 1 }}>
-											{info.displayName}
+											{displayName}
 										</Typography>
 										<Typography sx={{ mx: 2, my: 1 }}>
-											{info.email}
+											{email}
 										</Typography>
 									</Box>
 									<Divider />

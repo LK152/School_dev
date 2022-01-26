@@ -32,8 +32,8 @@ const Users = () => {
 	const [loading, setLoading] = useState(false);
 	const [emailInput, setEmailInput] = useState('');
 	const [listOfUsers, setLOU] = useState([]);
-	const { authObj } = useModalContext();
-	const [authState] = authObj;
+	const { authState } = useModalContext();
+	const { isAdmin } = authState;
 	const navigate = useNavigate();
 
 	const axios = rateLimit(Axios.create(), {
@@ -71,7 +71,7 @@ const Users = () => {
 		e.preventDefault();
 		setLoading(true);
 
-		if (authState.isAdmin) {
+		if (isAdmin) {
 			await axios
 				.post(
 					process.env.REACT_APP_API_URL + '/addUser/' + newUser.email,

@@ -54,10 +54,23 @@ const Submitbtn = styled(LoadingButton)({
 });
 
 const Form = () => {
-	const { valuesObj, infoObj } = useModalContext();
-	const [values, setValues] = valuesObj;
-	const [info] = infoObj;
+	const { values, setValues, info } = useModalContext();
 	const [loading, setLoading] = useState(false);
+	const {
+		studentClass,
+		number,
+		studentName,
+		mainTopic,
+		subTopic,
+		otherTopic,
+		comment,
+		memNum,
+		mem1Class,
+		mem1Num,
+		mem2Class,
+		mem2Num,
+	} = values;
+	const { uid, email } = info;
 
 	const axios = rateLimit(Axios.create(), {
 		maxRequests: 2,
@@ -75,31 +88,31 @@ const Form = () => {
 		e.preventDefault();
 		setLoading(true);
 		const data = {
-			uid: info.uid,
-			email: info.email,
-			class: values.class,
-			number: values.number,
-			name: values.name,
-			topic: mainTopics[values.mainTopic].value,
-			topicLabel: mainTopics[values.mainTopic].label,
+			uid: uid,
+			email: email,
+			class: studentClass,
+			number: number,
+			name: studentName,
+			topic: mainTopics[mainTopic].value,
+			topicLabel: mainTopics[mainTopic].label,
 			subTopic:
-				values.mainTopic !== 7
-					? subTopics[values.mainTopic][values.subTopic].value
-					: values.otherTopic,
+				mainTopic !== 7
+					? subTopics[mainTopic][subTopic].value
+					: otherTopic,
 			subTopicLabel:
-				values.mainTopic !== 7
-					? subTopics[values.mainTopic][values.subTopic].label
-					: values.otherTopic,
-			comment: values.comment,
-			memNum: values.memNum,
-			mem1Class: values.mem1Class,
-			mem1Num: values.mem1Num,
-			mem2Class: values.mem2Class,
-			mem2Num: values.mem2Num,
+				mainTopic !== 7
+					? subTopics[mainTopic][subTopic].label
+					: otherTopic,
+			comment: comment,
+			memNum: memNum,
+			mem1Class: mem1Class,
+			mem1Num: mem1Num,
+			mem2Class: mem2Class,
+			mem2Num: mem2Num,
 		};
 
 		await axios
-			.post(process.env.REACT_APP_API_URL + '/setDoc/' + info.uid, data)
+			.post(process.env.REACT_APP_API_URL + '/setDoc/' + uid, data)
 			.catch((err) => console.log(err));
 
 		navigate('/self-learning-results');
@@ -124,8 +137,8 @@ const Form = () => {
 								options={classes}
 								value={
 									i === 1
-										? values.mem1Class
-										: values.mem2Class
+										? mem1Class
+										: mem2Class
 								}
 								onChange={handleChange}
 							/>
@@ -139,7 +152,7 @@ const Form = () => {
 								name={'mem' + i + 'Num'}
 								options={numbers}
 								value={
-									i === 1 ? values.mem1Num : values.mem2Num
+									i === 1 ? mem1Num : mem2Num
 								}
 								onChange={handleChange}
 							/>
@@ -157,49 +170,49 @@ const Form = () => {
 	};
 
 	const handleValidation = () => {
-		if (values.class === '' || values.number === '' || values.name === '') {
+		if (studentClass === '' || number === '' || studentName === '') {
 			return true;
 		}
 		if (
-			values.memNum === '2' &&
-			(values.mem1Class === '' || values.mem1Num === '')
+			memNum === '2' &&
+			(mem1Class === '' || mem1Num === '')
 		) {
 			return true;
 		} else if (
-			values.memNum === '3' &&
-			(values.mem1Class === '' ||
-				values.mem1Num === '' ||
-				values.mem2Class === '' ||
-				values.mem2Num === '' ||
-				(values.mem1Class === values.mem2Class &&
-					values.mem1Num === values.mem2Num))
+			memNum === '3' &&
+			(mem1Class === '' ||
+				mem1Num === '' ||
+				mem2Class === '' ||
+				mem2Num === '' ||
+				(mem1Class === mem2Class &&
+					mem1Num === mem2Num))
 		) {
 			return true;
 		}
 		if (
-			values.mem1Class === values.class &&
-			values.mem1Num === values.number &&
-			values.mem1Class !== '' &&
-			values.mem1Num !== ''
+			mem1Class === studentClass &&
+			mem1Num === number &&
+			mem1Class !== '' &&
+			mem1Num !== ''
 		) {
 			return true;
 		}
 		if (
-			values.mem2Class === values.class &&
-			values.mem2Num === values.number &&
-			values.mem2Class !== '' &&
-			values.mem2Num !== ''
+			mem2Class === studentClass &&
+			mem2Num === number &&
+			mem2Class !== '' &&
+			mem2Num !== ''
 		) {
 			return true;
 		}
-		if (values.mainTopic === '') {
+		if (mainTopic === '') {
 			return true;
-		} else if (values.mainTopic !== 7) {
-			if (values.subTopic === '') {
+		} else if (mainTopic !== 7) {
+			if (subTopic === '') {
 				return true;
 			}
 		} else {
-			if (values.otherTopic === '') {
+			if (otherTopic === '') {
 				return true;
 			} else {
 				return false;
@@ -227,7 +240,7 @@ const Form = () => {
 												label='班級 *'
 												name='class'
 												options={classes}
-												value={values.class}
+												value={studentClass}
 												onChange={handleChange}
 											/>
 										</FormControl>
@@ -239,7 +252,7 @@ const Form = () => {
 												label='座號 *'
 												name='number'
 												options={numbers}
-												value={values.number}
+												value={number}
 												onChange={handleChange}
 											/>
 										</FormControl>
@@ -252,7 +265,7 @@ const Form = () => {
 											name='name'
 											required
 											variant='filled'
-											value={values.name}
+											value={studentName}
 											onChange={handleChange}
 											autoComplete='off'
 										/>
@@ -265,13 +278,13 @@ const Form = () => {
 											label='主題 *'
 											name='mainTopic'
 											options={mainTopics}
-											value={values.mainTopic}
+											value={mainTopic}
 											onChange={handleChange}
 										/>
 									</FormControl>
 								</Grid>
-								{values.mainTopic !== '' &&
-									values.mainTopic !== 7 && (
+								{mainTopic !== '' &&
+									mainTopic !== 7 && (
 										<Grid item xs={12}>
 											<FormControl fullWidth>
 												<InputLabel>
@@ -282,16 +295,16 @@ const Form = () => {
 													name='subTopic'
 													options={
 														subTopics[
-															values.mainTopic
+															mainTopic
 														]
 													}
-													value={values.subTopic}
+													value={subTopic}
 													onChange={handleChange}
 												/>
 											</FormControl>
 										</Grid>
 									)}
-								{values.mainTopic === 7 && (
+								{mainTopic === 7 && (
 									<Grid item xs={12}>
 										<FormControl fullWidth>
 											<TextField
@@ -299,15 +312,15 @@ const Form = () => {
 												required
 												label='其他'
 												name='otherTopic'
-												value={values.otherTopic}
+												value={otherTopic}
 												onChange={handleChange}
 												autoComplete='off'
 											/>
 										</FormControl>
 									</Grid>
 								)}
-								{(values.subTopic !== '' ||
-									values.otherTopic !== '') && (
+								{(subTopic !== '' ||
+									otherTopic !== '') && (
 									<>
 										<Grid item xs={12}>
 											<FormControl fullWidth>
@@ -317,7 +330,7 @@ const Form = () => {
 													label='備註'
 													name='comment'
 													onChange={handleChange}
-													value={values.comment}
+													value={comment}
 												/>
 											</FormControl>
 										</Grid>
@@ -329,7 +342,7 @@ const Form = () => {
 												<RadioGroup
 													row
 													name='memNum'
-													value={values.memNum}
+													value={memNum}
 													onChange={handleChange}
 												>
 													<FormControlLabel
@@ -352,8 +365,8 @@ const Form = () => {
 										</Grid>
 									</>
 								)}
-								{values.memNum >= 2 &&
-									renderMemberSelect(values.memNum)}
+								{memNum >= 2 &&
+									renderMemberSelect(memNum)}
 								<Grid
 									container
 									item

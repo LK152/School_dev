@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
 	Container,
 	Card,
@@ -16,15 +15,10 @@ import rateLimit from 'axios-rate-limit';
 import { useModalContext } from '../context/ModalContext';
 
 const Dashboard = () => {
-	const [selected, setSelected] = useState([]);
-	const [values, setValues] = useState({
-		selection: 0,
-		selectedGroup: 201,
-		group: '',
-	});
-	const { authObj } = useModalContext();
-	const [authState] = authObj;
-
+	const { authState, selectedValues, setSelectedValues, selected } = useModalContext();
+	const { isAdmin } = authState;
+	const { selectedGroup } = selectedValues;
+	
 	const axios = rateLimit(Axios.create(), {
 		maxRequests: 2,
 		perMilliseconds: 1000,
@@ -32,13 +26,16 @@ const Dashboard = () => {
 	});
 
 	const teacher = teachers.filter((res) => {
-		return res.value === values.selectedGroup;
+		return res.value === selectedGroup;
 	});
 
 	const [object] = teacher;
 
 	const handleSelect = (e) => {
-		setValues({ ...values, [e.target.name]: e.target.value });
+		setSelectedValues({
+			...selectedValues,
+			[e.target.name]: e.target.value,
+		});
 	};
 
 	const handleUpdate = async () => {
@@ -68,14 +65,9 @@ const Dashboard = () => {
 							</Typography>
 						</Grid>
 						<Grid item>
-							<StudentTable
-								values={values}
-								selected={selected}
-								setSelected={setSelected}
-								handleSelect={handleSelect}
-							/>
+							<StudentTable handleSelect={handleSelect} />
 						</Grid>
-						{authState.isAdmin && (
+						{isAdmin && (
 							<Grid
 								item
 								container
@@ -92,7 +84,7 @@ const Dashboard = () => {
 									<FormControl fullWidth>
 										<Select
 											name='selectedGroup'
-											value={values.selectedGroup}
+											value={selectedGroup}
 											options={teachers}
 											onChange={handleSelect}
 											sx={{ ml: 10 }}

@@ -2,12 +2,12 @@ import { auth, db } from '../service/firestore';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import useSessionState from '../hooks/useSessionState';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot, query, collection, where } from 'firebase/firestore';
 
 const ModalContext = createContext();
 
 export const initialValues = {
-	class: '',
+	studentClass: '',
 	number: '',
 	name: '',
 	mainTopic: '',
@@ -25,12 +25,22 @@ const ModalProvider = ({ children }) => {
 	const [authState, setAuth] = useState({
 		isAdmin: false,
 		isUser: false,
-		class: '',
+		teacherClass: '',
 	});
+	const [selectedValues, setSelectedValues] = useState({
+		selection: 0,
+		selectedGroup: 201,
+		group: '',
+	});
+	const [selected, setSelected] = useState([]);
 	const [values, setValues] = useState(initialValues);
-	const [document, setDoc] = useSessionState('doc', []);
+	const [users, setUsers] = useSessionState('users', []);
+	const [document, setDoc] = useSessionState('doc', {});
 	const [info, setInfo] = useSessionState('userInfo', null);
 	const [studentRecord, setRecord] = useSessionState('record', []);
+	const { isAdmin, teacherClass } = authState;
+	const { selection } = selectedValues;
+	const { uid } = info ?? {};
 
 	useEffect(
 		() =>
@@ -50,7 +60,7 @@ const ModalProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (info) {
-			const onSub = onSnapshot(doc(db, 'users', info.uid), (snapshot) => {
+			const onSub = onSnapshot(doc(db, 'users', uid), (snapshot) => {
 				if (snapshot.exists()) {
 					setAuth({
 						isAdmin: snapshot.data().isAdmin,
@@ -68,14 +78,70 @@ const ModalProvider = ({ children }) => {
 
 			return () => onSub();
 		}
-	}, [info, setAuth]);
+	}, [uid, setAuth, info]);
+
+	useEffect(() => {
+		const unSub = onSnapshot(collection(db, 'users'), (snap) => {
+			const users = [];
+
+			if (!snap.empty) {
+				snap.forEach((user) => {
+					users.push(user.data());
+				});
+			}
+
+			setUsers(users);
+		});
+
+		return () => unSub();
+	}, [setUsers]);
+
+	useEffect(() => {
+		const unSub = onSnapshot(
+			isAdmin
+				? selection !== 0
+					? query(
+							collection(db, 'studentData'),
+							where('class', '==', selection)
+					  )
+					: collection(db, 'studentData')
+				: query(
+						collection(db, 'studentData'),
+						where('class', '==', teacherClass)
+				  ),
+			(snapshot) => {
+				const docs = [];
+
+				if (!snapshot.empty) {
+					snapshot.forEach((doc) => {
+						docs.push(doc.data());
+					});
+				}
+
+				setRecord(docs);
+			}
+		);
+
+		return () => unSub();
+	}, [setRecord, teacherClass, isAdmin, selection]);
 
 	const value = {
-		documentObj: [document, setDoc],
-		valuesObj: [values, setValues],
-		infoObj: [info, setInfo],
-		authObj: [authState, setAuth],
-		recordObj: [studentRecord, setRecord],
+		document,
+		setDoc,
+		values,
+		setValues,
+		info,
+		setInfo,
+		authState,
+		setAuth,
+		studentRecord,
+		setRecord,
+		selectedValues,
+		setSelectedValues,
+		selected,
+		setSelected,
+		users,
+		setUsers,
 	};
 
 	return (

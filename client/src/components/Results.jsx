@@ -22,9 +22,22 @@ import rateLimit from 'axios-rate-limit';
 const Results = () => {
 	const [empty, setEmpty] = useState(false);
 	const [open, setOpen] = useState(false);
-	const { documentObj, infoObj } = useModalContext();
-	const [document, setDoc] = documentObj;
-	const [info] = infoObj;
+	const { document, setDoc, info } = useModalContext();
+	const {
+		studentClass,
+		number, 
+		studentName, 
+		topicLabel,
+		subTopicLabel,
+		comment,
+		memNum,
+		mem1Class,
+		mem1Num,
+		mem2Class,
+		mem2Num, 
+		group
+	} = document;
+	const { uid } = info;
 
 	const axios = rateLimit(Axios.create(), {
 		maxRequests: 2,
@@ -34,7 +47,7 @@ const Results = () => {
 
 	useEffect(
 		() =>
-			onSnapshot(doc(db, 'studentData', info.uid), (snapshot) => {
+			onSnapshot(doc(db, 'studentData', uid), (snapshot) => {
 				if (snapshot.exists()) {
 					setDoc(snapshot.data());
 				} else {
@@ -42,10 +55,10 @@ const Results = () => {
 				}
 			}),
 
-		[info.uid, setDoc]
+		[uid, setDoc]
 	);
 
-	const renderMember = (num, doc) => {
+	const renderMember = (num) => {
 		const fields = [];
 		for (var i = 1; i < num; i++) {
 			fields.push(
@@ -57,8 +70,8 @@ const Results = () => {
 					</Grid>
 					<Grid item xs={6}>
 						<Typography variant='h5' align='center'>
-							{i === 1 ? doc.mem1Class : doc.mem2Class}
-							{i === 1 ? doc.mem1Num : doc.mem2Num}
+							{i === 1 ? mem1Class : mem2Class}
+							{i === 1 ? mem1Num : mem2Num}
 						</Typography>
 					</Grid>
 				</Grid>
@@ -78,7 +91,7 @@ const Results = () => {
 
 	const handleDelete = async () => {
 		await axios.delete(
-			process.env.REACT_APP_API_URL + '/deleteDoc/' + info.uid
+			process.env.REACT_APP_API_URL + '/deleteDoc/' + uid
 		);
 
 		setEmpty(true);
@@ -104,10 +117,10 @@ const Results = () => {
 								</Grid>
 								<Grid item xs={6}>
 									<Typography variant='h5' align='center'>
-										{document.class}
-										{document.number < 10
-											? '0' + document.number
-											: document.number}
+										{studentClass}
+										{number < 10
+											? '0' + number
+											: number}
 									</Typography>
 								</Grid>
 							</Grid>
@@ -119,7 +132,7 @@ const Results = () => {
 								</Grid>
 								<Grid item xs={6}>
 									<Typography variant='h5' align='center'>
-										{document.name}
+										{studentName}
 									</Typography>
 								</Grid>
 							</Grid>
@@ -131,7 +144,7 @@ const Results = () => {
 								</Grid>
 								<Grid item xs={6}>
 									<Typography variant='h5' align='center'>
-										{document.topicLabel}
+										{topicLabel}
 									</Typography>
 								</Grid>
 							</Grid>
@@ -143,11 +156,11 @@ const Results = () => {
 								</Grid>
 								<Grid item xs={6}>
 									<Typography variant='h5' align='center'>
-										{document.subTopicLabel}
+										{subTopicLabel}
 									</Typography>
 								</Grid>
 							</Grid>
-							{document.comment !== '' && (
+							{comment !== '' && (
 								<Grid container item direction='row'>
 									<Grid item xs={6}>
 										<Typography variant='h5' align='center'>
@@ -156,7 +169,7 @@ const Results = () => {
 									</Grid>
 									<Grid item xs={6}>
 										<Typography variant='h5' align='center'>
-											{document.comment}
+											{comment}
 										</Typography>
 									</Grid>
 								</Grid>
@@ -169,12 +182,12 @@ const Results = () => {
 								</Grid>
 								<Grid item xs={6}>
 									<Typography variant='h5' align='center'>
-										{document.memNum}
+										{memNum}
 									</Typography>
 								</Grid>
 							</Grid>
-							{renderMember(document.memNum, document)}
-							{document.group !== '' && (
+							{renderMember(memNum)}
+							{group !== '' && (
 								<Grid container item direction='row'>
 									<Grid item xs={6}>
 										<Typography variant='h5' align='center'>
@@ -183,7 +196,7 @@ const Results = () => {
 									</Grid>
 									<Grid item xs={6}>
 										<Typography variant='h5' align='center'>
-											{document.group}
+											{group}
 										</Typography>
 									</Grid>
 								</Grid>

@@ -17,9 +17,8 @@ import lsshStar from './images/lsshStar.png';
 import useViewport from './hooks/useViewport';
 
 const App = () => {
-	const { infoObj, authObj } = useModalContext();
-	const [info] = infoObj;
-	const [authState] = authObj;
+	const { info, authState } = useModalContext();
+	const { isAdmin, isUser } = authState;
 	const { width } = useViewport();
 	const breakpoint = 441;
 
@@ -85,7 +84,7 @@ const App = () => {
 					<Route
 						path='/dashboard'
 						element={
-							authState.isUser || authState.isAdmin ? (
+							isUser || isAdmin ? (
 								<Dashboard />
 							) : (
 								<PageNotAuthorized />
@@ -95,7 +94,7 @@ const App = () => {
 					<Route
 						path='/users'
 						element={
-							authState.isAdmin && !authState.isUser ? (
+							isAdmin && !isUser ? (
 								<Users />
 							) : (
 								<PageNotAuthorized />

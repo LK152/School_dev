@@ -32,9 +32,9 @@ const NavButton = styled(Button)({
 });
 
 const Navbar = () => {
-    const { infoObj, authObj } = useModalContext();
-    const [info] = infoObj;
-    const [authState] = authObj;
+    const { info, authState } = useModalContext();
+    const { photoURL } = info ?? {};
+    const { isAdmin, isUser } = authState
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -72,9 +72,9 @@ const Navbar = () => {
             <ul className={open ? 'navDropdown active' : 'navDropdown'}>
                 <li>
                     {info ? (
-                        info.photoURL !== null && (
+                        photoURL !== null && (
                             <Avatar
-                                src={info.photoURL}
+                                src={photoURL}
                                 sx={{ width: 72, height: 72, my: 3 }}
                             />
                         )
@@ -105,7 +105,7 @@ const Navbar = () => {
                         </Typography>
                     </NavButton>
                 </li>
-                {(authState.isUser || authState.isAdmin) && info && (
+                {(isUser || isAdmin) && info && (
                     <li>
                         <NavButton
                             onClick={handleClick}
@@ -121,7 +121,7 @@ const Navbar = () => {
                         </NavButton>
                     </li>
                 )}
-                {info && authState.isAdmin && (
+                {info && isAdmin && (
                     <li>
                         <NavButton
                             onClick={handleClick}
@@ -137,7 +137,7 @@ const Navbar = () => {
                         </NavButton>
                     </li>
                 )}
-                {info && !authState.isUser && !authState.isAdmin && (
+                {info && !isUser && !isAdmin && (
                     <>
                         <li>
                             <NavButton
