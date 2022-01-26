@@ -38,7 +38,7 @@ const ModalProvider = ({ children }) => {
 	const [document, setDoc] = useSessionState('doc', {});
 	const [info, setInfo] = useSessionState('userInfo', null);
 	const [studentRecord, setRecord] = useSessionState('record', []);
-	const { isAdmin, teacherClass } = authState;
+	const { isAdmin, isUser, teacherClass } = authState;
 	const { selection } = selectedValues;
 	const { uid } = info ?? {};
 
@@ -81,49 +81,53 @@ const ModalProvider = ({ children }) => {
 	}, [uid, setAuth, info]);
 
 	useEffect(() => {
-		const unSub = onSnapshot(collection(db, 'users'), (snap) => {
-			const users = [];
+		if (info && isAdmin) {
+			const unSub = onSnapshot(collection(db, 'users'), (snap) => {
+				const users = [];
 
-			if (!snap.empty) {
-				snap.forEach((user) => {
-					users.push(user.data());
-				});
-			}
-
-			setUsers(users);
-		});
-
-		return () => unSub();
-	}, [setUsers]);
-
-	useEffect(() => {
-		const unSub = onSnapshot(
-			isAdmin
-				? selection !== 0
-					? query(
-							collection(db, 'studentData'),
-							where('class', '==', selection)
-					  )
-					: collection(db, 'studentData')
-				: query(
-						collection(db, 'studentData'),
-						where('class', '==', teacherClass)
-				  ),
-			(snapshot) => {
-				const docs = [];
-
-				if (!snapshot.empty) {
-					snapshot.forEach((doc) => {
-						docs.push(doc.data());
+				if (!snap.empty) {
+					snap.forEach((user) => {
+						users.push(user.data());
 					});
 				}
 
-				setRecord(docs);
-			}
-		);
+				setUsers(users);
+			});
 
-		return () => unSub();
-	}, [setRecord, teacherClass, isAdmin, selection]);
+			return () => unSub();
+		}
+	}, [setUsers, info, isAdmin]);
+
+	useEffect(() => {
+		if (info && (isAdmin || isUser)) {
+			const unSub = onSnapshot(
+				isAdmin
+					? selection !== 0
+						? query(
+								collection(db, 'studentData'),
+								where('class', '==', selection)
+						  )
+						: collection(db, 'studentData')
+					: query(
+							collection(db, 'studentData'),
+							where('class', '==', teacherClass)
+					  ),
+				(snapshot) => {
+					const docs = [];
+
+					if (!snapshot.empty) {
+						snapshot.forEach((doc) => {
+							docs.push(doc.data());
+						});
+					}
+
+					setRecord(docs);
+				}
+			);
+
+			return () => unSub();
+		}
+	}, [setRecord, teacherClass, isAdmin, selection, info, isUser]);
 
 	const value = {
 		document,

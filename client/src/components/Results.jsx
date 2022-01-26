@@ -15,18 +15,18 @@ import {
 import { Edit, DeleteForever } from '@mui/icons-material';
 import { useModalContext } from '../context/ModalContext';
 import { db } from '../service/firestore';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { onSnapshot, doc } from 'firebase/firestore';
 import Axios from 'axios';
 import rateLimit from 'axios-rate-limit';
 
 const Results = () => {
-	const [empty, setEmpty] = useState(false);
 	const [open, setOpen] = useState(false);
+	const [empty, setEmpty] = useState(false);
 	const { document, setDoc, info } = useModalContext();
 	const {
 		studentClass,
-		number, 
-		studentName, 
+		number,
+		studentName,
 		topicLabel,
 		subTopicLabel,
 		comment,
@@ -34,8 +34,8 @@ const Results = () => {
 		mem1Class,
 		mem1Num,
 		mem2Class,
-		mem2Num, 
-		group
+		mem2Num,
+		group,
 	} = document;
 	const { uid } = info;
 
@@ -52,10 +52,11 @@ const Results = () => {
 					setDoc(snapshot.data());
 				} else {
 					setEmpty(true);
+					setDoc({});
 				}
 			}),
 
-		[uid, setDoc]
+		[uid, setDoc, setEmpty]
 	);
 
 	const renderMember = (num) => {
@@ -90,9 +91,7 @@ const Results = () => {
 	};
 
 	const handleDelete = async () => {
-		await axios.delete(
-			process.env.REACT_APP_API_URL + '/deleteDoc/' + uid
-		);
+		await axios.delete(process.env.REACT_APP_API_URL + '/deleteDoc/' + uid);
 
 		setEmpty(true);
 		setOpen(false);
@@ -118,9 +117,7 @@ const Results = () => {
 								<Grid item xs={6}>
 									<Typography variant='h5' align='center'>
 										{studentClass}
-										{number < 10
-											? '0' + number
-											: number}
+										{number < 10 ? '0' + number : number}
 									</Typography>
 								</Grid>
 							</Grid>
@@ -187,20 +184,18 @@ const Results = () => {
 								</Grid>
 							</Grid>
 							{renderMember(memNum)}
-							{group !== '' && (
-								<Grid container item direction='row'>
-									<Grid item xs={6}>
-										<Typography variant='h5' align='center'>
-											組別
-										</Typography>
-									</Grid>
-									<Grid item xs={6}>
-										<Typography variant='h5' align='center'>
-											{group}
-										</Typography>
-									</Grid>
+							<Grid container item direction='row'>
+								<Grid item xs={6}>
+									<Typography variant='h5' align='center'>
+										分配組別
+									</Typography>
 								</Grid>
-							)}
+								<Grid item xs={6}>
+									<Typography variant='h5' align='center'>
+										{group ?? '尚無'}
+									</Typography>
+								</Grid>
+							</Grid>
 							<Grid
 								container
 								item

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
 	DataGrid,
 	GridToolbarContainer,
@@ -7,8 +7,6 @@ import {
 import { Button } from '@mui/material';
 import { Download } from '@mui/icons-material';
 import { useModalContext } from '../context/ModalContext';
-import { db } from '../service/firestore.js';
-import { onSnapshot, collection, query, where } from 'firebase/firestore';
 import { exportClasses } from './Options';
 import Select from './Select';
 import exportXL from '../api/exportXL';
@@ -68,40 +66,9 @@ const columns = [
 
 const StudentTable = ({ handleSelect }) => {
 	const [pageSize, setPageSize] = useState(50);
-	const { studentRecord, setRecord, authState, selectedValues, selected, setSelected } = useModalContext();
-	const { isAdmin, teacherClass } = authState;
+	const { studentRecord, authState, selectedValues, selected, setSelected } = useModalContext();
+	const { isAdmin } = authState;
 	const { selection } = selectedValues
-
-	useEffect(() => {
-		const unSub = onSnapshot(
-			isAdmin
-				? selection !== 0
-					? query(
-							collection(db, 'studentData'),
-							where('class', '==', selection)
-					  )
-					: collection(db, 'studentData')
-				: query(
-						collection(db, 'studentData'),
-						where('class', '==', teacherClass)
-				  ),
-			(snapshot) => {
-				const docs = [];
-
-				if (!snapshot.empty) {
-					snapshot.forEach((doc) => {
-						docs.push(doc.data());
-					});
-				} else {
-					setRecord([]);
-				}
-
-				setRecord(docs);
-			}
-		);
-
-		return () => unSub();
-	}, [setRecord, teacherClass, isAdmin, selection]);
 
 	const handleExport = () => {
 		exportXL(studentRecord, '自主學習');
@@ -130,9 +97,9 @@ const StudentTable = ({ handleSelect }) => {
 	const rows = studentRecord.map((doc) => {
 		return {
 			id: doc.email,
-			name: doc.name,
+			name: doc.studentName,
 			classNumber:
-				doc.class.toString() +
+				doc.studentClass.toString() +
 				(doc.number < 10
 					? '0' + doc.number.toString()
 					: doc.number.toString()),

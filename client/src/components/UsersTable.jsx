@@ -11,7 +11,7 @@ const EternalUsers = {
 
 const UsersTable = () => {
 	const { info, users } = useModalContext();
-	const { email } = info;
+	const { email } = info ?? {};
 
 	const axios = rateLimit(Axios.create(), {
 		maxRequests: 2,

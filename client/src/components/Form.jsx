@@ -90,9 +90,9 @@ const Form = () => {
 		const data = {
 			uid: uid,
 			email: email,
-			class: studentClass,
+			studentClass: studentClass,
 			number: number,
-			name: studentName,
+			studentName: studentName,
 			topic: mainTopics[mainTopic].value,
 			topicLabel: mainTopics[mainTopic].label,
 			subTopic:
@@ -238,7 +238,7 @@ const Form = () => {
 											<InputLabel>班級 *</InputLabel>
 											<Select
 												label='班級 *'
-												name='class'
+												name='studentClass'
 												options={classes}
 												value={studentClass}
 												onChange={handleChange}
@@ -262,7 +262,7 @@ const Form = () => {
 									<FormControl fullWidth>
 										<TextField
 											label='姓名'
-											name='name'
+											name='studentName'
 											required
 											variant='filled'
 											value={studentName}

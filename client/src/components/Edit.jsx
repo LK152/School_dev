@@ -92,8 +92,9 @@ const Form = () => {
 		setLoading(true);
 
 		const data = {
-			class: studentClass,
-			number: number,
+			studentClass: studentClass,
+			number: number, 
+			studentName: studentName, 
 			topic: mainTopics[topic].value,
 			topicLabel: mainTopics[topic].label,
 			subTopic:

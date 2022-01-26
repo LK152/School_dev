@@ -56,6 +56,8 @@ const Users = () => {
 		};
 
 		fetchData();
+
+		return () => setLOU([])
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
