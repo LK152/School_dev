@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import logo from '../images/logo.png';
 import locationIcon from '../images/location-icon.svg';
 import phoneIcon from '../images/phone-icon.svg';
+import emailIcon from '../images/email-icon.svg';
 
 const Footer = () => {
 	return (
 		<Box
 			sx={{
-				width: '100vw', 
-				height: '360px', 
+				width: '100vw',
+				height: '400px',
 				backgroundColor: '#F3905F',
 				position: 'relative',
 				left: 0,
@@ -69,6 +70,24 @@ const Footer = () => {
 							</a>
 						</Grid>
 					</Grid>
+					<Grid item container direction='row' columnGap={1}>
+						<Grid item>
+							<img alt='email-icon' src={emailIcon} />
+						</Grid>
+						<Grid item>
+							<a
+								href='mailto:learningplan@lssh.tp.edu.tw'
+								style={{ textDecoration: 'none' }}
+							>
+								<Typography
+									color='common.white'
+									sx={{ fontSize: '0.875rem' }}
+								>
+									learningplan@lssh.tp.edu.tw
+								</Typography>
+							</a>
+						</Grid>
+					</Grid>
 					<Grid item container direction='row'>
 						<Grid item>
 							<Typography
@@ -112,7 +131,7 @@ const Footer = () => {
 								}}
 								component={Link}
 							>
-								LK
+								LK Dev
 							</Typography>
 						</Grid>
 					</Grid>
