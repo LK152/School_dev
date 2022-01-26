@@ -19,6 +19,7 @@
     "express": "^4.17.2",
     "firebase-admin": "^10.0.1",
     "helmet": "^5.0.1", 
-    "node-fetch": ">=2.6.7"
+    "node-fetch": ">=2.6.7", 
+    "node-forge": ">=1.0.0"
   }
 }
