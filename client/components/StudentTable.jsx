@@ -94,7 +94,13 @@ const StudentTable = ({ handleSelect }) => {
 		);
 	};
 
-	const rows = studentRecord.map((doc) => {
+	const handleSelection = (record) => {
+		return record.studentClass === selection;
+	};
+
+	const studentRecords = studentRecord.filter(handleSelection);
+
+	const rows = studentRecords.map((doc) => {
 		return {
 			id: doc.email,
 			name: doc.studentName,

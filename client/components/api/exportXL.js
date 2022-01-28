@@ -7,20 +7,20 @@ const exportXL = (records, fileName) => {
 	const fileExtent = '.xlsx';
 	const AoO = []
 		.concat(records)
-		.sort((a, b) => a.class - b.class || a.number - b.number);
+		.sort((a, b) => a.studentClass - b.studentClass || a.number - b.number);
 
 	const docs = AoO.map((doc) => {
 		return {
-			班級: doc.class,
+			班級: doc.studentClass,
 			座號: doc.number,
-			姓名: doc.name,
+			姓名: doc.studentName,
 			Email: doc.email,
 			主題: doc.topicLabel,
 			副主題: doc.subTopicLabel,
 			備註: doc.comment,
 			組員人數: doc.memNum,
-			組員1: doc.mem1Class.toString() + doc.mem1Num.toString(),
-			組員2: doc.mem2Class.toString() + doc.mem2Num.toString(),
+			組員1: doc.mem1Class?.toString() + doc.mem1Num?.toString(),
+			組員2: doc.mem2Class?.toString() + doc.mem2Num?.toString(),
 			組別: doc.group,
 		};
 	});

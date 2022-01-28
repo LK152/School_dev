@@ -25,8 +25,8 @@ export const initialValues = {
 	mem1Class: '',
 	mem1Num: '',
 	mem2Class: '',
-	mem2Num: '', 
-	group: ''
+	mem2Num: '',
+	group: '',
 };
 
 const initAuth = {
@@ -127,13 +127,11 @@ export const StateProvider = (props) => {
 		if (user && (isAdmin || isTeacher)) {
 			const unSub = onSnapshot(
 				isAdmin
-					? selectedValues.selection !== 0
-						? query(
-								studentDB,
-								where('class', '==', selectedValues.selection)
-						  )
-						: studentDB
-					: query(studentDB, where('class', '==', teacherClass)),
+					? studentDB
+					: query(
+							studentDB,
+							where('studentClass', '==', teacherClass)
+					  ),
 				(records) => {
 					const Records = [];
 
@@ -150,7 +148,7 @@ export const StateProvider = (props) => {
 
 			return () => unSub();
 		}
-	}, [user, authState, selectedValues]);
+	}, [user, authState, selectedValues.selection]);
 
 	const value = {
 		formValues,
