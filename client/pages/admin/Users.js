@@ -68,8 +68,6 @@ const Users = () => {
 		e.preventDefault();
 		setLoading(true);
 
-		console.log(newUser);
-
 		if (isAdmin) {
 			await axios
 				.post(`/api/admin/${newUser.email}`, {
