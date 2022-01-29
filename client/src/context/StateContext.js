@@ -41,7 +41,7 @@ const usersDB = collection(db, 'users');
 export const StateProvider = (props) => {
 	const { user } = useAuth();
 	const [formValues, setFormValues] = useState(initialValues);
-	const [authState, setAuthState] = useState(initAuth);
+	const [authState, setAuthState] = useSessionState('secret', initAuth);
 	const [users, setUsers] = useState([]);
 	const [document, setDoc] = useState({});
 	const [empty, setEmpty] = useState(true);
@@ -125,25 +125,17 @@ export const StateProvider = (props) => {
 
 	useEffect(() => {
 		if (user && (isAdmin || isTeacher)) {
-			const unSub = onSnapshot(
-				isAdmin
-					? studentDB
-					: query(
-							studentDB,
-							where('studentClass', '==', teacherClass)
-					  ),
-				(records) => {
-					const Records = [];
+			const unSub = onSnapshot(studentDB, (records) => {
+				const Records = [];
 
-					if (!records.empty) {
-						records.forEach((record) => {
-							Records.push(record.data());
-						});
-					}
-
-					setRecord(Records);
+				if (!records.empty) {
+					records.forEach((record) => {
+						Records.push(record.data());
+					});
 				}
-			);
+
+				setRecord(Records);
+			});
 			subscriptions.push(unSub);
 
 			return () => unSub();

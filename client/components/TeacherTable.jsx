@@ -64,7 +64,8 @@ const columns = [
 
 const TeacherTable = () => {
 	const [pageSize, setPageSize] = useState(50);
-	const { studentRecord, authState, selected, setSelected } = useStateContext();
+	const { studentRecord, authState, selected, setSelected } =
+		useStateContext();
 	const { isAdmin, teacherClass } = authState;
 
 	const handleExport = () => {
@@ -86,8 +87,8 @@ const TeacherTable = () => {
 	};
 
 	const handleClass = (record) => {
-		return record.group === teacherClass;
-	}
+		return record.groupClass === teacherClass;
+	};
 
 	const studentRecords = studentRecord.filter(handleClass);
 

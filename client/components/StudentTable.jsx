@@ -68,7 +68,7 @@ const StudentTable = ({ handleSelect }) => {
 	const [pageSize, setPageSize] = useState(50);
 	const { studentRecord, authState, selectedValues, selected, setSelected } =
 		useStateContext();
-	const { isAdmin } = authState;
+	const { isAdmin, isTeacher, teacherClass } = authState;
 	const { selection } = selectedValues;
 
 	const handleExport = () => {
@@ -99,11 +99,17 @@ const StudentTable = ({ handleSelect }) => {
 		if (selection === 0) {
 			return record;
 		}
-		
+
 		return record.studentClass === selection;
 	};
 
-	const studentRecords = studentRecord.filter(handleSelection);
+	const handleTeacherFilter = (record) => {
+		return record.studentClass === teacherClass;
+	};
+
+	const studentRecords = studentRecord.filter(
+		isTeacher ? handleTeacherFilter : handleSelection
+	);
 
 	const rows = studentRecords.map((doc) => {
 		return {

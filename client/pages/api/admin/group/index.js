@@ -18,7 +18,7 @@ export default async (req, res) => {
 									.firestore()
 									.collection('studentData')
 									.doc(user.uid)
-									.update({ group: req.body.group });
+									.update({ group: req.body.group, groupClass: req.body.groupClass });
 							})
 							.catch(() =>
 								res
@@ -44,7 +44,7 @@ export default async (req, res) => {
 									.firestore()
 									.collection('studentData')
 									.doc(user.uid)
-									.update({ group: '' })
+									.update({ group: '', groupClass: '' })
 									.then(() => res.status(200).end())
 									.catch(() => res.status(400).end());
 							})
