@@ -18,12 +18,12 @@ const Developer = () => {
 						</Grid>
 						<Grid item>
 							<Typography variant='h4' align='center'>
-								前/後端:&emsp;21屆吳俊霆
+								前端/後端/視覺設計/教學:&emsp;21屆吳俊霆
 							</Typography>
 						</Grid>
 						<Grid item>
 							<Typography variant='h4' align='center'>
-								後端:&emsp;21屆張新約
+								後端:&emsp;21屆
 							</Typography>
 						</Grid>
 						<Grid item>
