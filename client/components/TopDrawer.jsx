@@ -4,10 +4,11 @@ import { Menu, Close } from '@mui/icons-material';
 import styles from '../styles/TopDrawer.module.css';
 import NextMuiLink from './NextMuiLink';
 import theme from '../styles/theme';
-import axios from 'axios';
+import useAuth from 'src/context/AuthContext';
 
 const TopDrawer = ({ navLinks }) => {
 	const [open, setOpen] = useState(false);
+	const { user, loginWithGoogleMobile, logout } = useAuth();
 
 	const handleClick = () => {
 		setOpen(!open);
@@ -33,9 +34,15 @@ const TopDrawer = ({ navLinks }) => {
 					)}
 				</IconButton>
 				<div style={{ flexGrow: 1 }} />
-				<Button color='secondary'>
-					<Typography>登入</Typography>
-				</Button>
+				{!user ? (
+					<Button color='secondary' onClick={loginWithGoogleMobile}>
+						<Typography>登入</Typography>
+					</Button>
+				) : (
+					<Button color='secondary' onClick={logout}>
+						<Typography>登出</Typography>
+					</Button>
+				)}
 			</Toolbar>
 			<ul className={open ? styles.TopDrawerActive : styles.TopDrawer}>
 				{navLinks.map(({ title, path }, i) => (

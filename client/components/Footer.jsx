@@ -118,7 +118,7 @@ const Footer = () => {
 									fontSize: '0.875rem',
 								}}
 							>
-								&emsp;|&emsp;Powered by&ensp;
+								&ensp;|&ensp;Powered by&ensp;
 							</Typography>
 						</Grid>
 						<Grid item>
