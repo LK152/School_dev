@@ -167,7 +167,7 @@ const Users = () => {
 											newUser.email
 										) ||
 										(!newUser.isAdmin &&
-											newUser.userClass === '')
+											newUser.teacherClass === '')
 									}
 								>
 									<Typography color='common.white'>

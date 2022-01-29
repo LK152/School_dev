@@ -109,12 +109,12 @@ const Footer = () => {
 							</a>
 						</Grid>
 					</Grid>
-					<Grid item container direction='row'>
+					<Grid item container direction='row' justifyContent='center'>
 						<Grid item>
 							<Typography
 								color='common.white'
 								sx={{
-									fontSize: '0.875rem',
+									fontSize: '1rem',
 								}}
 							>
 								Powered by&ensp;

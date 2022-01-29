@@ -39,7 +39,12 @@ const MyApp = (props) => {
 								<CssBaseline />
 								<Navbar />
 								<div className={styles.lsshStar}>
-									<Image alt='lssh-star' src={lsshStar} />
+									<Image
+										alt='lssh-star'
+										src={lsshStar}
+										priority
+										quality={100}
+									/>
 								</div>
 								<Component {...pageProps} />
 							</div>
