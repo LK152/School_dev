@@ -27,10 +27,7 @@ const Footer = () => {
 					<Grid item container direction='row'>
 						<Grid item xs />
 						<Grid item xs={6}>
-							<Image
-								alt='lssh-logo'
-								src={logo}
-							/>
+							<Image alt='lssh-logo' src={logo} />
 						</Grid>
 						<Grid item xs />
 					</Grid>
@@ -111,6 +108,8 @@ const Footer = () => {
 								</Typography>
 							</a>
 						</Grid>
+					</Grid>
+					<Grid item container direction='row'>
 						<Grid item>
 							<Typography
 								color='common.white'
@@ -118,16 +117,19 @@ const Footer = () => {
 									fontSize: '0.875rem',
 								}}
 							>
-								&ensp;|&ensp;Powered by&ensp;
+								Powered by&ensp;
 							</Typography>
 						</Grid>
 						<Grid item>
-							<NextMuiLink activeClassName="active" href='/Developer'>
+							<NextMuiLink
+								activeClassName='active'
+								href='/Developer'
+							>
 								<Typography
 									color='secondary'
 									sx={{
 										textDecoration: 'none',
-										fontSize: '0.875rem',
+										fontSize: '1rem',
 									}}
 								>
 									LK Dev

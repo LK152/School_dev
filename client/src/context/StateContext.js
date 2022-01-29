@@ -41,7 +41,7 @@ const usersDB = collection(db, 'users');
 export const StateProvider = (props) => {
 	const { user } = useAuth();
 	const [formValues, setFormValues] = useState(initialValues);
-	const [authState, setAuthState] = useSessionState('secret', initAuth);
+	const [authState, setAuthState] = useState(initAuth);
 	const [users, setUsers] = useState([]);
 	const [document, setDoc] = useState({});
 	const [empty, setEmpty] = useState(true);

@@ -66,9 +66,10 @@ const columns = [
 
 const StudentTable = ({ handleSelect }) => {
 	const [pageSize, setPageSize] = useState(50);
-	const { studentRecord, authState, selectedValues, selected, setSelected } = useStateContext();
+	const { studentRecord, authState, selectedValues, selected, setSelected } =
+		useStateContext();
 	const { isAdmin } = authState;
-	const { selection } = selectedValues
+	const { selection } = selectedValues;
 
 	const handleExport = () => {
 		exportXL(studentRecord, '自主學習');
@@ -95,6 +96,10 @@ const StudentTable = ({ handleSelect }) => {
 	};
 
 	const handleSelection = (record) => {
+		if (selection === 0) {
+			return record;
+		}
+		
 		return record.studentClass === selection;
 	};
 

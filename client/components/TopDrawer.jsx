@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Toolbar, IconButton, Typography, Button } from '@mui/material';
+import { Toolbar, IconButton, Typography, Button, Avatar } from '@mui/material';
 import { Menu, Close } from '@mui/icons-material';
 import styles from '../styles/TopDrawer.module.css';
 import NextMuiLink from './NextMuiLink';
@@ -45,6 +45,17 @@ const TopDrawer = ({ navLinks }) => {
 				)}
 			</Toolbar>
 			<ul className={open ? styles.TopDrawerActive : styles.TopDrawer}>
+				{user && (
+					<>
+						<Avatar
+							src={user?.photoURL}
+							sx={{ width: 72, height: 72, my: 3 }}
+						/>
+						<Typography color='common.white' variant='h5'>
+							{user?.displayName}
+						</Typography>
+					</>
+				)}
 				{navLinks.map(({ title, path }, i) => (
 					<NextMuiLink
 						key={`${title}${i}`}
