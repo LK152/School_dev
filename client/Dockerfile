@@ -1,7 +1,7 @@
 FROM node:14-alpine AS base
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN yarn install 
+RUN npm install 
 
 FROM node:14-alpine AS BUILD_IMAGE
 WORKDIR /app
