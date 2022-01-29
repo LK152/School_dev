@@ -7,28 +7,28 @@ const Developer = () => {
 				<CardContent>
 					<Grid container direction='column' spacing={4}>
 						<Grid item>
-							<Typography variant='h1' align='center'>
+							<Typography variant='h2' align='center'>
 								開發者團隊
 							</Typography>
 						</Grid>
 						<Grid item>
-							<Typography variant='h4' align='center'>
-								策劃者:&emsp;金佳龍
+							<Typography variant='h5' align='center'>
+								策劃者:&ensp;金佳龍
 							</Typography>
 						</Grid>
 						<Grid item>
-							<Typography variant='h4' align='center'>
-								前端/後端/視覺設計/教學:&emsp;21屆吳俊霆
+							<Typography variant='h5' align='center'>
+								前端/後端/視覺設計:&ensp;21屆吳俊霆
 							</Typography>
 						</Grid>
 						<Grid item>
-							<Typography variant='h4' align='center'>
-								後端:&emsp;21屆
+							<Typography variant='h5' align='center'>
+								後端:&ensp;21屆張新約
 							</Typography>
 						</Grid>
 						<Grid item>
-							<Typography variant='h4' align='center'>
-								視覺設計:&emsp;21屆高正
+							<Typography variant='h5' align='center'>
+								視覺設計:&ensp;21屆高正
 							</Typography>
 						</Grid>
 					</Grid>
