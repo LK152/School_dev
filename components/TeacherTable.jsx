@@ -6,7 +6,7 @@ import {
 } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
 import { Download } from '@mui/icons-material';
-import exportXL from './api/exportXL';
+import exportXL from './export/exportXL';
 import useStateContext from '../src/context/StateContext';
 
 const columns = [
