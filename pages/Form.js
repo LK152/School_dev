@@ -69,7 +69,8 @@ const Form = () => {
 		mem1Class,
 		mem1Num,
 		mem2Class,
-		mem2Num,
+		mem2Num, 
+		group
 	} = formValues;
 	const { uid, email } = user ?? {};
 
@@ -103,7 +104,8 @@ const Form = () => {
 			mem1Class: mem1Class,
 			mem1Num: mem1Num,
 			mem2Class: mem2Class,
-			mem2Num: mem2Num,
+			mem2Num: mem2Num, 
+			group: group
 		};
 
 		await axios

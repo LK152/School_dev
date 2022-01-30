@@ -11,6 +11,7 @@ const useAuth = () => {
 export const AuthProvider = (props) => {
 	const router = useRouter();
 	const [user, setUser] = useState(null);
+	const [isLoggedOut, setLogout] = useState(false);
 	const [error, setError] = useState();
 	const loginWithGoogleBrowser = async () => {
 		const { error, user } = await AuthService.loginWithGoogleBrowser();
@@ -27,16 +28,19 @@ export const AuthProvider = (props) => {
 	const logout = async () => {
 		await AuthService.logout();
 		setUser(null);
+		setLogout(true);
 		router.replace('/');
 	};
 
 	const value = {
 		user,
-		error,
+		error, 
+		isLoggedOut, 
 		setUser,
 		loginWithGoogleBrowser,
 		loginWithGoogleMobile,
 		logout,
+		setLogout
 	};
 
 	return <authContext.Provider value={value} {...props} />;

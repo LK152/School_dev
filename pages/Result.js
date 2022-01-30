@@ -170,9 +170,7 @@ const Result = () => {
 								</Grid>
 								<Grid item xs={6}>
 									<Typography variant='h5' align='center'>
-										{group === '' || group === null
-											? '尚無'
-											: group}
+										{group === '' ? '尚無' : group}
 									</Typography>
 								</Grid>
 							</Grid>

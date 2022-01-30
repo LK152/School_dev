@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, useContext, useState, useEffect } from 'react';
 import useSessionState from '../hook/useSessionState';
-import { doc, onSnapshot, query, collection, where } from 'firebase/firestore';
+import { doc, onSnapshot, collection } from 'firebase/firestore';
 import useAuth from './AuthContext';
 import { db } from '../service/AuthService';
 
@@ -39,29 +39,30 @@ const studentDB = collection(db, 'studentData');
 const usersDB = collection(db, 'users');
 
 export const StateProvider = (props) => {
-	const { user } = useAuth();
+	const { user, isLoggedOut, setLoggedOut } = useAuth();
 	const [formValues, setFormValues] = useState(initialValues);
 	const [authState, setAuthState] = useSessionState('secret', initAuth);
-	const [users, setUsers] = useState([]);
-	const [document, setDoc] = useState({});
+	const [users, setUsers] = useSessionState('users', []);
+	const [document, setDoc] = useSessionState('doc', {});
 	const [empty, setEmpty] = useState(true);
 	const [selectedValues, setSelectedValues] = useState({
 		selection: 0,
 		selectedGroup: 201,
 		group: '',
 	});
-	const [studentRecord, setRecord] = useState([]);
+	const [studentRecord, setRecord] = useSessionState('records', []);
 	const [selected, setSelected] = useState([]);
-	const { isAdmin, isTeacher, teacherClass } = authState;
+	const { isAdmin, isTeacher } = authState;
 	const subscriptions = [];
 
 	useEffect(() => {
-		if (!user && subscriptions.length > 0) {
+		if (!user && subscriptions.length > 0 && isLoggedOut) {
 			subscriptions.forEach((subscription) => {
 				subscription();
 			});
+			setLoggedOut(false);
 		}
-	}, [user]);
+	}, [user, isLoggedOut]);
 
 	useEffect(() => {
 		if (user) {
