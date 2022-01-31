@@ -77,6 +77,25 @@ const Edit = () => {
 
 	const handleChange = (e) => {
 		setFormValues({ ...formValues, [e.target.name]: e.target.value });
+		switch (memNum) {
+			case 1:
+				setFormValues({
+					...formValues,
+					mem1Class: '',
+					mem1Num: '',
+					mem2Class: '',
+					mem2Num: '',
+				});
+				break;
+
+			case 2:
+				setFormValues({
+					...formValues,
+					mem1Class: '',
+					mem1Num: '',
+				});
+				break;
+		}
 	};
 
 	const handleSubmit = async (e) => {
@@ -338,19 +357,24 @@ const Edit = () => {
 									direction='row'
 									justifyContent='space-between'
 								>
-										<Button variant='text' onClick={() => router.replace('/Result')}>
-											<Typography
-												sx={{
-													display: 'flex',
-													flexDirection: 'row',
-													zIndex: 1,
-													textDecoration: 'none',
-												}}
-											>
-												取消
-												<Cancel />
-											</Typography>
-										</Button>
+									<Button
+										variant='text'
+										onClick={() =>
+											router.replace('/Result')
+										}
+									>
+										<Typography
+											sx={{
+												display: 'flex',
+												flexDirection: 'row',
+												zIndex: 1,
+												textDecoration: 'none',
+											}}
+										>
+											取消
+											<Cancel />
+										</Typography>
+									</Button>
 									<Submitbtn
 										type='submit'
 										disableRipple

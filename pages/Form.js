@@ -69,8 +69,8 @@ const Form = () => {
 		mem1Class,
 		mem1Num,
 		mem2Class,
-		mem2Num, 
-		group
+		mem2Num,
+		group,
 	} = formValues;
 	const { uid, email } = user ?? {};
 
@@ -78,6 +78,25 @@ const Form = () => {
 
 	const handleChange = (e) => {
 		setFormValues({ ...formValues, [e.target.name]: e.target.value });
+		switch (memNum) {
+			case 1:
+				setFormValues({
+					...formValues,
+					mem1Class: '',
+					mem1Num: '',
+					mem2Class: '',
+					mem2Num: '',
+				});
+				break;
+			
+			case 2: 
+			setFormValues({
+				...formValues,
+				mem1Class: '',
+				mem1Num: '',
+			});
+			break;
+		}
 	};
 
 	const handleSubmit = async (e) => {
@@ -92,20 +111,16 @@ const Form = () => {
 			topic: mainTopics[topic].value,
 			topicLabel: mainTopics[topic].label,
 			subTopic:
-				topic !== 7
-					? subTopics[topic][subTopic].value
-					: otherTopic,
+				topic !== 7 ? subTopics[topic][subTopic].value : otherTopic,
 			subTopicLabel:
-				topic !== 7
-					? subTopics[topic][subTopic].label
-					: otherTopic,
+				topic !== 7 ? subTopics[topic][subTopic].label : otherTopic,
 			comment: comment,
 			memNum: memNum,
 			mem1Class: mem1Class,
 			mem1Num: mem1Num,
 			mem2Class: mem2Class,
-			mem2Num: mem2Num, 
-			group: group
+			mem2Num: mem2Num,
+			group: group,
 		};
 
 		await axios
