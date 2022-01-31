@@ -53,7 +53,7 @@ export const StateProvider = (props) => {
 	const [studentRecord, setRecord] = useState([]);
 	const [selected, setSelected] = useState([]);
 	const { isAdmin, isTeacher } = authState;
-	let subscriptions = [];
+	const subscriptions = [];
 
 	useEffect(() => {
 		if (!user && subscriptions.length > 0 && isLoggedOut) {
@@ -64,7 +64,6 @@ export const StateProvider = (props) => {
 			setUsers([]);
 			setAuthState(initAuth);
 			sessionStorage.clear();
-			subscriptions = [];
 		}
 	}, [isLoggedOut]);
 
