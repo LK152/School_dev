@@ -71,7 +71,6 @@ export const StateProvider = (props) => {
 	useEffect(() => {
 		if (user) {
 			const unSub = onSnapshot(doc(db, 'users', user?.uid), (user) => {
-				console.log(user)
 				if (user.exists()) {
 					setAuthState(user.data());
 				} else {
