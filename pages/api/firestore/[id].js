@@ -9,7 +9,7 @@ export default async (req, res) => {
     try {
         switch (req.method) {
             case 'POST': 
-                await studentDB.doc(id).set({ ...req.body }, { mergeFields: true });
+                await studentDB.doc(id).set({ ...req.body }, { merge: true });
                 res.status(201).end();
                 break;
             

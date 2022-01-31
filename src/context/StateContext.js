@@ -42,18 +42,18 @@ export const StateProvider = (props) => {
 	const { user, isLoggedOut, setLoggedOut } = useAuth();
 	const [formValues, setFormValues] = useState(initialValues);
 	const [authState, setAuthState] = useSessionState('secret', initAuth);
-	const [users, setUsers] = useSessionState('users', []);
-	const [document, setDoc] = useSessionState('doc', {});
+	const [users, setUsers] = useState([]);
+	const [document, setDoc] = useState({});
 	const [empty, setEmpty] = useState(true);
 	const [selectedValues, setSelectedValues] = useState({
 		selection: 0,
 		selectedGroup: 201,
 		group: '',
 	});
-	const [studentRecord, setRecord] = useSessionState('records', []);
+	const [studentRecord, setRecord] = useState([]);
 	const [selected, setSelected] = useState([]);
 	const { isAdmin, isTeacher } = authState;
-	const subscriptions = [];
+	let subscriptions = [];
 
 	useEffect(() => {
 		if (!user && subscriptions.length > 0 && isLoggedOut) {
@@ -61,8 +61,11 @@ export const StateProvider = (props) => {
 				subscription();
 			});
 			setLoggedOut(false);
+			setAuthState(initAuth);
+			sessionStorage.clear();
+			subscriptions = [];
 		}
-	}, [user, isLoggedOut]);
+	}, [isLoggedOut]);
 
 	useEffect(() => {
 		if (user) {
@@ -76,9 +79,6 @@ export const StateProvider = (props) => {
 			subscriptions.push(unSub);
 
 			return () => unSub();
-		} else {
-			setAuthState(initAuth);
-			sessionStorage.clear();
 		}
 	}, [user]);
 
