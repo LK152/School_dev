@@ -5,11 +5,17 @@ import {
 	signOut,
 	getAuth,
 } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, enableIndexedDbPersistence } from 'firebase/firestore';
 import { app } from '../config/firebase.config';
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+
+if (process.browser) {
+	enableIndexedDbPersistence(db).catch((err) => {
+		console.log(err);
+	});
+}
 
 export const AuthService = {
 	loginWithGoogleBrowser: async () => {
