@@ -61,6 +61,7 @@ export const StateProvider = (props) => {
 				subscription();
 			});
 			setLoggedOut(false);
+			setUsers([]);
 			setAuthState(initAuth);
 			sessionStorage.clear();
 			subscriptions = [];
@@ -70,6 +71,7 @@ export const StateProvider = (props) => {
 	useEffect(() => {
 		if (user) {
 			const unSub = onSnapshot(doc(db, 'users', user?.uid), (user) => {
+				console.log(user)
 				if (user.exists()) {
 					setAuthState(user.data());
 				} else {
@@ -98,10 +100,6 @@ export const StateProvider = (props) => {
 			subscriptions.push(unSub);
 
 			return () => unSub();
-		}
-
-		if (!user) {
-			setUsers([]);
 		}
 	}, [user, authState]);
 
@@ -141,7 +139,7 @@ export const StateProvider = (props) => {
 
 			return () => unSub();
 		}
-	}, [user, authState, selectedValues.selection]);
+	}, [user, authState]);
 
 	const value = {
 		formValues,

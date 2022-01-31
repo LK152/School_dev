@@ -38,8 +38,8 @@ const Grouping = () => {
 	const handleUpdate = async () => {
 		const data = {
 			selected: selected,
-			group: teacher.label, 
-			groupClass: teacher.value
+			group: teacher.label,
+			groupClass: teacher.value,
 		};
 		setAdd(true);
 
@@ -61,7 +61,9 @@ const Grouping = () => {
 					<Grid container direction='column' spacing={2}>
 						<Grid item>
 							<Typography variant='h3' textAlign='center'>
-								{isAdmin && !isTeacher ? '學生分組' : teacherClass}
+								{isAdmin && !isTeacher
+									? '學生分組'
+									: teacherClass}
 							</Typography>
 						</Grid>
 						<Grid item>
