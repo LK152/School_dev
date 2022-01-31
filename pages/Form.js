@@ -78,25 +78,6 @@ const Form = () => {
 
 	const handleChange = (e) => {
 		setFormValues({ ...formValues, [e.target.name]: e.target.value });
-		switch (memNum) {
-			case 1:
-				setFormValues({
-					...formValues,
-					mem1Class: '',
-					mem1Num: '',
-					mem2Class: '',
-					mem2Num: '',
-				});
-				break;
-			
-			case 2: 
-			setFormValues({
-				...formValues,
-				mem1Class: '',
-				mem1Num: '',
-			});
-			break;
-		}
 	};
 
 	const handleSubmit = async (e) => {
@@ -116,10 +97,10 @@ const Form = () => {
 				topic !== 7 ? subTopics[topic][subTopic].label : otherTopic,
 			comment: comment,
 			memNum: memNum,
-			mem1Class: mem1Class,
-			mem1Num: mem1Num,
-			mem2Class: mem2Class,
-			mem2Num: mem2Num,
+			mem1Class: memNum === '1' ? '' : mem1Class,
+			mem1Num: memNum === '1' ? '' : mem1Num,
+			mem2Class: (memNum === '1' || memNum === '2') ? '' : mem2Class,
+			mem2Num: (memNum === '1' || memNum === '2') ? '' : mem2Num,
 			group: group,
 		};
 
