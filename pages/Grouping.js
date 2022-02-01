@@ -38,8 +38,10 @@ const Grouping = () => {
 	const handleUpdate = async () => {
 		const data = {
 			selected: selected,
-			group: teacher.label,
-			groupClass: teacher.value,
+			data: {
+				group: teacher.label,
+				groupClass: teacher.value,
+			},
 		};
 		setAdd(true);
 
