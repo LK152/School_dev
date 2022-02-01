@@ -2,11 +2,6 @@ import admin from '../../../../utils/db';
 
 // eslint-disable-next-line
 export default async (req, res) => {
-	const { secret } = req.query;
-
-	if (secret !== process.env.API_ROUTE_KEY) {
-		return res.status(401).end();
-	}
 	try {
 		switch (req.method) {
 			case 'PATCH':

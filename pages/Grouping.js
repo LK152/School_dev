@@ -45,21 +45,17 @@ const Grouping = () => {
 		};
 		setAdd(true);
 
-		await axios
-			.patch(`/api/admin/group/${process.env.NEXT_PUBLIC_API_ROUTE_KEY}`, data)
-			.then(() => {
-				setAdd(false);
-			});
+		await axios.patch(`/api/admin/group`, data).then(() => {
+			setAdd(false);
+		});
 	};
 
 	const handleDelete = async () => {
 		setDelete(true);
 
-		await axios
-			.post(`/api/admin/group/${process.env.NEXT_PUBLIC_API_ROUTE_KEY}`, selected)
-			.then(() => {
-				setDelete(false);
-			});
+		await axios.post(`/api/admin/group`, selected).then(() => {
+			setDelete(false);
+		});
 	};
 
 	return (
