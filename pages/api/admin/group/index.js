@@ -18,7 +18,13 @@ export default async (req, res) => {
 									.firestore()
 									.collection('studentData')
 									.doc(user.uid)
-									.update({ group: req.body.group, groupClass: req.body.groupClass });
+									.set(
+										{
+											group: req.body.group,
+											groupClass: req.body.groupClass,
+										},
+										{ merge: true }
+									);
 							})
 							.catch(() =>
 								res
