@@ -1,4 +1,4 @@
-import { withUser } from '../src/hook/route';
+import { withUser } from '@src/hook/route';
 import {
 	Container,
 	Card,
@@ -8,12 +8,12 @@ import {
 	FormControl,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import Select from '../components/Select';
-import StudentTable from '../components/StudentTable';
-import TeacherTable from '../components/TeacherTable';
+import Select from '@components/Select';
+import StudentTable from '@components/StudentTable';
+import TeacherTable from '@components/TeacherTable';
 import { teachers } from '../data/Option';
 import axios from 'axios';
-import useStateContext from '../src/context/StateContext';
+import useStateContext from '@src/context/StateContext';
 import { useState } from 'react';
 
 const Grouping = () => {
