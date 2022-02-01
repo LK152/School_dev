@@ -4,21 +4,19 @@ const studentDB = admin.firestore().collection('studentData');
 
 // eslint-disable-next-line
 export default async (req, res) => {
-    const { id } = req.query;
+	const { id } = req.query;
 
-    try {
-        switch (req.method) {
-            case 'POST': 
-                await studentDB.doc(id).set({ ...req.body }, { mergeFields: true });
-                res.status(201).end();
-                break;
-            
-            case 'DELETE': 
-                await studentDB.doc(id).delete();
-                res.status(200).end();
-                break;
-        }   
-    } catch (err) {
-        res.status(400).end();
-    }
-}
+	try {
+		switch (req.method) {
+			case 'POST':
+				await studentDB.doc(id).set({ ...req.body }, { merge: true });
+				return res.status(201).end();
+
+			case 'DELETE':
+				await studentDB.doc(id).delete();
+				return res.status(200).end();
+		}
+	} catch (err) {
+		res.status(400).end();
+	}
+};
