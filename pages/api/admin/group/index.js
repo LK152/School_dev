@@ -3,8 +3,6 @@ import admin from '../../../../utils/db';
 // eslint-disable-next-line
 export default async (req, res) => {
 	try {
-		const batch = admin.firestore().batch();
-
 		switch (req.method) {
 			case 'PATCH':
 				if (
