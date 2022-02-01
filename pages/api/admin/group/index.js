@@ -5,7 +5,7 @@ export default async (req, res) => {
 	try {
 		switch (req.method) {
 			case 'PATCH':
-				req.body.selected.forEach((id) => {
+				await req.body.selected.forEach((id) => {
 					admin
 						.auth()
 						.getUserByEmail(id)
@@ -26,7 +26,7 @@ export default async (req, res) => {
 				return res.status(201).end();
 
 			case 'POST':
-				req.body.forEach((id) => {
+				await req.body.forEach((id) => {
 					admin
 						.auth()
 						.getUserByEmail(id)
