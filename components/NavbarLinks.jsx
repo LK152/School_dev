@@ -14,8 +14,8 @@ import {
 } from '@mui/material';
 import { Logout } from '@mui/icons-material';
 import NextMuiLink from './NextMuiLink';
-import theme from '../styles/theme';
-import useAuth from '../src/context/AuthContext';
+import theme from '@styles/theme';
+import useAuth from '@src/context/AuthContext';
 
 const init = {
 	anchorEl: null,

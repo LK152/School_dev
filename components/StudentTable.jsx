@@ -6,14 +6,19 @@ import {
 } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
 import { Download } from '@mui/icons-material';
-import { exportClasses } from '../data/Option';
+import { exportClasses } from '@data/Option';
 import Select from './Select';
 import exportXL from './export/exportXL';
-import useStateContext from '../src/context/StateContext';
+import useStateContext from '@src/context/StateContext';
 
 const columns = [
 	{
 		field: 'id',
+		headerName: '學生uid',
+		width: 100,
+	},
+	{
+		field: 'email',
 		headerName: '學生Email',
 		width: 200,
 	},
@@ -113,7 +118,8 @@ const StudentTable = ({ handleSelect }) => {
 
 	const rows = studentRecords.map((doc) => {
 		return {
-			id: doc.email,
+			id: doc.uid,
+			email: doc.email,
 			name: doc.studentName,
 			classNumber:
 				doc.studentClass.toString() +

@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import { Box, Grid, Typography } from '@mui/material';
 import NextMuiLink from './NextMuiLink';
-import logo from '../public/logo.png';
-import locationIcon from '../public/footer-icons/location-icon.svg';
-import phoneIcon from '../public/footer-icons/phone-icon.svg';
-import emailIcon from '../public/footer-icons/email-icon.svg';
+import logo from '@public/logo.png';
+import locationIcon from '@public/footer-icons/location-icon.svg';
+import phoneIcon from '@public/footer-icons/phone-icon.svg';
+import emailIcon from '@public/footer-icons/email-icon.svg';
 
 const Footer = () => {
 	return (

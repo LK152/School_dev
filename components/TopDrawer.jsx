@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Toolbar, IconButton, Typography, Button, Avatar } from '@mui/material';
 import { Menu, Close } from '@mui/icons-material';
-import styles from '../styles/topDrawer.module.css';
+import styles from '@styles/topDrawer.module.css';
 import NextMuiLink from './NextMuiLink';
-import theme from '../styles/theme';
+import theme from '@styles/theme';
 import useAuth from 'src/context/AuthContext';
 
 const TopDrawer = ({ navLinks }) => {

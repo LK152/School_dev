@@ -1,8 +1,8 @@
 import { DataGrid } from '@mui/x-data-grid';
 import { Button, Typography } from '@mui/material';
 import axios from 'axios';
-import useAuth from '../src/context/AuthContext';
-import useStateContext from '../src/context/StateContext';
+import useAuth from '@src/context/AuthContext';
+import useStateContext from '@src/context/StateContext';
 
 const EternalUsers = {
 	user1: 'learningplan@lssh.tp.edu.tw',

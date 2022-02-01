@@ -1,8 +1,8 @@
 import { Box, AppBar } from '@mui/material';
 import NavbarLinks from './NavbarLinks';
 import TopDrawer from './TopDrawer';
-import useAuth from '../src/context/AuthContext';
-import useStateContext from '../src/context/StateContext';
+import useAuth from '@src/context/AuthContext';
+import useStateContext from '@src/context/StateContext';
 
 const Navbar = () => {
 	const { user } = useAuth();
