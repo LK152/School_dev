@@ -19,11 +19,11 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Send, DeleteOutline } from '@mui/icons-material';
-import { mainTopics, subTopics, classes, numbers } from '../data/Option';
-import Select from '../components/Select';
+import { mainTopics, subTopics, classes, numbers } from 'data/Option';
+import Select from 'components/Select';
 import { useRouter } from 'next/router';
-import useStateContext, { initialValues } from '../src/context/StateContext';
-import useAuth from '../src/context/AuthContext';
+import useStateContext, { initialValues } from 'src/context/StateContext';
+import useAuth from 'src/context/AuthContext';
 import axios from 'axios';
 
 const Submitbtn = styled(LoadingButton)({

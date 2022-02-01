@@ -11,12 +11,12 @@ import {
 	DialogActions,
 	DialogTitle,
 } from '@mui/material';
-import NextMuiLink from '../components/NextMuiLink';
+import NextMuiLink from 'components/NextMuiLink';
 import { Edit, DeleteForever } from '@mui/icons-material';
 import axios from 'axios';
-import useStateContext from '../src/context/StateContext';
-import useAuth from '../src/context/AuthContext';
-import { withProtected } from '../src/hook/route';
+import useStateContext from 'src/context/StateContext';
+import useAuth from 'src/context/AuthContext';
+import { withProtected } from 'src/hook/route';
 
 const Result = () => {
 	const { user } = useAuth();

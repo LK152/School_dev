@@ -1,4 +1,4 @@
-import { withUser } from '../src/hook/route';
+import { withUser } from 'src/hook/route';
 import {
 	Container,
 	Card,
@@ -8,12 +8,12 @@ import {
 	FormControl,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import Select from '../components/Select';
-import StudentTable from '../components/StudentTable';
-import TeacherTable from '../components/TeacherTable';
-import { teachers } from '../data/Option';
+import Select from 'components/Select';
+import StudentTable from 'components/StudentTable';
+import TeacherTable from 'components/TeacherTable';
+import { teachers } from 'data/Option';
 import axios from 'axios';
-import useStateContext from '../src/context/StateContext';
+import useStateContext from 'src/context/StateContext';
 import { useState } from 'react';
 
 const Grouping = () => {
@@ -45,17 +45,21 @@ const Grouping = () => {
 		};
 		setAdd(true);
 
-		await axios.patch('/api/admin/group', data).then(() => {
-			setAdd(false);
-		});
+		await axios
+			.patch(`/api/admin/group/${process.env.NEXT_PUBLIC_API_ROUTE_KEY}`, data)
+			.then(() => {
+				setAdd(false);
+			});
 	};
 
 	const handleDelete = async () => {
 		setDelete(true);
 
-		await axios.post('/api/admin/group', selected).then(() => {
-			setDelete(false);
-		});
+		await axios
+			.post(`/api/admin/group/${process.env.NEXT_PUBLIC_API_ROUTE_KEY}`, selected)
+			.then(() => {
+				setDelete(false);
+			});
 	};
 
 	return (

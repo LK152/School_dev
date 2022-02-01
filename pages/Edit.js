@@ -1,4 +1,4 @@
-import { withProtected } from '../src/hook/route';
+import { withProtected } from 'src/hook/route';
 import { useState } from 'react';
 import {
 	Card,
@@ -20,10 +20,10 @@ import {
 import { LoadingButton } from '@mui/lab';
 import { Save, Cancel } from '@mui/icons-material';
 import { mainTopics, subTopics, classes, numbers } from '../data/Option';
-import Select from '../components/Select';
+import Select from 'components/Select';
 import { useRouter } from 'next/router';
-import useStateContext from '../src/context/StateContext';
-import useAuth from '../src/context/AuthContext';
+import useStateContext from 'src/context/StateContext';
+import useAuth from 'src/context/AuthContext';
 import axios from 'axios';
 
 const Submitbtn = styled(LoadingButton)({

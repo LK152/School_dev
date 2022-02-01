@@ -1,4 +1,4 @@
-import { withAdmin } from '../../src/hook/route';
+import { withAdmin } from 'src/hook/route';
 import { useState, useEffect } from 'react';
 import {
 	Container,
@@ -14,13 +14,13 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Delete } from '@mui/icons-material';
-import UsersTable from '../../components/UsersTable';
-import Select from '../../components/Select';
+import UsersTable from 'components/UsersTable';
+import Select from 'components/Select';
 import axios from 'axios';
-import { permit, teachers } from '../../data/Option';
+import { permit, teachers } from 'data/Option';
 import { useRouter } from 'next/router';
-import useAuth from '../../src/context/AuthContext';
-import useStateContext from '../../src/context/StateContext';
+import useAuth from 'src/context/AuthContext';
+import useStateContext from 'src/context/StateContext';
 
 const init = {
 	email: '',
