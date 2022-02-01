@@ -45,15 +45,17 @@ const Grouping = () => {
 		};
 		setAdd(true);
 
-		await axios.patch('/api/admin/group', data);
-		setAdd(false);
+		await axios.patch('/api/admin/group', data).then(() => {
+			setAdd(false);
+		});
 	};
 
 	const handleDelete = async () => {
 		setDelete(true);
 
-		await axios.post('/api/admin/group', selected);
-		setDelete(false);
+		await axios.post('/api/admin/group', selected).then(() => {
+			setDelete(false);
+		});
 	};
 
 	return (
