@@ -101,10 +101,10 @@ const Form = () => {
 					: otherTopic,
 			comment: comment,
 			memNum: memNum,
-			mem1Class: memNum === 1 ? '' : mem1Class,
-			mem1Num: memNum === 1 ? '' : mem1Num,
-			mem2Class: (memNum === 1 || memNum === 2) ? '' : mem2Class, 
-			mem2Num: (memNum === 1 || memNum === 2) ? '' : mem2Num, 
+			mem1Class: memNum === '1' ? '' : mem1Class,
+			mem1Num: memNum === '1' ? '' : mem1Num,
+			mem2Class: (memNum === '1' || memNum === '2') ? '' : mem2Class, 
+			mem2Num: (memNum === '1' || memNum === '2') ? '' : mem2Num, 
 			group: group
 		};
 
