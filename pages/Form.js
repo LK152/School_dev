@@ -19,11 +19,11 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Send, DeleteOutline } from '@mui/icons-material';
-import { mainTopics, subTopics, classes, numbers } from 'data/Option';
-import Select from 'components/Select';
+import { mainTopics, subTopics, classes, numbers } from '../data/Option';
+import Select from '../components/Select';
 import { useRouter } from 'next/router';
-import useStateContext, { initialValues } from 'src/context/StateContext';
-import useAuth from 'src/context/AuthContext';
+import useStateContext, { initialValues } from '../src/context/StateContext';
+import useAuth from '../src/context/AuthContext';
 import axios from 'axios';
 
 const Submitbtn = styled(LoadingButton)({
@@ -69,8 +69,8 @@ const Form = () => {
 		mem1Class,
 		mem1Num,
 		mem2Class,
-		mem2Num,
-		group,
+		mem2Num, 
+		group
 	} = formValues;
 	const { uid, email } = user ?? {};
 
@@ -92,16 +92,20 @@ const Form = () => {
 			topic: mainTopics[topic].value,
 			topicLabel: mainTopics[topic].label,
 			subTopic:
-				topic !== 7 ? subTopics[topic][subTopic].value : otherTopic,
+				topic !== 7
+					? subTopics[topic][subTopic].value
+					: otherTopic,
 			subTopicLabel:
-				topic !== 7 ? subTopics[topic][subTopic].label : otherTopic,
+				topic !== 7
+					? subTopics[topic][subTopic].label
+					: otherTopic,
 			comment: comment,
 			memNum: memNum,
-			mem1Class: memNum === '1' ? '' : mem1Class,
-			mem1Num: memNum === '1' ? '' : mem1Num,
-			mem2Class: (memNum === '1' || memNum === '2') ? '' : mem2Class,
-			mem2Num: (memNum === '1' || memNum === '2') ? '' : mem2Num,
-			group: group,
+			mem1Class: memNum === 1 ? '' : mem1Class,
+			mem1Num: memNum === 1 ? '' : mem1Num,
+			mem2Class: (memNum === 1 || memNum === 2) ? '' : mem2Class, 
+			mem2Num: (memNum === 1 || memNum === 2) ? '' : mem2Num, 
+			group: group
 		};
 
 		await axios

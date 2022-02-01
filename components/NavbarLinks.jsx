@@ -99,12 +99,7 @@ const NavbarLinks = ({ navLinks }) => {
 							</Typography>
 						</Box>
 						<Divider />
-						<MenuItem
-							onClick={() => {
-								logout();
-								setState(init);
-							}}
-						>
+						<MenuItem onClick={logout}>
 							<ListItemIcon>
 								<Logout fontSize='small' />
 							</ListItemIcon>

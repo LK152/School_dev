@@ -1,4 +1,4 @@
-import { withProtected } from 'src/hook/route';
+import { withProtected } from '../src/hook/route';
 import { useState } from 'react';
 import {
 	Card,
@@ -20,10 +20,10 @@ import {
 import { LoadingButton } from '@mui/lab';
 import { Save, Cancel } from '@mui/icons-material';
 import { mainTopics, subTopics, classes, numbers } from '../data/Option';
-import Select from 'components/Select';
+import Select from '../components/Select';
 import { useRouter } from 'next/router';
-import useStateContext from 'src/context/StateContext';
-import useAuth from 'src/context/AuthContext';
+import useStateContext from '../src/context/StateContext';
+import useAuth from '../src/context/AuthContext';
 import axios from 'axios';
 
 const Submitbtn = styled(LoadingButton)({
@@ -94,10 +94,10 @@ const Edit = () => {
 				topic !== 7 ? subTopics[topic][subTopic].label : otherTopic,
 			comment: comment,
 			memNum: memNum,
-			mem1Class: memNum === '1' ? '' : mem1Class,
-			mem1Num: memNum === '1' ? '' : mem1Num,
-			mem2Class: (memNum === '1' || memNum === '2') ? '' : mem2Class,
-			mem2Num: (memNum === '1' || memNum === '2') ? '' : mem2Num,
+			mem1Class: mem1Class,
+			mem1Num: mem1Num,
+			mem2Class: mem2Class,
+			mem2Num: mem2Num,
 		};
 
 		await axios
@@ -338,24 +338,19 @@ const Edit = () => {
 									direction='row'
 									justifyContent='space-between'
 								>
-									<Button
-										variant='text'
-										onClick={() =>
-											router.replace('/Result')
-										}
-									>
-										<Typography
-											sx={{
-												display: 'flex',
-												flexDirection: 'row',
-												zIndex: 1,
-												textDecoration: 'none',
-											}}
-										>
-											取消
-											<Cancel />
-										</Typography>
-									</Button>
+										<Button variant='text' onClick={() => router.replace('/Result')}>
+											<Typography
+												sx={{
+													display: 'flex',
+													flexDirection: 'row',
+													zIndex: 1,
+													textDecoration: 'none',
+												}}
+											>
+												取消
+												<Cancel />
+											</Typography>
+										</Button>
 									<Submitbtn
 										type='submit'
 										disableRipple

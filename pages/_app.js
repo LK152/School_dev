@@ -1,17 +1,17 @@
-import 'styles/globals.css';
-import styles from 'styles/app.module.css';
+import '../styles/globals.css';
+import styles from '../styles/app.module.css';
 import Head from 'next/head';
 import Image from 'next/image';
 import { CacheProvider } from '@emotion/react';
 import { ThemeProvider, CssBaseline } from '@mui/material';
-import createEmotionCache from 'styles/createEmotionCache';
-import { AuthProvider } from 'src/context/AuthContext';
-import { StateProvider } from 'src/context/StateContext';
-import AuthStateChanged from 'src/layout/AuthStateChanged';
-import theme from 'styles/theme';
-import Navbar from 'components/Navbar';
-import Footer from 'components/Footer';
-import lsshStar from 'public/lsshStar.png'
+import createEmotionCache from '../styles/createEmotionCache';
+import { AuthProvider } from '../src/context/AuthContext';
+import { StateProvider } from '../src/context/StateContext';
+import AuthStateChanged from '../src/layout/AuthStateChanged';
+import theme from '../styles/theme';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import lsshStar from '../public/lsshStar.png';
 
 const clientSideEmotionCache = createEmotionCache();
 

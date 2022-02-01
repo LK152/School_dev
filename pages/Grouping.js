@@ -1,4 +1,4 @@
-import { withUser } from 'src/hook/route';
+import { withUser } from '../src/hook/route';
 import {
 	Container,
 	Card,
@@ -8,12 +8,12 @@ import {
 	FormControl,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import Select from 'components/Select';
-import StudentTable from 'components/StudentTable';
-import TeacherTable from 'components/TeacherTable';
-import { teachers } from 'data/Option';
+import Select from '../components/Select';
+import StudentTable from '../components/StudentTable';
+import TeacherTable from '../components/TeacherTable';
+import { teachers } from '../data/Option';
 import axios from 'axios';
-import useStateContext from 'src/context/StateContext';
+import useStateContext from '../src/context/StateContext';
 import { useState } from 'react';
 
 const Grouping = () => {
@@ -38,24 +38,20 @@ const Grouping = () => {
 	const handleUpdate = async () => {
 		const data = {
 			selected: selected,
-			data: {
-				group: teacher.label,
-				groupClass: teacher.value,
-			},
+			group: teacher.label, 
+			groupClass: teacher.value
 		};
 		setAdd(true);
 
-		await axios.patch(`/api/admin/group`, data).then(() => {
-			setAdd(false);
-		});
+		await axios.patch('/api/admin/group', data);
+		setAdd(false);
 	};
 
 	const handleDelete = async () => {
 		setDelete(true);
 
-		await axios.post(`/api/admin/group`, selected).then(() => {
-			setDelete(false);
-		});
+		await axios.post('/api/admin/group', selected);
+		setDelete(false);
 	};
 
 	return (
@@ -65,9 +61,7 @@ const Grouping = () => {
 					<Grid container direction='column' spacing={2}>
 						<Grid item>
 							<Typography variant='h3' textAlign='center'>
-								{isAdmin && !isTeacher
-									? '學生分組'
-									: teacherClass}
+								{isAdmin && !isTeacher ? '學生分組' : teacherClass}
 							</Typography>
 						</Grid>
 						<Grid item>

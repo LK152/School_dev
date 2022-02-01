@@ -42,15 +42,15 @@ export const StateProvider = (props) => {
 	const { user, isLoggedOut, setLoggedOut } = useAuth();
 	const [formValues, setFormValues] = useState(initialValues);
 	const [authState, setAuthState] = useSessionState('secret', initAuth);
-	const [users, setUsers] = useState([]);
-	const [document, setDoc] = useState({});
+	const [users, setUsers] = useSessionState('users', []);
+	const [document, setDoc] = useSessionState('doc', {});
 	const [empty, setEmpty] = useState(true);
 	const [selectedValues, setSelectedValues] = useState({
 		selection: 0,
 		selectedGroup: 201,
 		group: '',
 	});
-	const [studentRecord, setRecord] = useState([]);
+	const [studentRecord, setRecord] = useSessionState('records', []);
 	const [selected, setSelected] = useState([]);
 	const { isAdmin, isTeacher } = authState;
 	const subscriptions = [];
@@ -65,7 +65,7 @@ export const StateProvider = (props) => {
 			setAuthState(initAuth);
 			sessionStorage.clear();
 		}
-	}, [isLoggedOut]);
+	}, [user, isLoggedOut]);
 
 	useEffect(() => {
 		if (user) {
