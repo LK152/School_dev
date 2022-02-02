@@ -45,7 +45,7 @@ const columns = [
 	{
 		field: 'comment',
 		headerName: '備註',
-		width: 160,
+		maxWidth: 200, 
 	},
 	{
 		field: 'memNum',
@@ -163,6 +163,9 @@ const StudentTable = ({ handleSelect }) => {
 				disableColumnMenu
 				disableSelectionOnClick
 				checkboxSelection={isAdmin}
+				initialState={{
+					columns: { columnVisibilityModel: { id: false } },
+				}}
 			/>
 		</div>
 	);
