@@ -24,12 +24,8 @@ const Footer = () => {
 		>
 			<Box sx={{ mx: 'auto', my: 'auto' }}>
 				<Grid container direction='column' spacing={2}>
-					<Grid item container direction='row'>
-						<Grid item xs />
-						<Grid item xs={6}>
-							<Image alt='lssh-logo' src={logo} />
-						</Grid>
-						<Grid item xs />
+					<Grid item mx='auto'>
+						<Image alt='lssh-logo' src={logo} quality={100} />
 					</Grid>
 					<Grid item container direction='row' columnGap={1}>
 						<Grid item>
@@ -109,7 +105,12 @@ const Footer = () => {
 							</a>
 						</Grid>
 					</Grid>
-					<Grid item container direction='row' justifyContent='center'>
+					<Grid
+						item
+						container
+						direction='row'
+						justifyContent='center'
+					>
 						<Grid item>
 							<Typography
 								color='common.white'
