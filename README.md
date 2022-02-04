@@ -1,6 +1,6 @@
 # Lishan High School Self Learning Application Repository
 
-[![Last commit](https://badgen.net/github/last-commit/micromatch/micromatch)](https://github.com/LK152/School_dev)\]
+[![Last commit](https://badgen.net/github/last-commit/LK152/School_dev)](https://github.com/LK152/School_dev)]
 
 ## Install Packages
 
