@@ -11,8 +11,16 @@ npm install
 
 ## Licensing
 
+[![License: MIT](https://img.shields.io/github/license/LK152/School_dev?color=blue)](https://opensource.org/licenses/MIT)  
+
 MIT License
 
 Copyright 2021, 2022 LK
 
-[![License: MIT](https://img.shields.io/github/license/LK152/School_dev?color=blue)](https://opensource.org/licenses/MIT)  
+## Available NPM Scripts
+
+```sh
+npm run dev
+npm run build
+npm start
+```
