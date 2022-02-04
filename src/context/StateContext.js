@@ -42,16 +42,17 @@ export const StateProvider = (props) => {
 	const { user, isLoggedOut, setLoggedOut } = useAuth();
 	const [formValues, setFormValues] = useState(initialValues);
 	const [authState, setAuthState] = useSessionState('secret', initAuth);
-	const [users, setUsers] = useSessionState('users', []);
-	const [document, setDoc] = useSessionState('doc', {});
+	const [users, setUsers] = useState([]);
+	const [document, setDoc] = useState({});
 	const [empty, setEmpty] = useState(true);
 	const [selectedValues, setSelectedValues] = useState({
 		selection: 0,
 		selectedGroup: 201,
 		group: '',
 	});
-	const [studentRecord, setRecord] = useSessionState('records', []);
+	const [studentRecord, setRecord] = useState([]);
 	const [selected, setSelected] = useState([]);
+	const [selectedIds, setSelectedIds] = useState([]);
 	const { isAdmin, isTeacher } = authState;
 	const subscriptions = [];
 
@@ -63,7 +64,7 @@ export const StateProvider = (props) => {
 			setLoggedOut(false);
 			setUsers([]);
 			setAuthState(initAuth);
-			sessionStorage.clear();
+			Storage.clear();
 		}
 	}, [user, isLoggedOut]);
 
@@ -148,6 +149,7 @@ export const StateProvider = (props) => {
 		selectedValues,
 		studentRecord,
 		selected,
+		selectedIds,
 		setFormValues,
 		setAuthState,
 		setUsers,
@@ -156,6 +158,7 @@ export const StateProvider = (props) => {
 		setSelectedValues,
 		setRecord,
 		setSelected,
+		setSelectedIds,
 	};
 
 	return <stateContext.Provider value={value} {...props} />;

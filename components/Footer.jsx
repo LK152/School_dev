@@ -112,12 +112,7 @@ const Footer = () => {
 						justifyContent='center'
 					>
 						<Grid item>
-							<Typography
-								color='common.white'
-								sx={{
-									fontSize: '1rem',
-								}}
-							>
+							<Typography color='common.white'>
 								Powered by&ensp;
 							</Typography>
 						</Grid>
@@ -130,7 +125,7 @@ const Footer = () => {
 									color='secondary'
 									sx={{
 										textDecoration: 'none',
-										fontSize: '1rem',
+										fontWeight: 900,
 									}}
 								>
 									LK Dev

@@ -19,7 +19,7 @@ import { useState } from 'react';
 const Grouping = () => {
 	const [addLoading, setAdd] = useState(false);
 	const [deleteLoading, setDelete] = useState(false);
-	const { authState, selectedValues, setSelectedValues, selected } =
+	const { authState, selectedValues, setSelectedValues, selectedIds } =
 		useStateContext();
 	const { isAdmin, isTeacher, teacherClass } = authState;
 	const { selectedGroup } = selectedValues;
@@ -37,9 +37,9 @@ const Grouping = () => {
 
 	const handleUpdate = async () => {
 		const data = {
-			selected: selected,
-			group: teacher.label, 
-			groupClass: teacher.value
+			selected: selectedIds,
+			group: teacher.label,
+			groupClass: teacher.value,
 		};
 		setAdd(true);
 
@@ -50,7 +50,7 @@ const Grouping = () => {
 	const handleDelete = async () => {
 		setDelete(true);
 
-		await axios.post('/api/admin/group', selected);
+		await axios.post('/api/admin/group', selectedIds);
 		setDelete(false);
 	};
 
@@ -61,7 +61,9 @@ const Grouping = () => {
 					<Grid container direction='column' spacing={2}>
 						<Grid item>
 							<Typography variant='h3' textAlign='center'>
-								{isAdmin && !isTeacher ? '學生分組' : teacherClass}
+								{isAdmin && !isTeacher
+									? '學生分組'
+									: teacherClass}
 							</Typography>
 						</Grid>
 						<Grid item>
@@ -101,7 +103,7 @@ const Grouping = () => {
 									<Grid item>
 										<LoadingButton
 											variant='contained'
-											disabled={selected.length === 0}
+											disabled={selectedIds.length === 0}
 											onClick={handleDelete}
 											sx={{ margin: 2 }}
 											loading={deleteLoading}
@@ -114,7 +116,7 @@ const Grouping = () => {
 									<Grid item>
 										<LoadingButton
 											variant='contained'
-											disabled={selected.length === 0}
+											disabled={selectedIds.length === 0}
 											onClick={handleUpdate}
 											sx={{ margin: 2 }}
 											loading={addLoading}

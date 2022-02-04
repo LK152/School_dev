@@ -71,7 +71,7 @@ const columns = [
 
 const StudentTable = ({ handleSelect }) => {
 	const [pageSize, setPageSize] = useState(50);
-	const { studentRecord, authState, selectedValues, selected, setSelected } =
+	const { studentRecord, authState, selectedValues, setSelected, setSelectedIds } =
 		useStateContext();
 	const { isAdmin, isTeacher, teacherClass } = authState;
 	const { selection } = selectedValues;
@@ -157,8 +157,15 @@ const StudentTable = ({ handleSelect }) => {
 				onPageSizeChange={(newPS) => setPageSize(newPS)}
 				rowsPerPageOptions={[10, 25, 50, 100]}
 				components={{ Toolbar: isAdmin && CustomToolbar }}
-				onSelectionModelChange={(select) => setSelected(select)}
-				selectionModel={selected}
+				onSelectionModelChange={(ids) => {
+					const selectedIDs = new Set(ids);
+					const selectedRows = rows.filter((row) => {
+						return selectedIDs.has(row.id)
+					})
+					
+					setSelected(selectedRows);
+					setSelectedIds(ids);
+				}}
 				disableColumnFilter
 				disableColumnMenu
 				disableSelectionOnClick

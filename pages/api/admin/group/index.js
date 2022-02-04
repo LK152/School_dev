@@ -51,7 +51,6 @@ export default async (req, res) => {
 						.collection('studentData')
 						.doc(id)
 						.update({ group: '', groupClass: '' })
-						.then(() => res.status(200).end())
 						.catch(() => res.status(400).end());
 				});
 
