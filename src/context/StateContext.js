@@ -64,7 +64,7 @@ export const StateProvider = (props) => {
 			setLoggedOut(false);
 			setUsers([]);
 			setAuthState(initAuth);
-			Storage.clear();
+			sessionStorage.clear();
 		}
 	}, [user, isLoggedOut]);
 
