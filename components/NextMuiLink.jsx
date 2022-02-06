@@ -32,7 +32,7 @@ export const NextLinkComposed = React.forwardRef(function NextLinkComposed(
 			passHref={passHref}
 			locale={locale}
 		>
-			<a ref={ref} {...other} />
+			<a ref={ref} {...other} style={{ textDecoration: 'none' }} />
 		</NextLink>
 	);
 });
@@ -58,7 +58,15 @@ const Link = React.forwardRef(function Link(props, ref) {
 
 	if (isExternal) {
 		if (noLinkStyle) {
-			return <a className={className} href={href} ref={ref} {...other} />;
+			return (
+				<a
+					className={className}
+					href={href}
+					ref={ref}
+					{...other}
+					style={{ textDecoration: 'none' }}
+				/>
+			);
 		}
 
 		return (
@@ -73,7 +81,15 @@ const Link = React.forwardRef(function Link(props, ref) {
 	}
 
 	if (noLinkStyle) {
-		return <a className={className} href={href} ref={ref} {...other} />;
+		return (
+			<a
+				className={className}
+				href={href}
+				ref={ref}
+				{...other}
+				style={{ textDecoration: 'none' }}
+			/>
+		);
 	}
 
 	return (
