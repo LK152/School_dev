@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import useAuth from '../context/AuthContext';
 import useStateContext from '../context/StateContext';
+import Loader from '@components/Loader';
 
 export const withProtected = (Component) => {
 	const WithProtected = (props) => {
@@ -9,7 +10,7 @@ export const withProtected = (Component) => {
 
 		if (!auth.user) {
 			router.replace('/');
-			return <h1>Loading...</h1>;
+			return <Loader />;
 		}
 
 		return <Component {...props} />;
@@ -26,7 +27,7 @@ export const withAdmin = (Component) => {
 
 		if (!authState.isAdmin || !auth.user) {
 			router.replace('/');
-			return <h1>Loading...</h1>;
+			return <Loader />;
 		}
 
 		return <Component {...props} />;
@@ -43,7 +44,7 @@ export const withUser = (Component) => {
 
 		if ((!authState.isAdmin && !authState.isTeacher) || !auth.user) {
 			router.replace('/');
-			return <h1>Loading...</h1>;
+			return <Loader />;
 		}
 
 		return <Component {...props} />;

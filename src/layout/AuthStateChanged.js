@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { auth } from '../service/AuthService';
 import useAuth from '../context/AuthContext';
+import Loader from '@components/Loader';
 
 const AuthStateChanged = ({ children }) => {
 	const { setUser } = useAuth();
@@ -15,7 +16,7 @@ const AuthStateChanged = ({ children }) => {
 	}, []);
 
 	if (loading) {
-		return <h1>Loading...</h1>;
+		return <Loader />;
 	}
 
     return children;
