@@ -19,8 +19,8 @@ import Select from '@components/Select';
 import axios from 'axios';
 import { permit, teachers } from '@data/Option';
 import { useRouter } from 'next/router';
-import useAuth from '@src/context/AuthContext';
 import useStateContext from '@src/context/StateContext';
+import admin from '../../utils/db';
 
 const init = {
 	email: '',
@@ -28,33 +28,22 @@ const init = {
 	teacherClass: '',
 };
 
-const Users = () => {
+const Users = ({ users }) => {
 	const [newUser, setNewUser] = useState(init);
 	const [loading, setLoading] = useState(false);
 	const [emailInput, setEmailInput] = useState('');
 	const [listOfUsers, setLOU] = useState([]);
-	const { user } = useAuth();
 	const { authState } = useStateContext();
 	const { isAdmin } = authState;
 	const router = useRouter();
 
 	useEffect(() => {
-		const fetchData = async () => {
-			await axios
-				.get(`/api/admin/${user?.uid}`)
-				.then((users) => {
-					const Users = [];
-
-					users.data.forEach((User) => Users.push(User.email));
-					setLOU(Users);
-				})
-				.catch((err) => console.log(err));
-		};
-
-		fetchData();
+		if (authState.isAdmin) {
+			setLOU(JSON.parse(users).map((user) => user.email));
+		}
 
 		return () => setLOU([]);
-	}, [user]);
+	}, [users, authState]);
 
 	const handleChange = (e) => {
 		setNewUser({ ...newUser, [e.target.name]: e.target.value });
@@ -186,6 +175,14 @@ const Users = () => {
 			</Card>
 		</Container>
 	);
+};
+
+export const getStaticProps = async () => {
+	const res = JSON.stringify((await admin.auth().listUsers()).users);
+
+	return {
+		props: { users: res },
+	};
 };
 
 export default withAdmin(Users);
