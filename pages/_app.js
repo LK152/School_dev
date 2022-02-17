@@ -25,7 +25,7 @@ const MyApp = (props) => {
 	return (
 		<CacheProvider value={emotionCache}>
 			<Head>
-				<title>自主學習</title>
+				<title>麗山高中自主學習</title>
 				<meta
 					name='viewport'
 					content='initial-scale=1, width=device-width'
