@@ -20,7 +20,6 @@ import axios from 'axios';
 import { permit, teachers } from '@data/Option';
 import { useRouter } from 'next/router';
 import useStateContext from '@src/context/StateContext';
-import admin from '../../utils/db';
 
 const init = {
 	email: '',
@@ -28,7 +27,7 @@ const init = {
 	teacherClass: '',
 };
 
-const Users = ({ users }) => {
+const Users = () => {
 	const [newUser, setNewUser] = useState(init);
 	const [loading, setLoading] = useState(false);
 	const [emailInput, setEmailInput] = useState('');
@@ -38,12 +37,12 @@ const Users = ({ users }) => {
 	const router = useRouter();
 
 	useEffect(() => {
-		if (authState.isAdmin) {
-			setLOU(JSON.parse(users).map((user) => user.email));
-		}
+		axios.get(`/api/admin`).then((users) => {
+			setLOU(users.data?.map((user) => user.displayName));
+		});
 
 		return () => setLOU([]);
-	}, [users, authState]);
+	}, [authState]);
 
 	const handleChange = (e) => {
 		setNewUser({ ...newUser, [e.target.name]: e.target.value });
@@ -175,14 +174,6 @@ const Users = ({ users }) => {
 			</Card>
 		</Container>
 	);
-};
-
-export const getStaticProps = async () => {
-	const res = JSON.stringify((await admin.auth().listUsers()).users);
-
-	return {
-		props: { users: res },
-	};
 };
 
 export default withAdmin(Users);
