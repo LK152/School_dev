@@ -1,5 +1,12 @@
-import { useState } from 'react';
-import { Toolbar, IconButton, Typography, Button, Avatar } from '@mui/material';
+import { useState, useEffect } from 'react';
+import {
+	Toolbar,
+	IconButton,
+	Typography,
+	Button,
+	Avatar,
+	useMediaQuery,
+} from '@mui/material';
 import { Menu, Close } from '@mui/icons-material';
 import styles from '@styles/topDrawer.module.css';
 import NextMuiLink from './NextMuiLink';
@@ -9,6 +16,13 @@ import useAuth from 'src/context/AuthContext';
 const TopDrawer = ({ navLinks }) => {
 	const [open, setOpen] = useState(false);
 	const { user, loginWithGoogleMobile, logout } = useAuth();
+	const mediaQuery = useMediaQuery(theme.breakpoints.up('browser'));
+
+	useEffect(() => {
+		if (mediaQuery) {
+			setOpen(false);
+		}
+	}, [mediaQuery]);
 
 	const handleClick = () => {
 		setOpen(!open);
