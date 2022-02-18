@@ -7,6 +7,7 @@ import { ThemeProvider, CssBaseline } from '@mui/material';
 import createEmotionCache from '@styles/createEmotionCache';
 import { AuthProvider } from '@src/context/AuthContext';
 import { StateProvider } from '@src/context/StateContext';
+import { DataProvider } from '@src/context/DataContext';
 import AuthStateChanged from '@src/layout/AuthStateChanged';
 import theme from '@styles/theme';
 import Navbar from '@components/Navbar';
@@ -35,20 +36,27 @@ const MyApp = (props) => {
 				<AuthProvider>
 					<AuthStateChanged>
 						<StateProvider>
-							<div style={{ minHeight: '100vh', width: '100%' }}>
-								<CssBaseline />
-								<Navbar />
-								<div className={styles.lsshStar}>
-									<Image
-										alt='lssh-star'
-										src={lsshStar}
-										priority
-										quality={100}
-									/>
+							<DataProvider>
+								<div
+									style={{
+										minHeight: '100vh',
+										width: '100%',
+									}}
+								>
+									<CssBaseline />
+									<Navbar />
+									<div className={styles.lsshStar}>
+										<Image
+											alt='lssh-star'
+											src={lsshStar}
+											priority
+											quality={100}
+										/>
+									</div>
+									<Component {...pageProps} />
 								</div>
-								<Component {...pageProps} />
-							</div>
-							<Footer />
+								<Footer />
+							</DataProvider>
 						</StateProvider>
 					</AuthStateChanged>
 				</AuthProvider>
