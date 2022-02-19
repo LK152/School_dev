@@ -14,7 +14,7 @@ export const DataProvider = (props) => {
 
 	const value = {};
 
-	return <dataContext.Provider {...props} />;
+	return <dataContext.Provider value={value} {...props} />;
 };
 
 export default useData;

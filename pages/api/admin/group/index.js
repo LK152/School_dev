@@ -3,6 +3,8 @@ import initMiddleware from '@src/lib/initMiddleware';
 import validateMiddleware from '@src/lib/validateMiddleware';
 import { body, validationResult } from 'express-validator';
 
+const db = admin.firestore();
+
 const validateAdd = initMiddleware(
 	validateMiddleware(
 		[body('selected').isLength({ min: 1, max: 100 })],
@@ -24,21 +26,25 @@ export default async (req, res) => {
 	try {
 		switch (req.method) {
 			case 'PATCH':
+				const updateBatch = db.batch();
+
 				await validateAdd(req, res);
 
 				if (!errors.isEmpty()) {
 					return res.status(422).json({ errors: errors.array() });
 				}
 				await req.body.selected.forEach((id) => {
-					admin.firestore().collection('studentData').doc(id).update({
+					updateBatch.update(db.collection('studentData').doc(id), {
 						group: req.body.group,
 						groupClass: req.body.groupClass,
 					});
 				});
+				await updateBatch.commit();
 
 				return res.status(201).end();
 
 			case 'POST':
+				const deleteBatch = db.batch();
 				await validateDelete(req, res);
 
 				if (!errors.isEmpty()) {
@@ -46,13 +52,12 @@ export default async (req, res) => {
 				}
 
 				await req.body.forEach((id) => {
-					admin
-						.firestore()
-						.collection('studentData')
-						.doc(id)
-						.update({ group: '', groupClass: '' })
-						.catch(() => res.status(400).end());
+					deleteBatch.update(db.collection('studentData').doc(id), {
+						group: '',
+						groupClass: '',
+					});
 				});
+				await deleteBatch.commit();
 
 				res.status(200).end();
 		}
