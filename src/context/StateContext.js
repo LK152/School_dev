@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import useSessionState from '../hook/useSessionState';
 import { doc, onSnapshot, collection } from 'firebase/firestore';
 import useAuth from './AuthContext';
-import { db } from '../service/AuthService';
+import { db } from '@src/service/AuthService';
 
 const stateContext = createContext();
 
@@ -53,6 +53,7 @@ export const StateProvider = (props) => {
 	const [studentRecord, setRecord] = useState([]);
 	const [selected, setSelected] = useState([]);
 	const [selectedIds, setSelectedIds] = useState([]);
+	
 	const { isAdmin, isTeacher } = authState;
 	const subscriptions = [];
 

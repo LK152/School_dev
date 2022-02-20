@@ -7,7 +7,7 @@ import { ThemeProvider, CssBaseline } from '@mui/material';
 import createEmotionCache from '@styles/createEmotionCache';
 import { AuthProvider } from '@src/context/AuthContext';
 import { StateProvider } from '@src/context/StateContext';
-import { DataProvider } from '@src/context/DataContext';
+import { OptionProvider } from '@src/context/OptionContext';
 import AuthStateChanged from '@src/layout/AuthStateChanged';
 import theme from '@styles/theme';
 import Navbar from '@components/Navbar';
@@ -36,7 +36,7 @@ const MyApp = (props) => {
 				<AuthProvider>
 					<AuthStateChanged>
 						<StateProvider>
-							<DataProvider>
+							<OptionProvider>
 								<div
 									style={{
 										minHeight: '100vh',
@@ -56,7 +56,7 @@ const MyApp = (props) => {
 									<Component {...pageProps} />
 								</div>
 								<Footer />
-							</DataProvider>
+							</OptionProvider>
 						</StateProvider>
 					</AuthStateChanged>
 				</AuthProvider>

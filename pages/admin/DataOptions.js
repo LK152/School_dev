@@ -13,19 +13,24 @@ import {
 	DialogContent,
 	TextField,
 	DialogActions,
+	Divider,
+	IconButton,
 } from '@mui/material';
 import { useState } from 'react';
 import axios from 'axios';
+import useOption from '@src/context/OptionContext';
+import { Delete } from '@mui/icons-material';
 
 const initStates = {
 	classDialog: false,
 	numberDialog: false,
-	topicDialog: false, 
-	subTopicDialog: false, 
-	groupDialog: false
+	topicDialog: false,
+	subTopicDialog: false,
+	groupDialog: false,
 };
 
 const DataOptions = () => {
+	const { classes } = useOption();
 	const [dialogStates, setDialogStates] = useState(initStates);
 	const [textField, setTextField] = useState('');
 	const { classDialog, numberDialog } = dialogStates;
@@ -39,12 +44,17 @@ const DataOptions = () => {
 	};
 
 	const handleOptionsChange = async (e) => {
-		await axios.post(`/api/admin/options/${e.target.id}`, textField)
-	}
+		e.preventDefault();
+		await axios.post(`/api/admin/options/${e.target.id}`, {
+			value: textField,
+		});
+
+		setTextField('');
+	};
 
 	const handleTextChange = (e) => {
 		setTextField(e.target.value);
-	}
+	};
 
 	return (
 		<>
@@ -70,6 +80,23 @@ const DataOptions = () => {
 											}
 										/>
 									</ListItem>
+									<Divider />
+									{classes?.map((Class) => {
+										return (
+											<ListItem key={Class}>
+												<ListItemText
+													primary={
+														<Typography>
+															{Class}
+														</Typography>
+													}
+												/>
+												<IconButton>
+													<Delete />
+												</IconButton>
+											</ListItem>
+										);
+									})}
 								</List>
 							</CardContent>
 						</Card>
@@ -82,14 +109,23 @@ const DataOptions = () => {
 				</Grid>
 			</Container>
 			<Dialog open={classDialog} onClose={handleDialogClose}>
-				<DialogTitle>新增班級</DialogTitle>
-				<DialogContent>
-					<TextField value={textField} onChange={handleTextChange} variant='standard' />
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleDialogClose}>取消</Button>
-					<Button id='classes' onClick={handleOptionsChange}>新增</Button>
-				</DialogActions>
+				<form id='classes' onSubmit={handleOptionsChange}>
+					<DialogTitle>新增班級</DialogTitle>
+					<DialogContent>
+						<TextField
+							value={textField}
+							onChange={handleTextChange}
+							variant='standard'
+							autoComplete='off'
+						/>
+					</DialogContent>
+					<DialogActions>
+						<Button onClick={handleDialogClose}>取消</Button>
+						<Button id='classes' onClick={handleOptionsChange}>
+							新增
+						</Button>
+					</DialogActions>
+				</form>
 			</Dialog>
 		</>
 	);
