@@ -15,6 +15,7 @@ import {
 	DialogActions,
 } from '@mui/material';
 import { useState } from 'react';
+import axios from 'axios';
 
 const initStates = {
 	classDialog: false,
@@ -26,6 +27,7 @@ const initStates = {
 
 const DataOptions = () => {
 	const [dialogStates, setDialogStates] = useState(initStates);
+	const [textField, setTextField] = useState('');
 	const { classDialog, numberDialog } = dialogStates;
 
 	const handleDialogOpen = (e) => {
@@ -36,8 +38,12 @@ const DataOptions = () => {
 		setDialogStates(initStates);
 	};
 
-	const handleOptionsChange = (e) => {
+	const handleOptionsChange = async (e) => {
+		await axios.post(`/api/admin/options/${e.target.id}`, textField)
+	}
 
+	const handleTextChange = (e) => {
+		setTextField(e.target.value);
 	}
 
 	return (
@@ -78,11 +84,11 @@ const DataOptions = () => {
 			<Dialog open={classDialog} onClose={handleDialogClose}>
 				<DialogTitle>新增班級</DialogTitle>
 				<DialogContent>
-					<TextField variant='standard' />
+					<TextField value={textField} onChange={handleTextChange} variant='standard' />
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleDialogClose}>取消</Button>
-					<Button id="classOptions" onClick={handleOptionsChange}>新增</Button>
+					<Button id='classes' onClick={handleOptionsChange}>新增</Button>
 				</DialogActions>
 			</Dialog>
 		</>
