@@ -1,7 +1,7 @@
 import admin from 'utils/db';
 
 const FieldValue = admin.firestore.FieldValue;
-const optionsDB = admin.firestore().collection('options');
+const optionsDB = admin.firestore().collection('options').doc('option');
 
 //eslint-disable-next-line
 export default async (req, res) => {
@@ -10,12 +10,18 @@ export default async (req, res) => {
 	try {
 		switch (req.method) {
 			case 'POST':
-				optionsDB
-					.doc(id)
-					.set(
-						{ classes: FieldValue.arrayUnion(req.body.value) },
-						{ merge: true }
-					);
+				await optionsDB.set(
+					{ classes: FieldValue.arrayUnion(req.body.value) },
+					{ merge: true }
+				);
+
+				return res.status(200).end();
+
+			case 'DELETE':
+				await optionsDB.set(
+					{ classes: FieldValue.arrayRemove(req.body.value) },
+					{ merge: true }
+				);
 
 				return res.status(200).end();
 		}
