@@ -19,12 +19,12 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Send, DeleteOutline } from '@mui/icons-material';
-import { mainTopics, subTopics, classes, numbers } from '@data/Option';
 import Select from '@components/Select';
 import { useRouter } from 'next/router';
 import useStateContext, { initialValues } from '@src/context/StateContext';
 import useAuth from '@src/context/AuthContext';
 import axios from 'axios';
+import useOption from '@src/context/OptionContext';
 
 const Submitbtn = styled(LoadingButton)({
 	border: '2px solid #F3905F',
@@ -55,6 +55,13 @@ const Submitbtn = styled(LoadingButton)({
 
 const Form = () => {
 	const { formValues, setFormValues } = useStateContext();
+	const { classes, numbers, topics } = useOption();
+	const classesOption = classes?.map((Class) => {
+		return { label: Class, value: Class };
+	});
+	const numbersOption = numbers?.map((number) => {
+		return { label: number, value: number };
+	});
 	const { user } = useAuth();
 	const [loading, setLoading] = useState(false);
 	const {
@@ -69,8 +76,8 @@ const Form = () => {
 		mem1Class,
 		mem1Num,
 		mem2Class,
-		mem2Num, 
-		group
+		mem2Num,
+		group,
 	} = formValues;
 	const { uid, email } = user ?? {};
 
@@ -89,23 +96,19 @@ const Form = () => {
 			studentClass: studentClass,
 			number: number,
 			studentName: studentName,
-			topic: mainTopics[topic].value,
-			topicLabel: mainTopics[topic].label,
+			topic: topics[topic].value,
+			topicLabel: topics[topic].label,
 			subTopic:
-				topic !== 7
-					? subTopics[topic][subTopic].value
-					: otherTopic,
+				topic !== 7 ? subTopics[topic][subTopic].value : otherTopic,
 			subTopicLabel:
-				topic !== 7
-					? subTopics[topic][subTopic].label
-					: otherTopic,
+				topic !== 7 ? subTopics[topic][subTopic].label : otherTopic,
 			comment: comment,
 			memNum: memNum,
 			mem1Class: memNum === '1' ? '' : mem1Class,
 			mem1Num: memNum === '1' ? '' : mem1Num,
-			mem2Class: (memNum === '1' || memNum === '2') ? '' : mem2Class, 
-			mem2Num: (memNum === '1' || memNum === '2') ? '' : mem2Num, 
-			group: group
+			mem2Class: memNum === '1' || memNum === '2' ? '' : mem2Class,
+			mem2Num: memNum === '1' || memNum === '2' ? '' : mem2Num,
+			group: group,
 		};
 
 		await axios
@@ -209,6 +212,7 @@ const Form = () => {
 
 	return (
 		<Container sx={{ my: 10 }}>
+			{console.log(classesOption)}
 			<Card raised>
 				<CardContent>
 					<Grid container direction='column' rowGap={6}>
@@ -226,7 +230,7 @@ const Form = () => {
 											<Select
 												label='班級 *'
 												name='studentClass'
-												options={classes}
+												options={classesOption}
 												value={studentClass}
 												onChange={handleChange}
 											/>
@@ -238,7 +242,7 @@ const Form = () => {
 											<Select
 												label='座號 *'
 												name='number'
-												options={numbers}
+												options={numbersOption}
 												value={number}
 												onChange={handleChange}
 											/>

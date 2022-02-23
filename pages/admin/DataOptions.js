@@ -15,37 +15,48 @@ import {
 	DialogActions,
 	Divider,
 	IconButton,
-	ListItemButton,
-	Collapse,
 } from '@mui/material';
 import { useState } from 'react';
 import axios from 'axios';
 import useOption from '@src/context/OptionContext';
-import { Delete, ExpandLess, ExpandMore } from '@mui/icons-material';
+import { Add, Delete } from '@mui/icons-material';
 
 const initStates = {
 	classes: false,
 	numbers: false,
+	topics: false,
+	subTopics: false,
 };
 
 const initTextStates = {
 	classes: '',
 	numbers: '',
+	topics: '',
+	subTopics: '',
 };
 
 const collapseInitStates = {};
 
 const DataOptions = () => {
-	const { classes, numbers } = useOption();
+	const { classes, numbers, topics } = useOption();
+	classes?.sort(function (a, b) {
+		return a - b;
+	});
+	numbers?.sort(function (a, b) {
+		return a - b;
+	});
 	classes?.forEach((Class) => {
 		collapseInitStates[Class] = false;
 	});
 	const [dialogStates, setDialogStates] = useState(initStates);
 	const [textStates, setTextStates] = useState(initTextStates);
-	const [collapseStates, setCollapseStates] = useState(collapseInitStates);
 
-	const handleDialogOpen = (e) => {
-		setDialogStates({ ...dialogStates, [e.target.id]: true });
+	const handleDefault = (e) => {
+		e.preventDefault();
+	};
+
+	const handleDialogOpen = (target) => {
+		setDialogStates({ ...dialogStates, [target]: true });
 	};
 
 	const handleDialogClose = () => {
@@ -53,33 +64,23 @@ const DataOptions = () => {
 	};
 
 	const handleOptionsChange = async (e) => {
-		e.preventDefault();
-		await axios.post(`/api/admin/options/${e.target.id}`, {
-			value: textStates[e.target.id],
-		});
+		handleDefault(e);
+		textStates[e.target.id] !== '' &&
+			(await axios.post(`/api/admin/options/${e.target.id}`, {
+				value: textStates[e.target.id],
+			}));
 
 		setTextStates(initTextStates);
 	};
 
-	const handleOptionsDelete = async (id, type) => {
-		switch (type) {
-			case 'classes':
-				await axios.delete(`/api/admin/options/${type}`, {
-					data: { value: id },
-				});
-				break;
-		}
+	const handleOptionsDelete = async (type, id) => {
+		await axios.delete(`/api/admin/options/${type}`, {
+			data: { value: id },
+		});
 	};
 
 	const handleTextChange = (e) => {
 		setTextStates({ ...textStates, [e.target.name]: e.target.value });
-	};
-
-	const handleClick = (target) => {
-		setCollapseStates({
-			...collapseStates,
-			[target]: !collapseStates[target],
-		});
 	};
 
 	const renderDialog = (type) => {
@@ -90,6 +91,9 @@ const DataOptions = () => {
 
 				case 'numbers':
 					return <DialogTitle>新增座號</DialogTitle>;
+
+				case 'topics':
+					return <DialogTitle>新增主題</DialogTitle>;
 			}
 		};
 
@@ -108,7 +112,11 @@ const DataOptions = () => {
 					</DialogContent>
 					<DialogActions>
 						<Button onClick={handleDialogClose}>取消</Button>
-						<Button id={type} onClick={handleOptionsChange}>
+						<Button
+							id={type}
+							disabled={textStates[type] === ''}
+							onClick={handleOptionsChange}
+						>
 							新增
 						</Button>
 					</DialogActions>
@@ -120,42 +128,108 @@ const DataOptions = () => {
 	return (
 		<>
 			<Container sx={{ my: 10 }}>
-				<Grid container>
-					<Grid item xs>
-						<Card>
-							<CardContent>
-								<List
-									component='nav'
-									sx={{ pb: 0, overflow: 'auto' }}
-								>
-									<ListItem
-										secondaryAction={
-											<Button
-												id='classes'
-												onClick={handleDialogOpen}
-											>
-												新增班級
-											</Button>
-										}
+				<Grid container direction='column' gap={2}>
+					<Grid item container direction='row' gap={2}>
+						<Grid item xs>
+							<Card>
+								<CardContent>
+									<List
+										component='nav'
+										sx={{ pb: 0, overflow: 'auto' }}
 									>
-										<ListItemText
-											primary={
-												<Typography>班級</Typography>
+										<ListItem
+											secondaryAction={
+												<Button
+													onClick={() =>
+														handleDialogOpen(
+															'classes'
+														)
+													}
+												>
+													新增班級
+												</Button>
 											}
-										/>
-									</ListItem>
-									<Divider />
-									{classes?.map((Class) => {
+										>
+											<ListItemText
+												primary={
+													<Typography>
+														班級
+													</Typography>
+												}
+											/>
+										</ListItem>
+										<Divider />
+										{classes?.map((Class) => {
+											return (
+												<ListItem
+													key={Class}
+													secondaryAction={
+														<IconButton
+															onClick={() =>
+																handleOptionsDelete(
+																	'classes',
+																	Class
+																)
+															}
+														>
+															<Delete />
+														</IconButton>
+													}
+												>
+													<ListItemText
+														primary={
+															<Typography>
+																{Class}
+															</Typography>
+														}
+													/>
+												</ListItem>
+											);
+										})}
+									</List>
+								</CardContent>
+							</Card>
+						</Grid>
+						<Grid item xs>
+							<Card>
+								<CardContent>
+									<List
+										component='nav'
+										sx={{ pb: 0, overflow: 'auto' }}
+									>
+										<ListItem
+											secondaryAction={
+												<Button
+													onClick={() =>
+														handleDialogOpen(
+															'numbers'
+														)
+													}
+												>
+													新增座號
+												</Button>
+											}
+										>
+											<ListItemText
+												primary={
+													<Typography>
+														座號
+													</Typography>
+												}
+											/>
+										</ListItem>
+										<Divider />
+									</List>
+									{numbers?.map((number) => {
 										return (
 											<ListItem
-												key={Class}
+												key={number}
 												secondaryAction={
 													<IconButton
-														edge='end'
 														onClick={() =>
 															handleOptionsDelete(
-																Class,
-																'classes'
+																'numbers',
+																number
 															)
 														}
 													>
@@ -166,107 +240,120 @@ const DataOptions = () => {
 												<ListItemText
 													primary={
 														<Typography>
-															{Class}
+															{number}
 														</Typography>
 													}
 												/>
 											</ListItem>
 										);
 									})}
-								</List>
-							</CardContent>
-						</Card>
+								</CardContent>
+							</Card>
+						</Grid>
 					</Grid>
-					<Grid item xs>
-						<Card>
-							<CardContent>
-								<List
-									component='nav'
-									sx={{ pb: 0, overflow: 'auto' }}
-								>
-									<ListItem>
-										<ListItemText
-											primary={
-												<Typography>座號</Typography>
-											}
-										/>
-									</ListItem>
-									<Divider />
-									{classes?.map((Class) => {
-										return (
-											<>
-												<ListItemButton
-													key={Class}
+					<Grid item container direction='row'>
+						<Grid item xs>
+							<Card>
+								<CardContent>
+									<List
+										component='nav'
+										sx={{ pb: 0, overflow: 'auto' }}
+									>
+										<ListItem
+											secondaryAction={
+												<Button
 													onClick={() =>
-														handleClick(Class)
+														handleDialogOpen(
+															'topics'
+														)
+													}
+												>
+													新增主題
+												</Button>
+											}
+										>
+											<ListItemText
+												primary={
+													<Typography>
+														主題
+													</Typography>
+												}
+											/>
+										</ListItem>
+										<Divider />
+										{topics?.map((topic) => {
+											return (
+												<ListItem
+													key={topic}
+													secondaryAction={
+														<IconButton
+															onClick={() =>
+																handleOptionsDelete(
+																	'topics',
+																	topic
+																)
+															}
+														>
+															<Delete />
+														</IconButton>
 													}
 												>
 													<ListItemText
 														primary={
 															<Typography>
-																{Class}
+																{topic}
 															</Typography>
 														}
 													/>
-													{collapseStates[Class] ? (
-														<ExpandLess />
-													) : (
-														<ExpandMore />
-													)}
-												</ListItemButton>
-												<Collapse
-													in={collapseStates[Class]}
-													timeout='auto'
-													unmountOnExit
+												</ListItem>
+											);
+										})}
+									</List>
+								</CardContent>
+							</Card>
+						</Grid>
+					</Grid>
+					<Grid item container direction='row'>
+						<Grid item xs>
+							<Card>
+								<CardContent>
+									<List
+										component='nav'
+										sx={{ pb: 0, overflow: 'auto' }}
+									>
+										<ListItem
+											secondaryAction={
+												<Button
+													onClick={() =>
+														handleDialogOpen(
+															'topics'
+														)
+													}
 												>
-													<List component='div'>
-														{numbers[Class] !==
-														undefined ? (
-															numbers[Class]?.map(
-																(number) => {
-																	return (
-																		<ListItem
-																			key={
-																				number
-																			}
-																		>
-																			<ListItemText
-																				primary={
-																					<Typography>
-																						{
-																							number
-																						}
-																					</Typography>
-																				}
-																			/>
-																		</ListItem>
-																	);
-																}
-															)
-														) : (
-															<ListItem>
-																<ListItemText
-																	primary={
-																		<Typography>
-																			無座號
-																		</Typography>
-																	}
-																/>
-															</ListItem>
-														)}
-													</List>
-												</Collapse>
-											</>
-										);
-									})}
-								</List>
-							</CardContent>
-						</Card>
+													新增導師
+												</Button>
+											}
+										>
+											<ListItemText
+												primary={
+													<Typography>
+														導師
+													</Typography>
+												}
+											/>
+										</ListItem>
+										<Divider />
+									</List>
+								</CardContent>
+							</Card>
+						</Grid>
 					</Grid>
 				</Grid>
 			</Container>
 			{renderDialog('classes')}
 			{renderDialog('numbers')}
+			{renderDialog('topics')}
+			{renderDialog('subTopics')}
 		</>
 	);
 };

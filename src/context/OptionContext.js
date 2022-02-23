@@ -12,8 +12,9 @@ const useOption = () => {
 
 export const OptionProvider = (props) => {
 	const { user } = useAuth();
-	const [classes, setClasses] = useState([]);
-	const [numbers, setNumbers] = useState([]);
+	const [classes, setClasses] = useState(null);
+	const [numbers, setNumbers] = useState(null);
+	const [topics, setTopics] = useState(null);
 
 	useEffect(() => {
 		if (user) {
@@ -21,8 +22,9 @@ export const OptionProvider = (props) => {
 				doc(db, 'options', 'option'),
 				(snapshot) => {
 					if (snapshot.exists()) {
-						setClasses(snapshot.data().classes)
-						setNumbers(snapshot.data().numbers)
+						setClasses(snapshot.data().classes);
+						setNumbers(snapshot.data().numbers);
+						setTopics(snapshot.data().topics);
 					}
 				}
 			);
@@ -31,7 +33,14 @@ export const OptionProvider = (props) => {
 		}
 	}, [user]);
 
-	const value = { classes, numbers, setClasses, setNumbers };
+	const value = {
+		classes,
+		numbers,
+		topics,
+		setClasses,
+		setNumbers,
+		setTopics,
+	};
 
 	return <optionContext.Provider value={value} {...props} />;
 };

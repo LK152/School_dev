@@ -17,9 +17,13 @@ import { Delete } from '@mui/icons-material';
 import UsersTable from '@components/UsersTable';
 import Select from '@components/Select';
 import axios from 'axios';
-import { permit, teachers } from '@data/Option';
 import { useRouter } from 'next/router';
 import useStateContext from '@src/context/StateContext';
+
+const permit = [
+    { label: '管理員', value: true },
+    { label: '導師', value: false },
+];
 
 const init = {
 	email: '',
