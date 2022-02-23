@@ -14,13 +14,14 @@ import {
 	TextField,
 	DialogActions,
 	Divider,
-	IconButton, 
-	ListItemButton
+	IconButton,
+	ListItemButton,
+	Collapse,
 } from '@mui/material';
 import { useState } from 'react';
 import axios from 'axios';
 import useOption from '@src/context/OptionContext';
-import { Delete } from '@mui/icons-material';
+import { Delete, ExpandLess, ExpandMore } from '@mui/icons-material';
 
 const initStates = {
 	classes: false,
@@ -32,10 +33,16 @@ const initTextStates = {
 	numbers: '',
 };
 
+const collapseInitStates = {};
+
 const DataOptions = () => {
 	const { classes, numbers } = useOption();
+	classes?.forEach((Class) => {
+		collapseInitStates[Class] = false;
+	});
 	const [dialogStates, setDialogStates] = useState(initStates);
 	const [textStates, setTextStates] = useState(initTextStates);
+	const [collapseStates, setCollapseStates] = useState(collapseInitStates);
 
 	const handleDialogOpen = (e) => {
 		setDialogStates({ ...dialogStates, [e.target.id]: true });
@@ -66,6 +73,13 @@ const DataOptions = () => {
 
 	const handleTextChange = (e) => {
 		setTextStates({ ...textStates, [e.target.name]: e.target.value });
+	};
+
+	const handleClick = (target) => {
+		setCollapseStates({
+			...collapseStates,
+			[target]: !collapseStates[target],
+		});
 	};
 
 	const renderDialog = (type) => {
@@ -170,16 +184,7 @@ const DataOptions = () => {
 									component='nav'
 									sx={{ pb: 0, overflow: 'auto' }}
 								>
-									<ListItem
-										secondaryAction={
-											<Button
-												id='numberDialog'
-												onClick={handleDialogOpen}
-											>
-												新增座號
-											</Button>
-										}
-									>
+									<ListItem>
 										<ListItemText
 											primary={
 												<Typography>座號</Typography>
@@ -188,10 +193,71 @@ const DataOptions = () => {
 									</ListItem>
 									<Divider />
 									{classes?.map((Class) => {
-										console.log(numbers?.[Class]);
-										<ListItemButton>
-											
-										</ListItemButton>
+										return (
+											<>
+												<ListItemButton
+													key={Class}
+													onClick={() =>
+														handleClick(Class)
+													}
+												>
+													<ListItemText
+														primary={
+															<Typography>
+																{Class}
+															</Typography>
+														}
+													/>
+													{collapseStates[Class] ? (
+														<ExpandLess />
+													) : (
+														<ExpandMore />
+													)}
+												</ListItemButton>
+												<Collapse
+													in={collapseStates[Class]}
+													timeout='auto'
+													unmountOnExit
+												>
+													<List component='div'>
+														{numbers[Class] !==
+														undefined ? (
+															numbers[Class]?.map(
+																(number) => {
+																	return (
+																		<ListItem
+																			key={
+																				number
+																			}
+																		>
+																			<ListItemText
+																				primary={
+																					<Typography>
+																						{
+																							number
+																						}
+																					</Typography>
+																				}
+																			/>
+																		</ListItem>
+																	);
+																}
+															)
+														) : (
+															<ListItem>
+																<ListItemText
+																	primary={
+																		<Typography>
+																			無座號
+																		</Typography>
+																	}
+																/>
+															</ListItem>
+														)}
+													</List>
+												</Collapse>
+											</>
+										);
 									})}
 								</List>
 							</CardContent>
