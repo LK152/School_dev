@@ -19,30 +19,39 @@ import Select from '@components/Select';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import useStateContext from '@src/context/StateContext';
+import useOption from '@src/context/OptionContext';
 
 const permit = [
-    { label: '管理員', value: true },
-    { label: '導師', value: false },
+	{ label: '管理員', value: true },
+	{ label: '導師', value: false },
 ];
 
 const init = {
-	email: '',
+	name: '',
 	isAdmin: false,
 	teacherClass: '',
 };
 
 const Users = () => {
+	const { classes } = useOption();
 	const [newUser, setNewUser] = useState(init);
 	const [loading, setLoading] = useState(false);
-	const [emailInput, setEmailInput] = useState('');
+	const [nameInput, setNameInput] = useState('');
 	const [listOfUsers, setLOU] = useState([]);
 	const { authState } = useStateContext();
 	const { isAdmin } = authState;
 	const router = useRouter();
+	const classesOption = classes?.map((Class) => {
+		return { label: Class, value: Class };
+	});
 
 	useEffect(() => {
 		axios.get(`/api/admin`).then((users) => {
-			setLOU(users.data?.map((user) => user.displayName));
+			setLOU(
+				users.data?.map((user) => {
+					return { label: user.displayName, value: user.email };
+				})
+			);
 		});
 
 		return () => setLOU([]);
@@ -62,9 +71,12 @@ const Users = () => {
 
 		if (isAdmin) {
 			await axios
-				.post(`/api/admin/${newUser.email}`, {
+				.post(`/api/admin/${newUser.name.value}`, {
 					isTeacher: !newUser.isAdmin,
-					...newUser,
+					isAdmin: newUser.isAdmin,
+					name: newUser.name.label,
+					teacherClass: newUser.teacherClass, 
+					email: newUser.name.value
 				})
 				.catch((err) => alert(err.response.data.error));
 
@@ -101,22 +113,22 @@ const Users = () => {
 								<FormControl fullWidth>
 									<Autocomplete
 										freeSolo
-										value={newUser.email}
+										value={newUser.name}
 										onChange={(_e, newValue) =>
 											setNewUser({
 												...newUser,
-												email: newValue,
+												name: newValue,
 											})
 										}
-										inputValue={emailInput}
+										inputValue={nameInput}
 										onInputChange={(_e, newInput) =>
-											setEmailInput(newInput)
+											setNameInput(newInput)
 										}
 										options={listOfUsers}
 										renderInput={(params) => (
 											<TextField
 												{...params}
-												label='email'
+												label='名稱'
 											/>
 										)}
 									/>
@@ -137,10 +149,10 @@ const Users = () => {
 							{!newUser.isAdmin && (
 								<Grid item sm={4} xs={12}>
 									<FormControl fullWidth>
-										<InputLabel>導師</InputLabel>
+										<InputLabel>班級</InputLabel>
 										<Select
-											label='導師'
-											options={teachers}
+											label='班級'
+											options={classesOption}
 											value={newUser.teacherClass}
 											name='teacherClass'
 											onChange={handleChange}
@@ -148,16 +160,15 @@ const Users = () => {
 									</FormControl>
 								</Grid>
 							)}
+							{console.log(newUser)}
 							<Grid item>
 								<LoadingButton
 									onClick={handleAddUser}
 									loading={loading}
 									variant='contained'
 									disabled={
-										newUser.email === '' ||
-										!/^[A-Za-z0-9._%+-]+@lssh.tp.edu.tw$/.test(
-											newUser.email
-										) ||
+										newUser.name === '' ||
+										!newUser.name ||
 										(!newUser.isAdmin &&
 											newUser.teacherClass === '')
 									}

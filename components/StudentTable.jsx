@@ -6,8 +6,6 @@ import {
 } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
 import { Download } from '@mui/icons-material';
-import { exportClasses } from '@data/Option';
-import Select from './Select';
 import exportXL from './export/exportXL';
 import useStateContext from '@src/context/StateContext';
 
@@ -45,7 +43,7 @@ const columns = [
 	{
 		field: 'comment',
 		headerName: '備註',
-		maxWidth: 200, 
+		maxWidth: 200,
 	},
 	{
 		field: 'memNum',
@@ -71,8 +69,13 @@ const columns = [
 
 const StudentTable = ({ handleSelect }) => {
 	const [pageSize, setPageSize] = useState(50);
-	const { studentRecord, authState, selectedValues, setSelected, setSelectedIds } =
-		useStateContext();
+	const {
+		studentRecord,
+		authState,
+		selectedValues,
+		setSelected,
+		setSelectedIds,
+	} = useStateContext();
 	const { isAdmin, isTeacher, teacherClass } = authState;
 	const { selection } = selectedValues;
 
@@ -85,12 +88,6 @@ const StudentTable = ({ handleSelect }) => {
 			<GridToolbarContainer
 				sx={{ display: 'flex', justifyContent: 'space-between' }}
 			>
-				<Select
-					name='selection'
-					options={exportClasses}
-					onChange={handleSelect}
-					value={selection}
-				/>
 				<GridToolbarDensitySelector size='medium' />
 				<Button onClick={handleExport}>
 					<Download />
@@ -160,9 +157,9 @@ const StudentTable = ({ handleSelect }) => {
 				onSelectionModelChange={(ids) => {
 					const selectedIDs = new Set(ids);
 					const selectedRows = rows.filter((row) => {
-						return selectedIDs.has(row.id)
-					})
-					
+						return selectedIDs.has(row.id);
+					});
+
 					setSelected(selectedRows);
 					setSelectedIds(ids);
 				}}

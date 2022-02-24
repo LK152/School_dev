@@ -17,22 +17,27 @@ const UsersTable = () => {
 		{
 			field: 'id',
 			headerName: '順序',
-			width: 100,
+			width: 65,
 		},
 		{
 			field: 'email',
 			headerName: '帳戶',
-			width: 300,
+			width: 280,
+		},
+		{
+			field: 'name',
+			headerName: '名稱',
+			width: 150,
 		},
 		{
 			field: 'permission',
 			headerName: '權限',
-			width: 160,
+			width: 80,
 		},
 		{
 			field: 'class',
 			headerName: '班級',
-			width: 160,
+			width: 80,
 		},
 		{
 			field: 'delete',
@@ -66,6 +71,7 @@ const UsersTable = () => {
 		return {
 			id: index,
 			email: user.email,
+			name: user.name,
 			permission: user.isAdmin ? '管理員' : '導師',
 			class: user.teacherClass,
 		};

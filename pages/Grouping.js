@@ -11,7 +11,6 @@ import { LoadingButton } from '@mui/lab';
 import Select from '@components/Select';
 import StudentTable from '@components/StudentTable';
 import TeacherTable from '@components/TeacherTable';
-import { teachers } from '../data/Option';
 import axios from 'axios';
 import useStateContext from '@src/context/StateContext';
 import { useState } from 'react';
@@ -87,7 +86,7 @@ const Grouping = () => {
 										<Select
 											name='selectedGroup'
 											value={selectedGroup}
-											options={teachers}
+											options={groups}
 											onChange={handleSelect}
 											sx={{ ml: 10 }}
 										/>

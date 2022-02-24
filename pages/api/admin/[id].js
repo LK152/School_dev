@@ -21,6 +21,7 @@ export default async (req, res) => {
 				return res.status(200).end();
 		}
 	} catch (err) {
+		console.log(err)
 		res.status(400).end();
 	}
 };

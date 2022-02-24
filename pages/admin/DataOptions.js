@@ -94,6 +94,12 @@ const DataOptions = () => {
 
 				case 'topics':
 					return <DialogTitle>新增主題</DialogTitle>;
+				
+				case 'subTopics': 
+					return <DialogTitle>新增副組題</DialogTitle>
+
+				case 'groups': 
+					return <DialogTitle>新增組別</DialogTitle>
 			}
 		};
 
@@ -326,18 +332,18 @@ const DataOptions = () => {
 												<Button
 													onClick={() =>
 														handleDialogOpen(
-															'topics'
+															'groups'
 														)
 													}
 												>
-													新增導師
+													新增組別
 												</Button>
 											}
 										>
 											<ListItemText
 												primary={
 													<Typography>
-														導師
+														組別
 													</Typography>
 												}
 											/>
@@ -354,6 +360,7 @@ const DataOptions = () => {
 			{renderDialog('numbers')}
 			{renderDialog('topics')}
 			{renderDialog('subTopics')}
+			{renderDialog('groups')}
 		</>
 	);
 };
