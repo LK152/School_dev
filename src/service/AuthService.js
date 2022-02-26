@@ -3,7 +3,7 @@ import {
 	signInWithRedirect,
 	GoogleAuthProvider,
 	signOut,
-	getAuth, 
+	getAuth,
 } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { app } from '../config/firebase.config';

@@ -13,21 +13,29 @@ export default async (req, res) => {
 				switch (id) {
 					case 'classes':
 						await optionsDB.set(
-							{ classes: FieldValue.arrayUnion(req.body.value) },
+							{
+								classes: FieldValue.arrayUnion(
+									req.body.classes
+								),
+							},
 							{ merge: true }
 						);
 						break;
 
 					case 'numbers':
 						await optionsDB.set(
-							{ numbers: FieldValue.arrayUnion(req.body.value) },
+							{
+								numbers: FieldValue.arrayUnion(
+									req.body.numbers
+								),
+							},
 							{ merge: true }
 						);
 						break;
 
 					case 'topics':
 						await optionsDB.set(
-							{ topics: FieldValue.arrayUnion(req.body.value) },
+							{ topics: FieldValue.arrayUnion(req.body.topics) },
 							{ merge: true }
 						);
 						break;
@@ -36,8 +44,20 @@ export default async (req, res) => {
 						await optionsDB.set(
 							{
 								subTopics: FieldValue.arrayUnion(
-									req.body.value
+									req.body.subTopics
 								),
+							},
+							{ merge: true }
+						);
+						break;
+
+					case 'groups':
+						await optionsDB.set(
+							{
+								groups: FieldValue.arrayUnion({
+									location: req.body.location,
+									group: req.body.group,
+								}),
 							},
 							{ merge: true }
 						);
@@ -51,8 +71,9 @@ export default async (req, res) => {
 					case 'classes':
 						await optionsDB.set(
 							{
-								classes: FieldValue.arrayRemove(req.body.value),
-								numbers: { [req.body.value]: null },
+								classes: FieldValue.arrayRemove(
+									req.body.classes
+								),
 							},
 							{ merge: true }
 						);
@@ -61,18 +82,34 @@ export default async (req, res) => {
 					case 'numbers':
 						await optionsDB.set(
 							{
-								numbers: FieldValue.arrayRemove(req.body.value),
+								numbers: FieldValue.arrayRemove(
+									req.body.numbers
+								),
 							},
 							{ merge: true }
 						);
+						break;
 
 					case 'topics':
 						await optionsDB.set(
 							{
-								topics: FieldValue.arrayRemove(req.body.value),
+								topics: FieldValue.arrayRemove(req.body.topics),
 							},
 							{ merge: true }
 						);
+						break;
+
+					case 'groups':
+						await optionsDB.set(
+							{
+								groups: FieldValue.arrayRemove({
+									location: req.body.location,
+									group: req.body.group,
+								}),
+							},
+							{ merge: true }
+						);
+						break;
 				}
 
 				return res.status(200).end();

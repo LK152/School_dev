@@ -15,6 +15,8 @@ export const OptionProvider = (props) => {
 	const [classes, setClasses] = useState(null);
 	const [numbers, setNumbers] = useState(null);
 	const [topics, setTopics] = useState(null);
+	const [subTopics, setSubTopics] = useState(null);
+	const [groups, setGroups] = useState(null);
 
 	useEffect(() => {
 		if (user) {
@@ -25,6 +27,8 @@ export const OptionProvider = (props) => {
 						setClasses(snapshot.data().classes);
 						setNumbers(snapshot.data().numbers);
 						setTopics(snapshot.data().topics);
+						setSubTopics(snapshot.data().subTopics);
+						setGroups(snapshot.data().groups);
 					}
 				}
 			);
@@ -37,9 +41,13 @@ export const OptionProvider = (props) => {
 		classes,
 		numbers,
 		topics,
+		subTopics,
+		groups,
 		setClasses,
 		setNumbers,
 		setTopics,
+		setSubTopics,
+		setGroups,
 	};
 
 	return <optionContext.Provider value={value} {...props} />;
