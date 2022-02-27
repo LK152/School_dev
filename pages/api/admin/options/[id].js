@@ -43,9 +43,11 @@ export default async (req, res) => {
 					case 'subTopics':
 						await optionsDB.set(
 							{
-								subTopics: FieldValue.arrayUnion(
-									req.body.subTopics
-								),
+								subTopics: {
+									[req.body.topics]: FieldValue.arrayUnion(
+										req.body.subTopics
+									),
+								},
 							},
 							{ merge: true }
 						);

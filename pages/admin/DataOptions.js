@@ -18,10 +18,10 @@ import {
 	useMediaQuery,
 	Collapse,
 } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import useOption from '@src/context/OptionContext';
-import { Add, Delete } from '@mui/icons-material';
+import { Add, Delete, ExpandMore, ExpandLess } from '@mui/icons-material';
 import theme from '@styles/theme';
 
 const initStates = {
@@ -42,6 +42,7 @@ const initTextStates = {
 };
 
 const collapseInitStates = {};
+const collapseTrueStates = {};
 
 const DataOptions = () => {
 	const { classes, numbers, topics, subTopics, groups } = useOption();
@@ -51,11 +52,26 @@ const DataOptions = () => {
 	numbers?.sort(function (a, b) {
 		return a - b;
 	});
-	classes?.forEach((Class) => {
-		collapseInitStates[Class] = false;
+	topics?.forEach((topic) => {
+		collapseInitStates[topic] = false;
+		collapseTrueStates[topic] = true;
 	});
 	const [dialogStates, setDialogStates] = useState(initStates);
 	const [textStates, setTextStates] = useState(initTextStates);
+	const [collapseStates, setCollapseStates] = useState(collapseInitStates);
+	const [collapseAllState, setCollpaseAllState] = useState(false);
+	const [subTopicTarget, setSubTopicTarget] = useState('');
+
+	useEffect(() => {
+		for (const keys in collapseStates) {
+			if (collapseStates[keys]) {
+				setCollpaseAllState(true);
+				break;
+			} else {
+				setCollpaseAllState(false);
+			}
+		}
+	}, [collapseStates]);
 
 	const handleDefault = (e) => {
 		e.preventDefault();
@@ -85,8 +101,8 @@ const DataOptions = () => {
 		});
 	};
 
-	const handleGroupAdd = async (e) => {
-		await axios.post(`/api/admin/options/${e.target.id}`, {
+	const handleGroupAdd = async () => {
+		await axios.post(`/api/admin/options/groups`, {
 			location: textStates.location,
 			group: textStates.groups,
 		});
@@ -107,27 +123,47 @@ const DataOptions = () => {
 		setTextStates({ ...textStates, [e.target.name]: e.target.value });
 	};
 
+	const handleCollapse = (target) => {
+		setCollapseStates({
+			...collapseStates,
+			[target]: !collapseStates[target],
+		});
+	};
+
+	const handleCollapseAll = () => {
+		setCollapseStates();
+		setCollpaseAllState(!collapseAllState);
+	};
+
+	const handleSubTopicDialogOpen = (target) => {
+		setDialogStates({ ...dialogStates, subTopics: true });
+		setSubTopicTarget(target);
+	};
+
+	const handleSubTopicAdd = async (e) => {
+		handleDefault(e);
+		await axios.post(`/api/admin/options/subTopics`, {
+			topics: subTopicTarget,
+			subTopics: textStates.subTopics,
+		});
+
+		setSubTopicTarget('');
+		setTextStates(initTextStates);
+	};
+
+	const handleSubTopicDelete = async (target) => {};
+
 	const renderDialog = (type) => {
-		const renderTitle = () => {
-			switch (type) {
-				case 'classes':
-					return '班級';
-
-				case 'numbers':
-					return '座號';
-
-				case 'topics':
-					return '主題';
-
-				case 'subTopics':
-					return '副組題';
-			}
+		const renderTitle = {
+			classes: '班級',
+			numbers: '座號',
+			topics: '主題',
 		};
 
 		return (
 			<Dialog open={dialogStates[type]} onClose={handleDialogClose}>
 				<form id={type} onSubmit={handleOptionsChange}>
-					<DialogTitle>新增{renderTitle()}</DialogTitle>
+					<DialogTitle>新增{renderTitle[type]}</DialogTitle>
 					<DialogContent>
 						<TextField
 							name={type}
@@ -135,7 +171,7 @@ const DataOptions = () => {
 							onChange={handleTextChange}
 							variant='standard'
 							autoComplete='off'
-							placeholder={renderTitle()}
+							placeholder={renderTitle[type]}
 						/>
 					</DialogContent>
 					<DialogActions>
@@ -195,7 +231,7 @@ const DataOptions = () => {
 										sx={{
 											pb: 0,
 											overflow: 'auto',
-											maxHeight: 400,
+											maxHeight: 300,
 										}}
 									>
 										{classes?.length !== 0 ? (
@@ -269,7 +305,7 @@ const DataOptions = () => {
 										sx={{
 											pb: 0,
 											overflow: 'auto',
-											maxHeight: 400,
+											maxHeight: 300,
 										}}
 									>
 										{numbers?.length !== 0 ? (
@@ -354,7 +390,7 @@ const DataOptions = () => {
 										sx={{
 											pb: 0,
 											overflow: 'auto',
-											maxHeight: 400,
+											maxHeight: 300,
 										}}
 									>
 										{topics?.length !== 0 ? (
@@ -405,12 +441,11 @@ const DataOptions = () => {
 								<CardContent>
 									<ListItem
 										secondaryAction={
-											<Button
-												onClick={() =>
-													handleDialogOpen('topics')
-												}
-											>
-												新增主題
+											<Button onClick={handleCollapseAll}>
+												{collapseAllState
+													? '縮小'
+													: '放大'}
+												全部
 											</Button>
 										}
 									>
@@ -428,7 +463,7 @@ const DataOptions = () => {
 										sx={{
 											pb: 0,
 											overflow: 'auto',
-											maxHeight: 400,
+											maxHeight: 300,
 										}}
 									>
 										{topics?.length !== 0 ? (
@@ -437,17 +472,37 @@ const DataOptions = () => {
 													<div key={topic}>
 														<ListItem
 															secondaryAction={
-																<IconButton
-																	onClick={() =>
-																		handleOptionsDelete(
-																			'topics',
+																<>
+																	<IconButton
+																		onClick={() =>
+																			handleCollapse(
+																				topic
+																			)
+																		}
+																	>
+																		{collapseStates[
 																			topic
-																		)
-																	}
-																>
-																	<Add />
-																</IconButton>
+																		] ? (
+																			<ExpandLess />
+																		) : (
+																			<ExpandMore />
+																		)}
+																	</IconButton>
+																	<IconButton
+																		onClick={() =>
+																			handleSubTopicDialogOpen(
+																				topic
+																			)
+																		}
+																	>
+																		<Add />
+																	</IconButton>
+																</>
 															}
+															sx={{
+																backgroundColor:
+																	'rgba(0, 0, 0, .1)',
+															}}
 														>
 															<ListItemText
 																primary={
@@ -458,10 +513,15 @@ const DataOptions = () => {
 															/>
 														</ListItem>
 														<Collapse
-															in
+															in={
+																collapseStates[
+																	topic
+																]
+															}
 															timeout='auto'
 															unmountOnExit
 														>
+															<Divider />
 															<List component='div'>
 																{subTopics?.[
 																	topic
@@ -557,7 +617,7 @@ const DataOptions = () => {
 										sx={{
 											pb: 0,
 											overflow: 'auto',
-											maxHeight: 400,
+											maxHeight: 300,
 										}}
 									>
 										{groups?.length !== 0 ? (
@@ -615,44 +675,34 @@ const DataOptions = () => {
 			{renderDialog('classes')}
 			{renderDialog('numbers')}
 			{renderDialog('topics')}
-			{renderDialog('subTopics')}
-			<Dialog open={dialogStates.subTopics} onClose={handleDialogClose}>
-				<DialogTitle>新增組別</DialogTitle>
-				<DialogContent>
-					<TextField
-						name='subTopics'
-						value={textStates.subTopics}
-						onChange={handleTextChange}
-						variant='standard'
-						autoComplete='off'
-						placeholder='副主題'
-						sx={{ mr: 1 }}
-					/>
-					<TextField
-						name='location'
-						value={textStates.location}
-						onChange={handleTextChange}
-						variant='standard'
-						autoComplete='off'
-						placeholder='地點'
-						sx={{ ml: 1 }}
-					/>
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleDialogClose}>取消</Button>
-					<Button
-						id='subTopics'
-						disabled={
-							textStates.groups === '' ||
-							textStates.location === ''
-						}
-						onClick={handleGroupAdd}
-					>
-						新增
-					</Button>
-				</DialogActions>
+			<Dialog
+				open={dialogStates['subTopics']}
+				onClose={handleDialogClose}
+			>
+				<form id='subTopics' onSubmit={handleSubTopicAdd}>
+					<DialogTitle>新增副主題</DialogTitle>
+					<DialogContent>
+						<TextField
+							name='subTopics'
+							value={textStates['subTopics']}
+							onChange={handleTextChange}
+							variant='standard'
+							autoComplete='off'
+							placeholder='副主題'
+						/>
+					</DialogContent>
+					<DialogActions>
+						<Button onClick={handleDialogClose}>取消</Button>
+						<Button
+							id='subTopics'
+							disabled={textStates['subTopics'] === ''}
+							onClick={handleSubTopicAdd}
+						>
+							新增
+						</Button>
+					</DialogActions>
+				</form>
 			</Dialog>
-			{console.log(subTopics)}
 			<Dialog open={dialogStates.groups} onClose={handleDialogClose}>
 				<DialogTitle>新增組別</DialogTitle>
 				<DialogContent>
@@ -678,7 +728,6 @@ const DataOptions = () => {
 				<DialogActions>
 					<Button onClick={handleDialogClose}>取消</Button>
 					<Button
-						id='groups'
 						disabled={
 							textStates.groups === '' ||
 							textStates.location === ''
