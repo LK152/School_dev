@@ -55,12 +55,15 @@ const Submitbtn = styled(LoadingButton)({
 
 const Form = () => {
 	const { formValues, setFormValues } = useStateContext();
-	const { classes, numbers, topics } = useOption();
+	const { classes, numbers, topics, subTopics } = useOption();
 	const classesOption = classes?.map((Class) => {
 		return { label: Class, value: Class };
 	});
 	const numbersOption = numbers?.map((number) => {
 		return { label: number, value: number };
+	});
+	const topicsOption = topics?.map((topic) => {
+		return { label: topic, value: topic };
 	});
 	const { user } = useAuth();
 	const [loading, setLoading] = useState(false);
@@ -78,6 +81,7 @@ const Form = () => {
 		mem2Class,
 		mem2Num,
 		group,
+		groupLocation,
 	} = formValues;
 	const { uid, email } = user ?? {};
 
@@ -89,19 +93,20 @@ const Form = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setLoading(true);
+		//setLoading(true);
 		const data = {
 			uid: uid,
 			email: email,
 			studentClass: studentClass,
 			number: number,
 			studentName: studentName,
-			topic: topics[topic].value,
-			topicLabel: topics[topic].label,
+			topic: topic,
 			subTopic:
-				topic !== 7 ? subTopics[topic][subTopic].value : otherTopic,
-			subTopicLabel:
-				topic !== 7 ? subTopics[topic][subTopic].label : otherTopic,
+				topic !== '其他'
+					? subTopics?.[topic].find((sub) => {
+							return sub === subTopic;
+					  })
+					: otherTopic,
 			comment: comment,
 			memNum: memNum,
 			mem1Class: memNum === '1' ? '' : mem1Class,
@@ -109,6 +114,7 @@ const Form = () => {
 			mem2Class: memNum === '1' || memNum === '2' ? '' : mem2Class,
 			mem2Num: memNum === '1' || memNum === '2' ? '' : mem2Num,
 			group: group,
+			groupLocation: groupLocation,
 		};
 
 		await axios
@@ -134,7 +140,7 @@ const Form = () => {
 							<Select
 								label={'組員' + i + '班級'}
 								name={'mem' + i + 'Class'}
-								options={classes}
+								options={classesOption}
 								value={i === 1 ? mem1Class : mem2Class}
 								onChange={handleChange}
 							/>
@@ -146,7 +152,7 @@ const Form = () => {
 							<Select
 								label={'組員' + i + '座號'}
 								name={'mem' + i + 'Num'}
-								options={numbers}
+								options={numbersOption}
 								value={i === 1 ? mem1Num : mem2Num}
 								onChange={handleChange}
 							/>
@@ -212,7 +218,6 @@ const Form = () => {
 
 	return (
 		<Container sx={{ my: 10 }}>
-			{console.log(classesOption)}
 			<Card raised>
 				<CardContent>
 					<Grid container direction='column' rowGap={6}>
@@ -268,27 +273,34 @@ const Form = () => {
 										<Select
 											label='主題 *'
 											name='topic'
-											options={mainTopics}
+											options={topicsOption}
 											value={topic}
 											onChange={handleChange}
 										/>
 									</FormControl>
 								</Grid>
-								{topic !== '' && topic !== 7 && (
+								{topic !== '' && topic !== '其他' && (
 									<Grid item xs={12}>
 										<FormControl fullWidth>
 											<InputLabel>副主題 *</InputLabel>
 											<Select
 												label='副主題 *'
 												name='subTopic'
-												options={subTopics[topic]}
+												options={subTopics?.[
+													topic
+												]?.map((sub) => {
+													return {
+														label: sub,
+														value: sub,
+													};
+												})}
 												value={subTopic}
 												onChange={handleChange}
 											/>
 										</FormControl>
 									</Grid>
 								)}
-								{topic === 7 && (
+								{topic === '其他' && (
 									<Grid item xs={12}>
 										<FormControl fullWidth>
 											<TextField

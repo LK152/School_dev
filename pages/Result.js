@@ -26,8 +26,8 @@ const Result = () => {
 		studentClass,
 		number,
 		studentName,
-		topicLabel,
-		subTopicLabel,
+		topic,
+		subTopic,
 		comment,
 		memNum,
 		mem1Class,
@@ -35,6 +35,7 @@ const Result = () => {
 		mem2Class,
 		mem2Num,
 		group,
+		groupLocation,
 	} = document;
 
 	const renderMember = (num) => {
@@ -119,7 +120,7 @@ const Result = () => {
 								</Grid>
 								<Grid item xs={6}>
 									<Typography variant='h5' align='center'>
-										{topicLabel}
+										{topic}
 									</Typography>
 								</Grid>
 							</Grid>
@@ -131,7 +132,7 @@ const Result = () => {
 								</Grid>
 								<Grid item xs={6}>
 									<Typography variant='h5' align='center'>
-										{subTopicLabel}
+										{subTopic}
 									</Typography>
 								</Grid>
 							</Grid>
@@ -171,6 +172,20 @@ const Result = () => {
 								<Grid item xs={6}>
 									<Typography variant='h5' align='center'>
 										{group === '' ? '尚無' : group}
+									</Typography>
+								</Grid>
+							</Grid>
+							<Grid container item direction='row'>
+								<Grid item xs={6}>
+									<Typography variant='h5' align='center'>
+										組別地點
+									</Typography>
+								</Grid>
+								<Grid item xs={6}>
+									<Typography variant='h5' align='center'>
+										{groupLocation === ''
+											? '尚無'
+											: groupLocation}
 									</Typography>
 								</Grid>
 							</Grid>

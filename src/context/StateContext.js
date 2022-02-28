@@ -27,6 +27,7 @@ export const initialValues = {
 	mem2Class: '',
 	mem2Num: '',
 	group: '',
+	groupLocation: '',
 };
 
 const initAuth = {
@@ -46,14 +47,14 @@ export const StateProvider = (props) => {
 	const [document, setDoc] = useState({});
 	const [empty, setEmpty] = useState(true);
 	const [selectedValues, setSelectedValues] = useState({
-		selection: 0,
-		selectedGroup: 201,
+		selection: '全部',
+		selectedGroup: 0,
 		group: '',
 	});
 	const [studentRecord, setRecord] = useState([]);
 	const [selected, setSelected] = useState([]);
 	const [selectedIds, setSelectedIds] = useState([]);
-	
+
 	const { isAdmin, isTeacher } = authState;
 	const subscriptions = [];
 
@@ -113,6 +114,7 @@ export const StateProvider = (props) => {
 						setEmpty(false);
 					} else {
 						setDoc({});
+						setEmpty(true);
 					}
 				}
 			);

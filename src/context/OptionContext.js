@@ -23,13 +23,21 @@ export const OptionProvider = (props) => {
 			const unsub = onSnapshot(
 				doc(db, 'options', 'option'),
 				(snapshot) => {
-					if (snapshot.exists()) {
-						setClasses(snapshot.data().classes);
-						setNumbers(snapshot.data().numbers);
-						setTopics(snapshot.data().topics);
-						setSubTopics(snapshot.data().subTopics);
-						setGroups(snapshot.data().groups);
-					}
+					setClasses(
+						snapshot.exists() ? snapshot.data().classes : null
+					);
+					setNumbers(
+						snapshot.exists() ? snapshot.data().numbers : null
+					);
+					setTopics(
+						snapshot.exists() ? snapshot.data().topics : null
+					);
+					setSubTopics(
+						snapshot.exists() ? snapshot.data().subTopics : null
+					);
+					setGroups(
+						snapshot.exists() ? snapshot.data().groups : null
+					);
 				}
 			);
 

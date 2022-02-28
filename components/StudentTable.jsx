@@ -8,17 +8,14 @@ import { Button } from '@mui/material';
 import { Download } from '@mui/icons-material';
 import exportXL from './export/exportXL';
 import useStateContext from '@src/context/StateContext';
+import useOption from '@src/context/OptionContext';
+import Select from './Select';
 
 const columns = [
 	{
 		field: 'id',
 		headerName: '學生uid',
 		width: 100,
-	},
-	{
-		field: 'email',
-		headerName: '學生Email',
-		width: 200,
 	},
 	{
 		field: 'classNumber',
@@ -43,7 +40,7 @@ const columns = [
 	{
 		field: 'comment',
 		headerName: '備註',
-		maxWidth: 200,
+		minWidth: 400,
 	},
 	{
 		field: 'memNum',
@@ -62,7 +59,12 @@ const columns = [
 	},
 	{
 		field: 'group',
-		headerName: '分組',
+		headerName: '組別',
+		width: 100,
+	},
+	{
+		field: 'location',
+		headerName: '地點',
 		width: 100,
 	},
 ];
@@ -76,8 +78,12 @@ const StudentTable = ({ handleSelect }) => {
 		setSelected,
 		setSelectedIds,
 	} = useStateContext();
+	const { classes } = useOption();
 	const { isAdmin, isTeacher, teacherClass } = authState;
 	const { selection } = selectedValues;
+	const classesOptions = ['全部'].concat(classes).map((Class) => {
+		return { label: Class, value: Class };
+	});
 
 	const handleExport = () => {
 		exportXL(studentRecord, '自主學習');
@@ -88,6 +94,12 @@ const StudentTable = ({ handleSelect }) => {
 			<GridToolbarContainer
 				sx={{ display: 'flex', justifyContent: 'space-between' }}
 			>
+				<Select
+					name='selection'
+					options={classesOptions}
+					onChange={handleSelect}
+					value={selection}
+				/>
 				<GridToolbarDensitySelector size='medium' />
 				<Button onClick={handleExport}>
 					<Download />
@@ -97,12 +109,12 @@ const StudentTable = ({ handleSelect }) => {
 		);
 	};
 
-	const handleSelection = (record) => {
-		if (selection === 0) {
+	const handleSelectionFilter = (record) => {
+		if (selection === '全部') {
 			return record;
 		}
 
-		return record.studentClass === selection;
+		return record.studentClass.toString() === selection;
 	};
 
 	const handleTeacherFilter = (record) => {
@@ -110,7 +122,7 @@ const StudentTable = ({ handleSelect }) => {
 	};
 
 	const studentRecords = studentRecord.filter(
-		isTeacher ? handleTeacherFilter : handleSelection
+		isTeacher ? handleTeacherFilter : handleSelectionFilter
 	);
 
 	const rows = studentRecords.map((doc) => {
@@ -142,11 +154,12 @@ const StudentTable = ({ handleSelect }) => {
 							: doc.mem2Num.toString())
 					: 'N/A',
 			group: doc.group,
+			location: doc.groupLocation,
 		};
 	});
 
 	return (
-		<div style={{ height: '50vh', width: '100%' }}>
+		<div style={{ height: 600, width: '100%' }}>
 			<DataGrid
 				rows={rows}
 				columns={columns}

@@ -14,17 +14,18 @@ import TeacherTable from '@components/TeacherTable';
 import axios from 'axios';
 import useStateContext from '@src/context/StateContext';
 import { useState } from 'react';
+import useOption from '@src/context/OptionContext';
 
 const Grouping = () => {
+	const { groups } = useOption();
 	const [addLoading, setAdd] = useState(false);
 	const [deleteLoading, setDelete] = useState(false);
 	const { authState, selectedValues, setSelectedValues, selectedIds } =
 		useStateContext();
 	const { isAdmin, isTeacher, teacherClass } = authState;
 	const { selectedGroup } = selectedValues;
-
-	const [teacher] = teachers.filter((res) => {
-		return res.value === selectedGroup;
+	const groupsOption = groups?.map((group, i) => {
+		return { label: group.group, location: group.location, value: i };
 	});
 
 	const handleSelect = (e) => {
@@ -37,10 +38,14 @@ const Grouping = () => {
 	const handleUpdate = async () => {
 		const data = {
 			selected: selectedIds,
-			group: teacher.label,
-			groupClass: teacher.value,
+			group: groupsOption.find((obj) => {
+				return obj.value === selectedGroup;
+			})?.label,
+			groupLocation: groupsOption.find((obj) => {
+				return obj.value === selectedGroup;
+			})?.location,
 		};
-		setAdd(true);
+		//setAdd(true);
 
 		await axios.patch('/api/admin/group', data);
 		setAdd(false);
@@ -86,7 +91,7 @@ const Grouping = () => {
 										<Select
 											name='selectedGroup'
 											value={selectedGroup}
-											options={groups}
+											options={groupsOption}
 											onChange={handleSelect}
 											sx={{ ml: 10 }}
 										/>

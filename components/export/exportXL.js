@@ -1,4 +1,4 @@
-import XLSX from 'xlsx';
+const XLSX = require('xlsx');
 import FS from 'file-saver';
 
 const exportXL = (records, fileName) => {
@@ -22,11 +22,23 @@ const exportXL = (records, fileName) => {
 			組員1: doc.mem1Class?.toString() + doc.mem1Num?.toString(),
 			組員2: doc.mem2Class?.toString() + doc.mem2Num?.toString(),
 			組別: doc.group,
+			地點: doc.groupLocation,
 		};
 	});
 
 	const wsNames = [
 		'全部',
+		'101',
+		'102',
+		'103',
+		'104',
+		'105',
+		'106',
+		'107',
+		'108',
+		'109',
+		'110',
+		'111',
 		'201',
 		'202',
 		'203',

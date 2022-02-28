@@ -131,7 +131,9 @@ const DataOptions = () => {
 	};
 
 	const handleCollapseAll = () => {
-		setCollapseStates();
+		setCollapseStates(
+			collapseAllState ? collapseInitStates : collapseTrueStates
+		);
 		setCollpaseAllState(!collapseAllState);
 	};
 
@@ -142,16 +144,23 @@ const DataOptions = () => {
 
 	const handleSubTopicAdd = async (e) => {
 		handleDefault(e);
-		await axios.post(`/api/admin/options/subTopics`, {
-			topics: subTopicTarget,
-			subTopics: textStates.subTopics,
-		});
+		textStates.subTopics !== '' &&
+			(await axios.post(`/api/admin/options/subTopics`, {
+				topics: subTopicTarget,
+				subTopics: textStates.subTopics,
+			}));
 
-		setSubTopicTarget('');
 		setTextStates(initTextStates);
 	};
 
-	const handleSubTopicDelete = async (target) => {};
+	const handleSubTopicDelete = async (topic, subTopic) => {
+		await axios.delete(`/api/admin/options/subTopics`, {
+			data: {
+				topics: topic,
+				subTopics: subTopic,
+			},
+		});
+	};
 
 	const renderDialog = (type) => {
 		const renderTitle = {
@@ -204,7 +213,7 @@ const DataOptions = () => {
 						gap={2}
 					>
 						<Grid item xs>
-							<Card>
+							<Card raised>
 								<CardContent>
 									<ListItem
 										secondaryAction={
@@ -234,7 +243,7 @@ const DataOptions = () => {
 											maxHeight: 300,
 										}}
 									>
-										{classes?.length !== 0 ? (
+										{classes && classes?.length !== 0 ? (
 											classes?.map((Class) => {
 												return (
 													<ListItem
@@ -278,7 +287,7 @@ const DataOptions = () => {
 							</Card>
 						</Grid>
 						<Grid item xs>
-							<Card>
+							<Card raised>
 								<CardContent>
 									<ListItem
 										secondaryAction={
@@ -308,7 +317,7 @@ const DataOptions = () => {
 											maxHeight: 300,
 										}}
 									>
-										{numbers?.length !== 0 ? (
+										{numbers && numbers?.length !== 0 ? (
 											numbers?.map((number) => {
 												return (
 													<ListItem
@@ -363,7 +372,7 @@ const DataOptions = () => {
 						gap={2}
 					>
 						<Grid item xs>
-							<Card>
+							<Card raised>
 								<CardContent>
 									<ListItem
 										secondaryAction={
@@ -393,7 +402,7 @@ const DataOptions = () => {
 											maxHeight: 300,
 										}}
 									>
-										{topics?.length !== 0 ? (
+										{topics && topics?.length !== 0 ? (
 											topics?.map((topic) => {
 												return (
 													<ListItem
@@ -437,7 +446,7 @@ const DataOptions = () => {
 							</Card>
 						</Grid>
 						<Grid item xs>
-							<Card>
+							<Card raised>
 								<CardContent>
 									<ListItem
 										secondaryAction={
@@ -466,7 +475,7 @@ const DataOptions = () => {
 											maxHeight: 300,
 										}}
 									>
-										{topics?.length !== 0 ? (
+										{topics && topics?.length !== 0 ? (
 											topics?.map((topic) => {
 												return (
 													<div key={topic}>
@@ -542,6 +551,18 @@ const DataOptions = () => {
 																					key={
 																						subTopic
 																					}
+																					secondaryAction={
+																						<IconButton
+																							onClick={() =>
+																								handleSubTopicDelete(
+																									topic,
+																									subTopic
+																								)
+																							}
+																						>
+																							<Delete />
+																						</IconButton>
+																					}
 																				>
 																					<ListItemText
 																						primary={
@@ -590,7 +611,7 @@ const DataOptions = () => {
 					</Grid>
 					<Grid item container direction='row'>
 						<Grid item xs>
-							<Card>
+							<Card raised>
 								<CardContent>
 									<ListItem
 										secondaryAction={
@@ -620,7 +641,7 @@ const DataOptions = () => {
 											maxHeight: 300,
 										}}
 									>
-										{groups?.length !== 0 ? (
+										{groups && groups?.length !== 0 ? (
 											groups?.map((group) => {
 												return (
 													<ListItem
@@ -677,7 +698,10 @@ const DataOptions = () => {
 			{renderDialog('topics')}
 			<Dialog
 				open={dialogStates['subTopics']}
-				onClose={handleDialogClose}
+				onClose={() => {
+					setSubTopicTarget('');
+					handleDialogClose();
+				}}
 			>
 				<form id='subTopics' onSubmit={handleSubTopicAdd}>
 					<DialogTitle>新增副主題</DialogTitle>

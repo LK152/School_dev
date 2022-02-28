@@ -75,8 +75,8 @@ const Users = () => {
 					isTeacher: !newUser.isAdmin,
 					isAdmin: newUser.isAdmin,
 					name: newUser.name.label,
-					teacherClass: newUser.teacherClass, 
-					email: newUser.name.value
+					teacherClass: newUser.teacherClass,
+					email: newUser.name.value,
 				})
 				.catch((err) => alert(err.response.data.error));
 
@@ -160,7 +160,6 @@ const Users = () => {
 									</FormControl>
 								</Grid>
 							)}
-							{console.log(newUser)}
 							<Grid item>
 								<LoadingButton
 									onClick={handleAddUser}

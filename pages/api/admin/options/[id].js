@@ -96,6 +96,22 @@ export default async (req, res) => {
 						await optionsDB.set(
 							{
 								topics: FieldValue.arrayRemove(req.body.topics),
+								subTopics: {
+									[req.body.topics]: FieldValue.delete(),
+								},
+							},
+							{ merge: true }
+						);
+						break;
+
+					case 'subTopics':
+						await optionsDB.set(
+							{
+								subTopics: {
+									[req.body.topics]: FieldValue.arrayRemove(
+										req.body.subTopics
+									),
+								},
 							},
 							{ merge: true }
 						);

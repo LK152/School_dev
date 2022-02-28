@@ -33,12 +33,14 @@ export default async (req, res) => {
 				if (!errors.isEmpty()) {
 					return res.status(422).json({ errors: errors.array() });
 				}
+
 				await req.body.selected.forEach((id) => {
 					updateBatch.update(db.collection('studentData').doc(id), {
 						group: req.body.group,
-						groupClass: req.body.groupClass,
+						groupLocation: req.body.groupLocation,
 					});
 				});
+
 				await updateBatch.commit();
 
 				return res.status(201).end();
@@ -54,7 +56,7 @@ export default async (req, res) => {
 				await req.body.forEach((id) => {
 					deleteBatch.update(db.collection('studentData').doc(id), {
 						group: '',
-						groupClass: '',
+						groupLocation: '',
 					});
 				});
 				await deleteBatch.commit();

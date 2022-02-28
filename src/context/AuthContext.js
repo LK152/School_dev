@@ -1,6 +1,7 @@
-import { createContext, useContext, useState } from 'react';
-import { AuthService } from '../service/AuthService';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { AuthService, db } from '../service/AuthService';
 import { useRouter } from 'next/router';
+import { enableIndexedDbPersistence } from 'firebase/firestore';
 
 const authContext = createContext();
 
@@ -13,6 +14,11 @@ export const AuthProvider = (props) => {
 	const [user, setUser] = useState(null);
 	const [isLoggedOut, setLogout] = useState(false);
 	const [error, setError] = useState();
+
+	useEffect(() => {
+		enableIndexedDbPersistence(db).catch((err) => console.log(err.code));
+	}, []);
+
 	const loginWithGoogleBrowser = async () => {
 		const { error, user } = await AuthService.loginWithGoogleBrowser();
 		setUser(user ?? null);
@@ -34,13 +40,13 @@ export const AuthProvider = (props) => {
 
 	const value = {
 		user,
-		error, 
-		isLoggedOut, 
+		error,
+		isLoggedOut,
 		setUser,
 		loginWithGoogleBrowser,
 		loginWithGoogleMobile,
 		logout,
-		setLogout
+		setLogout,
 	};
 
 	return <authContext.Provider value={value} {...props} />;

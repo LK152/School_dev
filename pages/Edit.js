@@ -19,12 +19,12 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Save, Cancel } from '@mui/icons-material';
-import { mainTopics, subTopics, classes, numbers } from '@data/Option';
 import Select from '@components/Select';
 import { useRouter } from 'next/router';
 import useStateContext from '@src/context/StateContext';
 import useAuth from '@src/context/AuthContext';
 import axios from 'axios';
+import useOption from '@src/context/OptionContext';
 
 const Submitbtn = styled(LoadingButton)({
 	border: '2px solid #F3905F',
@@ -54,6 +54,16 @@ const Submitbtn = styled(LoadingButton)({
 });
 
 const Edit = () => {
+	const { classes, numbers, topics, subTopics } = useOption();
+	const classesOption = classes?.map((Class) => {
+		return { label: Class, value: Class };
+	});
+	const numbersOption = numbers?.map((number) => {
+		return { label: number, value: number };
+	});
+	const topicsOption = topics?.map((topic) => {
+		return { label: topic, value: topic };
+	});
 	const { document } = useStateContext();
 	const { user } = useAuth();
 	const [loading, setLoading] = useState(false);
@@ -86,18 +96,19 @@ const Edit = () => {
 			studentClass: studentClass,
 			number: number,
 			studentName: studentName,
-			topic: mainTopics[topic].value,
-			topicLabel: mainTopics[topic].label,
+			topic: topic,
 			subTopic:
-				topic !== 7 ? subTopics[topic][subTopic].value : otherTopic,
-			subTopicLabel:
-				topic !== 7 ? subTopics[topic][subTopic].label : otherTopic,
+				topic !== '其他'
+					? subTopics?.[topic].find((sub) => {
+							return sub === subTopic;
+					  })
+					: otherTopic,
 			comment: comment,
 			memNum: memNum,
 			mem1Class: memNum === '1' ? '' : mem1Class,
 			mem1Num: memNum === '1' ? '' : mem1Num,
-			mem2Class: (memNum === '1' || memNum === '2') ? '' : mem2Class, 
-			mem2Num: (memNum === '1' || memNum === '2') ? '' : mem2Num, 
+			mem2Class: memNum === '1' || memNum === '2' ? '' : mem2Class,
+			mem2Num: memNum === '1' || memNum === '2' ? '' : mem2Num,
 		};
 
 		await axios
@@ -118,7 +129,7 @@ const Edit = () => {
 							<Select
 								label={'組員' + i + '班級'}
 								name={'mem' + i + 'Class'}
-								options={classes}
+								options={classesOption}
 								value={i === 1 ? mem1Class : mem2Class}
 								onChange={handleChange}
 							/>
@@ -130,7 +141,7 @@ const Edit = () => {
 							<Select
 								label={'組員' + i + '座號'}
 								name={'mem' + i + 'Num'}
-								options={numbers}
+								options={numbersOption}
 								value={i === 1 ? mem1Num : mem2Num}
 								onChange={handleChange}
 							/>
@@ -213,7 +224,7 @@ const Edit = () => {
 											<Select
 												label='班級 *'
 												name='studentClass'
-												options={classes}
+												options={classesOption}
 												value={studentClass}
 												onChange={handleChange}
 											/>
@@ -225,7 +236,7 @@ const Edit = () => {
 											<Select
 												label='座號 *'
 												name='number'
-												options={numbers}
+												options={numbersOption}
 												value={number}
 												onChange={handleChange}
 											/>
@@ -251,7 +262,7 @@ const Edit = () => {
 										<Select
 											label='主題 *'
 											name='topic'
-											options={mainTopics}
+											options={topicsOption}
 											value={topic}
 											onChange={handleChange}
 										/>
@@ -264,7 +275,14 @@ const Edit = () => {
 											<Select
 												label='副主題 *'
 												name='subTopic'
-												options={subTopics[topic]}
+												options={subTopics?.[
+													topic
+												]?.map((sub) => {
+													return {
+														label: sub,
+														value: sub,
+													};
+												})}
 												value={subTopic}
 												onChange={handleChange}
 											/>
@@ -338,19 +356,24 @@ const Edit = () => {
 									direction='row'
 									justifyContent='space-between'
 								>
-										<Button variant='text' onClick={() => router.replace('/Result')}>
-											<Typography
-												sx={{
-													display: 'flex',
-													flexDirection: 'row',
-													zIndex: 1,
-													textDecoration: 'none',
-												}}
-											>
-												取消
-												<Cancel />
-											</Typography>
-										</Button>
+									<Button
+										variant='text'
+										onClick={() =>
+											router.replace('/Result')
+										}
+									>
+										<Typography
+											sx={{
+												display: 'flex',
+												flexDirection: 'row',
+												zIndex: 1,
+												textDecoration: 'none',
+											}}
+										>
+											取消
+											<Cancel />
+										</Typography>
+									</Button>
 									<Submitbtn
 										type='submit'
 										disableRipple
