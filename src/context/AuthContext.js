@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { AuthService, db } from '../service/AuthService';
 import { useRouter } from 'next/router';
-import { enableIndexedDbPersistence } from 'firebase/firestore';
+import { enableMultiTabIndexedDbPersistence } from 'firebase/firestore';
 
 const authContext = createContext();
 
@@ -16,7 +16,9 @@ export const AuthProvider = (props) => {
 	const [error, setError] = useState();
 
 	useEffect(() => {
-		enableIndexedDbPersistence(db).catch((err) => console.log(err.code));
+		enableMultiTabIndexedDbPersistence(db).catch((err) =>
+			console.log(err.code)
+		);
 	}, []);
 
 	const loginWithGoogleBrowser = async () => {
