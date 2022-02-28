@@ -15,12 +15,15 @@ const Navbar = () => {
 						{ title: '自主學習表單', path: '/Form' },
 						{ title: '自主學習紀錄', path: '/Result' },
 				  ]
+				: authState.isTeacher
+				? [{ title: '分組', path: '/Grouping' }]
 				: [
 						{ title: '分組', path: '/Grouping' },
-						...(authState.isAdmin && [
-							{ title: '管理用戶', path: '/admin/Users' },
-							{ title: '管理選項', path: '/admin/DataOptions' },
-						]),
+						{
+							title: '管理用戶',
+							path: '/admin/Users',
+						},
+						{ title: '管理選項', path: '/admin/DataOptions' },
 				  ]
 			: []),
 	];
