@@ -93,7 +93,7 @@ const Form = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		//setLoading(true);
+		setLoading(true);
 		const data = {
 			uid: uid,
 			email: email,

@@ -45,7 +45,7 @@ const Grouping = () => {
 				return obj.value === selectedGroup;
 			})?.location,
 		};
-		//setAdd(true);
+		setAdd(true);
 
 		await axios.patch('/api/admin/group', data);
 		setAdd(false);
