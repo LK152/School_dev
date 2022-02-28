@@ -16,9 +16,17 @@ export const AuthProvider = (props) => {
 	const [error, setError] = useState();
 
 	useEffect(() => {
-		enableMultiTabIndexedDbPersistence(db).catch((err) =>
-			console.log(err.code)
-		);
+		enableMultiTabIndexedDbPersistence(db).catch((err) => {
+			if (err.code == 'failed-precondition') {
+				console.log(
+					'Multiple tabs open, persistence can only be enabled in one tab at a a time.'
+				);
+			} else if (err.code == 'unimplemented') {
+				console.log(
+					'The current browser does not support all of thefeatures required to enable persistence'
+				);
+			}
+		});
 	}, []);
 
 	const loginWithGoogleBrowser = async () => {
