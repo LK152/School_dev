@@ -23,6 +23,7 @@ import axios from 'axios';
 import useOption from '@src/context/OptionContext';
 import { Add, Delete, ExpandMore, ExpandLess } from '@mui/icons-material';
 import theme from '@styles/theme';
+import { withAdmin } from '@src/hook/route';
 
 const initStates = {
 	classes: false,
@@ -766,4 +767,4 @@ const DataOptions = () => {
 	);
 };
 
-export default DataOptions;
+export default withAdmin(DataOptions);

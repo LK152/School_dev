@@ -17,8 +17,10 @@ const Navbar = () => {
 				  ]
 				: [
 						{ title: '分組', path: '/Grouping' },
-						{ title: '管理用戶', path: '/admin/Users' },
-						{ title: '管理選項', path: '/admin/DataOptions' },
+						...(authState.isAdmin && [
+							{ title: '管理用戶', path: '/admin/Users' },
+							{ title: '管理選項', path: '/admin/DataOptions' },
+						]),
 				  ]
 			: []),
 	];
