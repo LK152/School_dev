@@ -17,11 +17,13 @@ import axios from 'axios';
 import useStateContext from '@src/context/StateContext';
 import useAuth from '@src/context/AuthContext';
 import { withProtected } from '@src/hook/route';
+import { LoadingButton } from '@mui/lab';
 
 const Result = () => {
 	const { user } = useAuth();
 	const { document, empty, setEmpty } = useStateContext();
 	const [open, setOpen] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const {
 		studentClass,
 		number,
@@ -70,8 +72,10 @@ const Result = () => {
 	};
 
 	const handleDelete = async () => {
+		setLoading(true);
 		await axios.delete(`/api/firestore/${user?.uid}`);
 
+		setLoading(false);
 		setEmpty(true);
 		setOpen(false);
 	};
@@ -205,12 +209,12 @@ const Result = () => {
 											<Button onClick={handleClose}>
 												否
 											</Button>
-											<Button
+											<LoadingButton
 												onClick={handleDelete}
-												autoFocus
+												loading={loading}
 											>
 												是
-											</Button>
+											</LoadingButton>
 										</DialogActions>
 									</Dialog>
 								</Grid>
