@@ -135,8 +135,8 @@ const StudentTable = ({ handleSelect }) => {
 				(doc.number < 10
 					? '0' + doc.number.toString()
 					: doc.number.toString()),
-			topic: doc.topicLabel,
-			subTopic: doc.subTopicLabel,
+			topic: doc.topic,
+			subTopic: doc.subTopic,
 			comment: doc.comment !== '' ? doc.comment : 'N/A',
 			memNum: doc.memNum,
 			mem1:
