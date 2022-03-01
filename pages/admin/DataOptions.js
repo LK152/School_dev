@@ -8,11 +8,6 @@ import {
 	Button,
 	ListItemText,
 	Typography,
-	Dialog,
-	DialogTitle,
-	DialogContent,
-	TextField,
-	DialogActions,
 	Divider,
 	IconButton,
 	useMediaQuery,
@@ -21,9 +16,11 @@ import {
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import useOption from '@src/context/OptionContext';
-import { Add, Delete, ExpandMore, ExpandLess } from '@mui/icons-material';
+import { Delete } from '@mui/icons-material';
 import theme from '@styles/theme';
 import { withAdmin } from '@src/hook/route';
+import RenderDialog from '@components/RenderDialog';
+import RenderCard from '@components/RenderCard';
 
 const initStates = {
 	classes: false,
@@ -163,42 +160,6 @@ const DataOptions = () => {
 		});
 	};
 
-	const renderDialog = (type) => {
-		const renderTitle = {
-			classes: '班級',
-			numbers: '座號',
-			topics: '主題',
-		};
-
-		return (
-			<Dialog open={dialogStates[type]} onClose={handleDialogClose}>
-				<form id={type} onSubmit={handleOptionsChange}>
-					<DialogTitle>新增{renderTitle[type]}</DialogTitle>
-					<DialogContent>
-						<TextField
-							name={type}
-							value={textStates[type]}
-							onChange={handleTextChange}
-							variant='standard'
-							autoComplete='off'
-							placeholder={renderTitle[type]}
-						/>
-					</DialogContent>
-					<DialogActions>
-						<Button onClick={handleDialogClose}>取消</Button>
-						<Button
-							id={type}
-							disabled={textStates[type] === ''}
-							onClick={handleOptionsChange}
-						>
-							新增
-						</Button>
-					</DialogActions>
-				</form>
-			</Dialog>
-		);
-	};
-
 	return (
 		<>
 			<Container sx={{ my: 10 }}>
@@ -214,152 +175,22 @@ const DataOptions = () => {
 						gap={2}
 					>
 						<Grid item xs>
-							<Card raised>
-								<CardContent>
-									<ListItem
-										secondaryAction={
-											<Button
-												onClick={() =>
-													handleDialogOpen('classes')
-												}
-											>
-												新增班級
-											</Button>
-										}
-									>
-										<ListItemText
-											primary={
-												<Typography variant='h4'>
-													班級
-												</Typography>
-											}
-										/>
-									</ListItem>
-									<Divider />
-									<List
-										component='nav'
-										sx={{
-											pb: 0,
-											overflow: 'auto',
-											maxHeight: 300,
-										}}
-									>
-										{classes && classes?.length !== 0 ? (
-											classes?.map((Class) => {
-												return (
-													<ListItem
-														key={Class}
-														secondaryAction={
-															<IconButton
-																onClick={() =>
-																	handleOptionsDelete(
-																		'classes',
-																		Class
-																	)
-																}
-															>
-																<Delete />
-															</IconButton>
-														}
-													>
-														<ListItemText
-															primary={
-																<Typography>
-																	{Class}
-																</Typography>
-															}
-														/>
-													</ListItem>
-												);
-											})
-										) : (
-											<ListItem>
-												<ListItemText
-													primary={
-														<Typography>
-															無班級
-														</Typography>
-													}
-												/>
-											</ListItem>
-										)}
-									</List>
-								</CardContent>
-							</Card>
+							<RenderCard
+								type='classes'
+								title='班級'
+								handleDialogOpen={handleDialogOpen}
+								handleDelete={handleOptionsDelete}
+								listItems={classes}
+							/>
 						</Grid>
 						<Grid item xs>
-							<Card raised>
-								<CardContent>
-									<ListItem
-										secondaryAction={
-											<Button
-												onClick={() =>
-													handleDialogOpen('numbers')
-												}
-											>
-												新增座號
-											</Button>
-										}
-									>
-										<ListItemText
-											primary={
-												<Typography variant='h4'>
-													座號
-												</Typography>
-											}
-										/>
-									</ListItem>
-									<Divider />
-									<List
-										component='nav'
-										sx={{
-											pb: 0,
-											overflow: 'auto',
-											maxHeight: 300,
-										}}
-									>
-										{numbers && numbers?.length !== 0 ? (
-											numbers?.map((number) => {
-												return (
-													<ListItem
-														key={number}
-														secondaryAction={
-															<IconButton
-																onClick={() =>
-																	handleOptionsDelete(
-																		'numbers',
-																		number
-																	)
-																}
-															>
-																<Delete />
-															</IconButton>
-														}
-													>
-														<ListItemText
-															primary={
-																<Typography>
-																	{number}
-																</Typography>
-															}
-														/>
-													</ListItem>
-												);
-											})
-										) : (
-											<ListItem>
-												<ListItemText
-													primary={
-														<Typography>
-															無座號
-														</Typography>
-													}
-												/>
-											</ListItem>
-										)}
-									</List>
-								</CardContent>
-							</Card>
+							<RenderCard
+								type='numbers'
+								title='座號'
+								handleDialogOpen={handleDialogOpen}
+								handleDelete={handleOptionsDelete}
+								listItems={numbers}
+							/>
 						</Grid>
 					</Grid>
 					<Grid
@@ -373,241 +204,28 @@ const DataOptions = () => {
 						gap={2}
 					>
 						<Grid item xs>
-							<Card raised>
-								<CardContent>
-									<ListItem
-										secondaryAction={
-											<Button
-												onClick={() =>
-													handleDialogOpen('topics')
-												}
-											>
-												新增主題
-											</Button>
-										}
-									>
-										<ListItemText
-											primary={
-												<Typography variant='h4'>
-													主題
-												</Typography>
-											}
-										/>
-									</ListItem>
-									<Divider />
-									<List
-										component='nav'
-										sx={{
-											pb: 0,
-											overflow: 'auto',
-											maxHeight: 300,
-										}}
-									>
-										{topics && topics?.length !== 0 ? (
-											topics?.map((topic) => {
-												return (
-													<ListItem
-														key={topic}
-														secondaryAction={
-															<IconButton
-																onClick={() =>
-																	handleOptionsDelete(
-																		'topics',
-																		topic
-																	)
-																}
-															>
-																<Delete />
-															</IconButton>
-														}
-													>
-														<ListItemText
-															primary={
-																<Typography>
-																	{topic}
-																</Typography>
-															}
-														/>
-													</ListItem>
-												);
-											})
-										) : (
-											<ListItem>
-												<ListItemText
-													primary={
-														<Typography>
-															無主題
-														</Typography>
-													}
-												/>
-											</ListItem>
-										)}
-									</List>
-								</CardContent>
-							</Card>
+							<RenderCard
+								type='topics'
+								title='主題'
+								handleDialogOpen={handleDialogOpen}
+								handleDelete={handleOptionsDelete}
+								listItems={topics}
+							/>
 						</Grid>
 						<Grid item xs>
-							<Card raised>
-								<CardContent>
-									<ListItem
-										secondaryAction={
-											<Button onClick={handleCollapseAll}>
-												{collapseAllState
-													? '縮小'
-													: '放大'}
-												全部
-											</Button>
-										}
-									>
-										<ListItemText
-											primary={
-												<Typography variant='h4'>
-													副主題
-												</Typography>
-											}
-										/>
-									</ListItem>
-									<Divider />
-									<List
-										component='nav'
-										sx={{
-											pb: 0,
-											overflow: 'auto',
-											maxHeight: 300,
-										}}
-									>
-										{topics && topics?.length !== 0 ? (
-											topics?.map((topic) => {
-												return (
-													<div key={topic}>
-														<ListItem
-															secondaryAction={
-																<>
-																	<IconButton
-																		onClick={() =>
-																			handleCollapse(
-																				topic
-																			)
-																		}
-																	>
-																		{collapseStates[
-																			topic
-																		] ? (
-																			<ExpandLess />
-																		) : (
-																			<ExpandMore />
-																		)}
-																	</IconButton>
-																	<IconButton
-																		onClick={() =>
-																			handleSubTopicDialogOpen(
-																				topic
-																			)
-																		}
-																	>
-																		<Add />
-																	</IconButton>
-																</>
-															}
-															sx={{
-																backgroundColor:
-																	'rgba(0, 0, 0, .1)',
-															}}
-														>
-															<ListItemText
-																primary={
-																	<Typography>
-																		{topic}
-																	</Typography>
-																}
-															/>
-														</ListItem>
-														<Collapse
-															in={
-																collapseStates[
-																	topic
-																]
-															}
-															timeout='auto'
-															unmountOnExit
-														>
-															<Divider />
-															<List component='div'>
-																{subTopics?.[
-																	topic
-																] !==
-																undefined ? (
-																	subTopics?.[
-																		topic
-																	].length !==
-																		0 &&
-																	subTopics?.[
-																		topic
-																	].map(
-																		(
-																			subTopic
-																		) => {
-																			return (
-																				<ListItem
-																					key={
-																						subTopic
-																					}
-																					secondaryAction={
-																						<IconButton
-																							onClick={() =>
-																								handleSubTopicDelete(
-																									topic,
-																									subTopic
-																								)
-																							}
-																						>
-																							<Delete />
-																						</IconButton>
-																					}
-																				>
-																					<ListItemText
-																						primary={
-																							<Typography>
-																								{
-																									subTopic
-																								}
-																							</Typography>
-																						}
-																					/>
-																				</ListItem>
-																			);
-																		}
-																	)
-																) : (
-																	<ListItem>
-																		<ListItemText
-																			primary={
-																				<Typography>
-																					無副主題
-																				</Typography>
-																			}
-																		/>
-																	</ListItem>
-																)}
-															</List>
-														</Collapse>
-													</div>
-												);
-											})
-										) : (
-											<ListItem>
-												<ListItemText
-													primary={
-														<Typography>
-															無主題
-														</Typography>
-													}
-												/>
-											</ListItem>
-										)}
-									</List>
-								</CardContent>
-							</Card>
+							<RenderCard
+								type='subTopics'
+								handleSubTopicDialogOpen={
+									handleSubTopicDialogOpen
+								}
+								collapseAllState={collapseAllState}
+								handleCollapse={handleCollapse}
+								collapseStates={collapseStates}
+								handleCollapseAll={handleCollapseAll}
+								handleSubTopicDelete={handleSubTopicDelete}
+								topics={topics}
+								subTopics={subTopics}
+							/>
 						</Grid>
 					</Grid>
 					<Grid item container direction='row'>
@@ -694,75 +312,48 @@ const DataOptions = () => {
 					</Grid>
 				</Grid>
 			</Container>
-			{renderDialog('classes')}
-			{renderDialog('numbers')}
-			{renderDialog('topics')}
-			<Dialog
-				open={dialogStates['subTopics']}
-				onClose={() => {
-					setSubTopicTarget('');
-					handleDialogClose();
-				}}
-			>
-				<form id='subTopics' onSubmit={handleSubTopicAdd}>
-					<DialogTitle>新增副主題</DialogTitle>
-					<DialogContent>
-						<TextField
-							name='subTopics'
-							value={textStates['subTopics']}
-							onChange={handleTextChange}
-							variant='standard'
-							autoComplete='off'
-							placeholder='副主題'
-						/>
-					</DialogContent>
-					<DialogActions>
-						<Button onClick={handleDialogClose}>取消</Button>
-						<Button
-							id='subTopics'
-							disabled={textStates['subTopics'] === ''}
-							onClick={handleSubTopicAdd}
-						>
-							新增
-						</Button>
-					</DialogActions>
-				</form>
-			</Dialog>
-			<Dialog open={dialogStates.groups} onClose={handleDialogClose}>
-				<DialogTitle>新增組別</DialogTitle>
-				<DialogContent>
-					<TextField
-						name='groups'
-						value={textStates.groups}
-						onChange={handleTextChange}
-						variant='standard'
-						autoComplete='off'
-						placeholder='組別'
-						sx={{ mr: 1 }}
-					/>
-					<TextField
-						name='location'
-						value={textStates.location}
-						onChange={handleTextChange}
-						variant='standard'
-						autoComplete='off'
-						placeholder='地點'
-						sx={{ ml: 1 }}
-					/>
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleDialogClose}>取消</Button>
-					<Button
-						disabled={
-							textStates.groups === '' ||
-							textStates.location === ''
-						}
-						onClick={handleGroupAdd}
-					>
-						新增
-					</Button>
-				</DialogActions>
-			</Dialog>
+			<RenderDialog
+				type='classes'
+				open={dialogStates.classes}
+				onClose={handleDialogClose}
+				inputValue={textStates.classes}
+				inputChange={handleTextChange}
+				handleSubmit={handleOptionsChange}
+			/>
+			<RenderDialog
+				type='numbers'
+				open={dialogStates.numbers}
+				onClose={handleDialogClose}
+				inputValue={textStates.numbers}
+				inputChange={handleTextChange}
+				handleSubmit={handleOptionsChange}
+			/>
+			<RenderDialog
+				type='topics'
+				open={dialogStates.topics}
+				onClose={handleDialogClose}
+				inputValue={textStates.topics}
+				inputChange={handleTextChange}
+				handleSubmit={handleOptionsChange}
+			/>
+			<RenderDialog
+				type='subTopics'
+				open={dialogStates.subTopics}
+				onClose={handleDialogClose}
+				inputValue={textStates.subTopics}
+				inputChange={handleTextChange}
+				handleSubmit={handleOptionsChange}
+				setTarget={setSubTopicTarget}
+				handleSubTopicAdd={handleSubTopicAdd}
+			/>
+			<RenderDialog
+				type='groups'
+				open={dialogStates.groups}
+				onClose={handleDialogClose}
+				inputValue={textStates}
+				inputChange={handleTextChange}
+				handleGroupAdd={handleGroupAdd}
+			/>
 		</>
 	);
 };
