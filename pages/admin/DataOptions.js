@@ -230,84 +230,12 @@ const DataOptions = () => {
 					</Grid>
 					<Grid item container direction='row'>
 						<Grid item xs>
-							<Card raised>
-								<CardContent>
-									<ListItem
-										secondaryAction={
-											<Button
-												onClick={() =>
-													handleDialogOpen('groups')
-												}
-											>
-												新增組別
-											</Button>
-										}
-									>
-										<ListItemText
-											primary={
-												<Typography variant='h4'>
-													組別/地點
-												</Typography>
-											}
-										/>
-									</ListItem>
-									<Divider />
-									<List
-										component='nav'
-										sx={{
-											pb: 0,
-											overflow: 'auto',
-											maxHeight: 300,
-										}}
-									>
-										{groups && groups?.length !== 0 ? (
-											groups?.map((group) => {
-												return (
-													<ListItem
-														key={group.group}
-														secondaryAction={
-															<IconButton
-																onClick={() =>
-																	handleGroupDelete(
-																		group.group,
-																		group.location
-																	)
-																}
-															>
-																<Delete />
-															</IconButton>
-														}
-													>
-														<ListItemText
-															primary={
-																<Typography>
-																	{
-																		group.group
-																	}
-																	&emsp;/&emsp;
-																	{
-																		group.location
-																	}
-																</Typography>
-															}
-														/>
-													</ListItem>
-												);
-											})
-										) : (
-											<ListItem>
-												<ListItemText
-													primary={
-														<Typography>
-															無組別
-														</Typography>
-													}
-												/>
-											</ListItem>
-										)}
-									</List>
-								</CardContent>
-							</Card>
+							<RenderCard
+								type='groups'
+								groups={groups}
+								handleGroupDelete={handleGroupDelete}
+								handleDialogOpen={handleDialogOpen}
+							/>
 						</Grid>
 					</Grid>
 				</Grid>

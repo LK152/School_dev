@@ -12,7 +12,8 @@ let theme = createTheme({
 			md: 900,
 			lg: 1200,
 			xl: 1536,
-			browser: 441,
+			browser: 441, 
+			dialog: 532
 		},
 	},
 });

@@ -6,6 +6,7 @@ import {
 	DialogActions,
 	Button,
 } from '@mui/material';
+import theme from '@styles/theme';
 
 const RenderDialog = (props) => {
 	const {
@@ -71,7 +72,11 @@ const RenderDialog = (props) => {
 						variant='standard'
 						autoComplete='off'
 						placeholder='組別'
-						sx={{ mr: 1 }}
+						sx={{
+							[theme.breakpoints.up('dialog')]: {
+								mr: 1,
+							},
+						}}
 					/>
 					<TextField
 						name='location'
@@ -80,7 +85,7 @@ const RenderDialog = (props) => {
 						variant='standard'
 						autoComplete='off'
 						placeholder='地點'
-						sx={{ ml: 1 }}
+						sx={{ [theme.breakpoints.up('dialog')]: { ml: 1 } }}
 					/>
 				</DialogContent>
 				<DialogActions>

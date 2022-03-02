@@ -28,6 +28,8 @@ const RenderCard = (props) => {
 		handleSubTopicDialogOpen,
 		handleCollapse,
 		handleSubTopicDelete,
+		groups,
+		handleGroupDelete,
 	} = props;
 
 	if (type === 'subTopics') {
@@ -110,7 +112,7 @@ const RenderCard = (props) => {
 										>
 											<Divider />
 											<List component='div'>
-												{subTopics[topic] &&
+												{subTopics?.[topic] &&
 												subTopics?.[topic].length !==
 													0 ? (
 													subTopics?.[topic].map(
@@ -166,6 +168,73 @@ const RenderCard = (props) => {
 							<ListItem>
 								<ListItemText
 									primary={<Typography>無主題</Typography>}
+								/>
+							</ListItem>
+						)}
+					</List>
+				</CardContent>
+			</Card>
+		);
+	} else if (type === 'groups') {
+		return (
+			<Card raised>
+				<CardContent>
+					<ListItem
+						secondaryAction={
+							<Button onClick={() => handleDialogOpen('groups')}>
+								新增組別
+							</Button>
+						}
+					>
+						<ListItemText
+							primary={
+								<Typography variant='h4'>組別/地點</Typography>
+							}
+						/>
+					</ListItem>
+					<Divider />
+					<List
+						component='nav'
+						sx={{
+							pb: 0,
+							overflow: 'auto',
+							maxHeight: 300,
+						}}
+					>
+						{groups && groups?.length !== 0 ? (
+							groups?.map((group) => {
+								return (
+									<ListItem
+										key={group.group}
+										secondaryAction={
+											<IconButton
+												onClick={() =>
+													handleGroupDelete(
+														group.group,
+														group.location
+													)
+												}
+											>
+												<Delete />
+											</IconButton>
+										}
+									>
+										<ListItemText
+											primary={
+												<Typography>
+													{group.group}
+													&emsp;/&emsp;
+													{group.location}
+												</Typography>
+											}
+										/>
+									</ListItem>
+								);
+							})
+						) : (
+							<ListItem>
+								<ListItemText
+									primary={<Typography>無組別</Typography>}
 								/>
 							</ListItem>
 						)}
