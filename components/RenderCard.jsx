@@ -110,10 +110,9 @@ const RenderCard = (props) => {
 										>
 											<Divider />
 											<List component='div'>
-												{subTopics?.[topic] !==
-												undefined ? (
-													subTopics?.[topic]
-														.length !== 0 &&
+												{subTopics[topic] &&
+												subTopics?.[topic].length !==
+													0 ? (
 													subTopics?.[topic].map(
 														(subTopic) => {
 															return (

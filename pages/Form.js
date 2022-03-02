@@ -203,7 +203,7 @@ const Form = () => {
 		}
 		if (topic === '') {
 			return true;
-		} else if (topic !== 7) {
+		} else if (topic !== '其他') {
 			if (subTopic === '') {
 				return true;
 			}
