@@ -1,4 +1,4 @@
-import admin from 'utils/db';
+import admin from '@utils/db';
 
 // eslint-disable-next-line
 export default async (req, res) => {

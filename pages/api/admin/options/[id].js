@@ -1,4 +1,4 @@
-import admin from 'utils/db';
+import admin from '@utils/db';
 
 const FieldValue = admin.firestore.FieldValue;
 const optionsDB = admin.firestore().collection('options').doc('option');

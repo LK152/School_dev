@@ -1,12 +1,13 @@
 {
-	"exclude": ["node_modules", ".next"],
+	"exclude": [".next", "node_modules"],
 	"compilerOptions": {
 		"baseUrl": "./",
 		"paths": {
 			"@components/*": ["components/*"],
 			"@styles/*": ["styles/*"],
 			"@src/*": ["src/*"],
-			"@public/*": ["public/*"]
+			"@public/*": ["public/*"],
+			"@utils/*": ["utils/*"]
 		}
 	}
 }

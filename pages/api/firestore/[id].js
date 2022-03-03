@@ -1,4 +1,4 @@
-import admin from '../../../utils/db';
+import admin from '@utils/db';
 
 const studentDB = admin.firestore().collection('studentData');
 

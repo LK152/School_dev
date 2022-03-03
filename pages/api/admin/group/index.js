@@ -1,4 +1,4 @@
-import admin from '../../../../utils/db';
+import admin from '@utils/db';
 import initMiddleware from '@src/lib/initMiddleware';
 import validateMiddleware from '@src/lib/validateMiddleware';
 import { body, validationResult } from 'express-validator';
