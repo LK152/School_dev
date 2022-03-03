@@ -93,7 +93,7 @@ const Form = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		//setLoading(true);
+		setLoading(true);
 		const data = {
 			uid: uid,
 			email: email,
@@ -121,8 +121,8 @@ const Form = () => {
 			.post(`/api/firestore/${uid}`, data)
 			.catch((err) => console.log(err));
 
-		//router.replace('/Result');
-		//handleDelete();
+		router.replace('/Result');
+		handleDelete();
 	};
 
 	const handleDelete = () => {
