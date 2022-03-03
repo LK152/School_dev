@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getPerformance } from 'firebase/performance';
+import { getAnalytics } from 'firebase/analytics';
 
 const firebaseConfig = {
 	apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -12,4 +13,8 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
-export const perf = getPerformance(app);
+
+if (app.name && typeof window !== 'undefined') {
+	const perf = getPerformance(app);
+	const analy = getAnalytics(app);
+}
