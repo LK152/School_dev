@@ -1,9 +1,7 @@
-import admin from '@utils/db';
+import { db } from '@src/service/AuthService'
 import initMiddleware from '@src/lib/initMiddleware';
 import validateMiddleware from '@src/lib/validateMiddleware';
 import { body, validationResult } from 'express-validator';
-
-const db = admin.firestore();
 
 const validateAdd = initMiddleware(
 	validateMiddleware(
