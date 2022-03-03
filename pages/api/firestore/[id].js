@@ -35,6 +35,6 @@ export default async (req, res) => {
 				return res.status(200).end();
 		}
 	} catch (err) {
-		res.status(400).end();
+		res.status(400).json({ err: err });
 	}
 };
