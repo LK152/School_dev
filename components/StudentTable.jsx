@@ -38,11 +38,6 @@ const columns = [
 		width: 120,
 	},
 	{
-		field: 'comment',
-		headerName: '備註',
-		minWidth: 400,
-	},
-	{
 		field: 'memNum',
 		headerName: '組員人數',
 		width: 100,
@@ -66,6 +61,11 @@ const columns = [
 		field: 'location',
 		headerName: '地點',
 		width: 100,
+	},
+	{
+		field: 'comment',
+		headerName: '備註',
+		minWidth: 600,
 	},
 ];
 
