@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { AuthService, db } from '../service/AuthService';
+import { AuthService } from '@src/service/AuthService';
 import { useRouter } from 'next/router';
-import { enableMultiTabIndexedDbPersistence } from 'firebase/firestore';
 
 const authContext = createContext();
 
@@ -14,20 +13,6 @@ export const AuthProvider = (props) => {
 	const [user, setUser] = useState(null);
 	const [isLoggedOut, setLogout] = useState(false);
 	const [error, setError] = useState();
-
-	useEffect(() => {
-		enableMultiTabIndexedDbPersistence(db).catch((err) => {
-			if (err.code == 'failed-precondition') {
-				console.log(
-					'Multiple tabs open, persistence can only be enabled in one tab at a a time.'
-				);
-			} else if (err.code == 'unimplemented') {
-				console.log(
-					'The current browser does not support all of thefeatures required to enable persistence'
-				);
-			}
-		});
-	}, []);
 
 	const loginWithGoogleBrowser = async () => {
 		const { error, user } = await AuthService.loginWithGoogleBrowser();
