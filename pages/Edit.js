@@ -112,7 +112,7 @@ const Edit = () => {
 			mem2Num: memNum === '1' || memNum === '2' ? '' : mem2Num,
 		};
 
-		await setDoc(doc(db, 'studentData', user?.uid), data);
+		await setDoc(doc(db, 'studentData', user?.uid), data, { merge: true });
 
 		router.replace('/Result');
 	};

@@ -136,6 +136,7 @@ export const StateProvider = (props) => {
 				}
 
 				setRecord(Records);
+				console.log(records.metadata.fromCache)
 			});
 			subscriptions.push(unSub);
 
