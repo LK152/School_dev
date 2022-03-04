@@ -1,6 +1,6 @@
-import { db } from '@src/service/AuthService';
+import admin from '@utils/db';
 
-const studentDB = db.collection('studentData');
+const studentDB = admin.firestore().collection('studentData');
 
 const getDate = () => {
 	const dt = new Date();
