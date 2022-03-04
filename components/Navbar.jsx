@@ -24,6 +24,7 @@ const Navbar = () => {
 							path: '/admin/Users',
 						},
 						{ title: '管理選項', path: '/admin/DataOptions' },
+						{ title: '設定期限', path: '/admin/SetDate' },
 				  ]
 			: []),
 	];

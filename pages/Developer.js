@@ -28,7 +28,7 @@ const Developer = () => {
 						</Grid>
 						<Grid item>
 							<Typography variant='h5' align='center'>
-								視覺設計:&ensp;21屆高正
+								麗山之星繪畫:&ensp;21屆高正
 							</Typography>
 						</Grid>
 					</Grid>

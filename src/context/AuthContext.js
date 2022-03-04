@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { AuthService } from '@src/service/AuthService';
 import { useRouter } from 'next/router';
+import { getDatabase, onValue, ref } from 'firebase/database';
 
 const authContext = createContext();
 
@@ -13,7 +14,8 @@ export const AuthProvider = (props) => {
 	const [user, setUser] = useState(null);
 	const [isLoggedOut, setLogout] = useState(false);
 	const [error, setError] = useState();
-
+	const [deadline, setDeadline] = useState('');
+	
 	const loginWithGoogleBrowser = async () => {
 		const { error, user } = await AuthService.loginWithGoogleBrowser();
 		setUser(user ?? null);
@@ -37,11 +39,13 @@ export const AuthProvider = (props) => {
 		user,
 		error,
 		isLoggedOut,
+		deadline,
 		setUser,
 		loginWithGoogleBrowser,
 		loginWithGoogleMobile,
 		logout,
 		setLogout,
+		setDeadline,
 	};
 
 	return <authContext.Provider value={value} {...props} />;

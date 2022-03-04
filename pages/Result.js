@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
 	Button,
 	IconButton,
@@ -19,9 +19,10 @@ import { withProtected } from '@src/hook/route';
 import { LoadingButton } from '@mui/lab';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '@src/service/AuthService';
+import moment from 'moment';
 
 const Result = () => {
-	const { user } = useAuth();
+	const { user, deadline } = useAuth();
 	const { document, empty, setEmpty } = useStateContext();
 	const [open, setOpen] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -40,6 +41,10 @@ const Result = () => {
 		group,
 		groupLocation,
 	} = document;
+
+	useEffect(() => {
+		console.log();
+	}, [deadline]);
 
 	const renderMember = (num) => {
 		const fields = [];
@@ -200,32 +205,51 @@ const Result = () => {
 								direction='row'
 								justifyContent='space-between'
 							>
-								<Grid item>
-									<IconButton onClick={handleClickOpen}>
-										<DeleteForever />
-									</IconButton>
-									<Dialog open={open} onClose={handleClose}>
-										<DialogTitle>確定刪除?</DialogTitle>
-										<DialogActions>
-											<Button onClick={handleClose}>
-												否
-											</Button>
-											<LoadingButton
-												onClick={handleDelete}
-												loading={loading}
+								{Boolean(
+									moment(new Date()).format('YYYYMMDDHHmm') -
+										moment(deadline).format(
+											'YYYYMMDDHHmm'
+										) <
+										0
+								) && (
+									<>
+										<Grid item>
+											<IconButton
+												onClick={handleClickOpen}
 											>
-												是
-											</LoadingButton>
-										</DialogActions>
-									</Dialog>
-								</Grid>
-								<Grid item>
-									<NextMuiLink href='/Edit'>
-										<IconButton>
-											<Edit />
-										</IconButton>
-									</NextMuiLink>
-								</Grid>
+												<DeleteForever />
+											</IconButton>
+											<Dialog
+												open={open}
+												onClose={handleClose}
+											>
+												<DialogTitle>
+													確定刪除?
+												</DialogTitle>
+												<DialogActions>
+													<Button
+														onClick={handleClose}
+													>
+														否
+													</Button>
+													<LoadingButton
+														onClick={handleDelete}
+														loading={loading}
+													>
+														是
+													</LoadingButton>
+												</DialogActions>
+											</Dialog>
+										</Grid>
+										<Grid item>
+											<NextMuiLink href='/Edit'>
+												<IconButton>
+													<Edit />
+												</IconButton>
+											</NextMuiLink>
+										</Grid>
+									</>
+								)}
 							</Grid>
 						</Grid>
 					) : (

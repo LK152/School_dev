@@ -4,11 +4,6 @@ import axios from 'axios';
 import useAuth from '@src/context/AuthContext';
 import useStateContext from '@src/context/StateContext';
 
-const EternalUsers = {
-	user1: 'learningplan@lssh.tp.edu.tw',
-	user2: 'lib@lssh.tp.edu.tw',
-};
-
 const UsersTable = () => {
 	const { user } = useAuth();
 	const { users } = useStateContext();
@@ -56,8 +51,7 @@ const UsersTable = () => {
 						onClick={handleClick}
 						disabled={
 							params.row.email === user?.email ||
-							params.row.email === EternalUsers.user1 ||
-							params.row.email === EternalUsers.user2
+							params.row.email === 'learningplan@lssh.tp.edu.tw'
 						}
 					>
 						<Typography color='common.white'>刪除</Typography>
