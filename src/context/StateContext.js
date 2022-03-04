@@ -48,7 +48,7 @@ export const StateProvider = (props) => {
 	const [empty, setEmpty] = useState(true);
 	const [selectedValues, setSelectedValues] = useState({
 		selection: '全部',
-		selectedGroup: 0,
+		selectedGroup: '',
 		group: '',
 	});
 	const [studentRecord, setRecord] = useState([]);
@@ -131,12 +131,11 @@ export const StateProvider = (props) => {
 
 				if (!records.empty) {
 					records.forEach((record) => {
-						Records.push(record.data());
+						Records.push({ ...record.data(), uid: record.id });
 					});
 				}
 
 				setRecord(Records);
-				console.log(records.metadata.fromCache)
 			});
 			subscriptions.push(unSub);
 

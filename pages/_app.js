@@ -13,9 +13,6 @@ import theme from '@styles/theme';
 import Navbar from '@components/Navbar';
 import Footer from '@components/Footer';
 import lsshStar from '@public/lsshStar.png';
-import { db } from '@src/service/AuthService';
-import { enableMultiTabIndexedDbPersistence } from 'firebase/firestore';
-import { useEffect } from 'react';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -25,20 +22,6 @@ const MyApp = (props) => {
 		emotionCache = clientSideEmotionCache,
 		pageProps,
 	} = props;
-
-	useEffect(() => {
-		enableMultiTabIndexedDbPersistence(db).catch((err) => {
-			if (err.code == 'failed-precondition') {
-				console.log(
-					'Multiple tabs open, persistence can only be enabled in one tab at a a time.'
-				);
-			} else if (err.code == 'unimplemented') {
-				console.log(
-					'The current browser does not support all of thefeatures required to enable persistence'
-				);
-			}
-		});
-	}, []);
 
 	return (
 		<CacheProvider value={emotionCache}>
