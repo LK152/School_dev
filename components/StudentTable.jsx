@@ -30,12 +30,12 @@ const columns = [
 	{
 		field: 'topic',
 		headerName: '主題',
-		width: 120,
+		width: 140,
 	},
 	{
 		field: 'subTopic',
 		headerName: '副主題',
-		width: 120,
+		width: 140,
 	},
 	{
 		field: 'memNum',
