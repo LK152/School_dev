@@ -267,7 +267,7 @@ const Edit = () => {
 										/>
 									</FormControl>
 								</Grid>
-								{topic !== '' && topic !== 7 && (
+								{topic !== '' && topic !== '其他' && (
 									<Grid item xs={12}>
 										<FormControl fullWidth>
 											<InputLabel>副主題 *</InputLabel>
@@ -288,7 +288,7 @@ const Edit = () => {
 										</FormControl>
 									</Grid>
 								)}
-								{topic === 7 && (
+								{topic === '其他' && (
 									<Grid item xs={12}>
 										<FormControl fullWidth>
 											<TextField
