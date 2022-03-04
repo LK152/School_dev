@@ -13,11 +13,12 @@ import {
 } from '@mui/material';
 import NextMuiLink from '@components/NextMuiLink';
 import { Edit, DeleteForever } from '@mui/icons-material';
-import axios from 'axios';
 import useStateContext from '@src/context/StateContext';
 import useAuth from '@src/context/AuthContext';
 import { withProtected } from '@src/hook/route';
 import { LoadingButton } from '@mui/lab';
+import { deleteDoc, doc } from 'firebase/firestore';
+import { db } from '@src/service/AuthService';
 
 const Result = () => {
 	const { user } = useAuth();
@@ -73,7 +74,7 @@ const Result = () => {
 
 	const handleDelete = async () => {
 		setLoading(true);
-		await axios.delete(`/api/firestore/${user?.uid}`);
+		await deleteDoc(doc(db, 'studentData', user?.uid));
 
 		setLoading(false);
 		setEmpty(true);

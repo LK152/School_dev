@@ -23,8 +23,9 @@ import Select from '@components/Select';
 import { useRouter } from 'next/router';
 import useStateContext from '@src/context/StateContext';
 import useAuth from '@src/context/AuthContext';
-import axios from 'axios';
 import useOption from '@src/context/OptionContext';
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '@src/service/AuthService';
 
 const Submitbtn = styled(LoadingButton)({
 	border: '2px solid #F3905F',
@@ -111,9 +112,7 @@ const Edit = () => {
 			mem2Num: memNum === '1' || memNum === '2' ? '' : mem2Num,
 		};
 
-		await axios
-			.post(`/api/firestore/${user?.uid}`, data)
-			.catch((err) => console.log(err));
+		await setDoc(doc(db, 'studentData', user?.uid), data);
 
 		router.replace('/Result');
 	};

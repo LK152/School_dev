@@ -23,8 +23,9 @@ import Select from '@components/Select';
 import { useRouter } from 'next/router';
 import useStateContext, { initialValues } from '@src/context/StateContext';
 import useAuth from '@src/context/AuthContext';
-import axios from 'axios';
 import useOption from '@src/context/OptionContext';
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '@src/service/AuthService';
 
 const Submitbtn = styled(LoadingButton)({
 	border: '2px solid #F3905F',
@@ -117,9 +118,7 @@ const Form = () => {
 			groupLocation: groupLocation,
 		};
 
-		await axios
-			.post(`/api/firestore/${uid}`, data)
-			.catch((err) => console.log(err));
+		await setDoc(doc(db, 'studentData', uid), data);
 
 		router.replace('/Result');
 		handleDelete();
