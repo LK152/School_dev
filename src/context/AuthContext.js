@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { AuthService } from '@src/service/AuthService';
 import { useRouter } from 'next/router';
-import { getDatabase, onValue, ref } from 'firebase/database';
 
 const authContext = createContext();
 
