@@ -2,6 +2,8 @@ import { useRouter } from 'next/router';
 import useAuth from '../context/AuthContext';
 import useStateContext from '../context/StateContext';
 import Loader from '@components/Loader';
+import moment from 'moment';
+import { useEffect } from 'react';
 
 export const withProtected = (Component) => {
 	const WithProtected = (props) => {
@@ -51,4 +53,27 @@ export const withUser = (Component) => {
 	};
 
 	return WithUser;
+};
+
+export const withOverDue = (Component) => {
+	const WithOverDue = (props) => {
+		const { deadline } = useAuth();
+		const router = useRouter();
+
+		useEffect(() => {
+			if (
+				Boolean(
+					moment(new Date()).format('YYYYMMDDHHmm') >
+						moment(deadline).format('YYYYMMDDHHmm')
+				)
+			) {
+				router.replace('/redirects/OverDue');
+				return <Loader />;
+			}
+		}, [deadline, router]);
+
+		return <Component {...props} />;
+	};
+
+	return WithOverDue;
 };

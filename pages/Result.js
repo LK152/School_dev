@@ -206,11 +206,8 @@ const Result = () => {
 								justifyContent='space-between'
 							>
 								{Boolean(
-									moment(new Date()).format('YYYYMMDDHHmm') -
-										moment(deadline).format(
-											'YYYYMMDDHHmm'
-										) <
-										0
+									moment(new Date()).format('YYYYMMDDHHmm') <
+										moment(deadline).format('YYYYMMDDHHmm')
 								) && (
 									<>
 										<Grid item>
