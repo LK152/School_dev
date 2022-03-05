@@ -1,7 +1,7 @@
 const XLSX = require('xlsx');
 import FS from 'file-saver';
 
-const exportXL = (records, fileName) => {
+const exportXL = (records, fileName, groups) => {
 	const fileType =
 		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 	const fileExtent = '.xlsx';
@@ -50,11 +50,18 @@ const exportXL = (records, fileName) => {
 		'209',
 		'210',
 		'211',
+		...groups.map((group) => group.group),
 	];
 
 	const wsData = wsNames.reduce((item, key) => {
 		if (key === '全部') {
 			item[key] = XLSX.utils.json_to_sheet(docs);
+		} else if (groups.map((group) => group.group)?.includes(key)) {
+			item[key] = XLSX.utils.json_to_sheet(
+				docs.filter((docGroup) => {
+					return docGroup.組別 === key;
+				})
+			);
 		} else {
 			item[key] = XLSX.utils.json_to_sheet(
 				docs.filter((docClass) => {

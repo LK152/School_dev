@@ -78,7 +78,7 @@ const StudentTable = ({ handleSelect }) => {
 		setSelected,
 		setSelectedIds,
 	} = useStateContext();
-	const { classes } = useOption();
+	const { classes, groups } = useOption();
 	const { isAdmin, isTeacher, teacherClass } = authState;
 	const { selection } = selectedValues;
 	const classesOptions = ['全部'].concat(classes).map((Class) => {
@@ -86,7 +86,7 @@ const StudentTable = ({ handleSelect }) => {
 	});
 
 	const handleExport = () => {
-		exportXL(studentRecord, '自主學習');
+		exportXL(studentRecord, '自主學習', groups);
 	};
 
 	const CustomToolbar = () => {
