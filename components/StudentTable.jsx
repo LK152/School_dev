@@ -82,7 +82,16 @@ const StudentTable = ({ handleSelect }) => {
 	const { isAdmin, isTeacher, teacherClass } = authState;
 	const { selection } = selectedValues;
 	const classesOptions = ['全部'].concat(classes).map((Class) => {
-		return { label: Class, value: Class };
+		return {
+			label: `${Class}\xa0\xa0\xa0\xa0\xa0\xa0\xa0${
+				studentRecord?.filter((doc) => {
+					return Class !== '全部'
+						? doc.studentClass === Class
+						: studentRecord.length;
+				})?.length
+			}人`,
+			value: Class,
+		};
 	});
 
 	const handleExport = () => {

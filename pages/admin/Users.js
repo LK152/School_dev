@@ -11,6 +11,8 @@ import {
 	InputLabel,
 	IconButton,
 	Autocomplete,
+	FormControlLabel,
+	Checkbox,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Delete } from '@mui/icons-material';
@@ -20,20 +22,17 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import useStateContext from '@src/context/StateContext';
 import useOption from '@src/context/OptionContext';
-
-const permit = [
-	{ label: '管理員', value: true },
-	{ label: '導師', value: false },
-];
+import { Box } from '@mui/system';
 
 const init = {
 	name: '',
 	isAdmin: false,
 	teacherClass: '',
+	teacherGroup: '',
 };
 
 const Users = () => {
-	const { classes } = useOption();
+	const { classes, groups } = useOption();
 	const [newUser, setNewUser] = useState(init);
 	const [loading, setLoading] = useState(false);
 	const [nameInput, setNameInput] = useState('');
@@ -43,6 +42,9 @@ const Users = () => {
 	const router = useRouter();
 	const classesOption = classes?.map((Class) => {
 		return { label: Class, value: Class };
+	});
+	const groupsOption = groups?.map(({ group }) => {
+		return { label: group, value: group };
 	});
 
 	useEffect(() => {
@@ -61,6 +63,10 @@ const Users = () => {
 		setNewUser({ ...newUser, [e.target.name]: e.target.value });
 	};
 
+	const handleCheck = (e) => {
+		setNewUser({ ...newUser, isAdmin: e.target.checked });
+	};
+
 	const handleDelete = () => {
 		setNewUser(init);
 	};
@@ -76,6 +82,7 @@ const Users = () => {
 					isAdmin: newUser.isAdmin,
 					name: newUser.name.label,
 					teacherClass: newUser.teacherClass,
+					teacherGroup: newUser.teacherGroup,
 					email: newUser.name.value,
 				})
 				.catch((err) => alert(err.response.data.error));
@@ -101,88 +108,117 @@ const Users = () => {
 						<Grid item>
 							<UsersTable />
 						</Grid>
-						<Grid
-							item
-							container
-							direction='row'
-							justifyContent='space-evenly'
-							alignItems='center'
-							spacing={2}
-						>
-							<Grid item sm={4} xs={12}>
-								<FormControl fullWidth>
-									<Autocomplete
-										freeSolo
-										value={newUser.name}
-										onChange={(_e, newValue) =>
-											setNewUser({
-												...newUser,
-												name: newValue,
-											})
-										}
-										inputValue={nameInput}
-										onInputChange={(_e, newInput) =>
-											setNameInput(newInput)
-										}
-										options={listOfUsers}
-										renderInput={(params) => (
-											<TextField
-												{...params}
-												label='名稱'
-											/>
-										)}
-									/>
-								</FormControl>
-							</Grid>
-							<Grid item sm={4} xs={12}>
-								<FormControl fullWidth>
-									<InputLabel>權限</InputLabel>
-									<Select
-										label='權限'
-										options={permit}
-										value={newUser.isAdmin}
-										name='isAdmin'
-										onChange={handleChange}
-									/>
-								</FormControl>
-							</Grid>
-							{!newUser.isAdmin && (
-								<Grid item sm={4} xs={12}>
-									<FormControl fullWidth>
-										<InputLabel>班級</InputLabel>
-										<Select
-											label='班級'
-											options={classesOption}
-											value={newUser.teacherClass}
-											name='teacherClass'
-											onChange={handleChange}
-										/>
-									</FormControl>
-								</Grid>
-							)}
-							<Grid item>
-								<LoadingButton
-									onClick={handleAddUser}
-									loading={loading}
-									variant='contained'
-									disabled={
-										newUser.name === '' ||
-										!newUser.name ||
-										(!newUser.isAdmin &&
-											newUser.teacherClass === '')
-									}
+						<Box sx={{ minWidth: '80%', m: 'auto', mt: 4 }}>
+							<Grid item container direction='column' gap={2}>
+								<Grid
+									item
+									container
+									direction='row'
+									alignItems='center'
+									justifyContent='center'
 								>
-									<Typography color='common.white'>
-										新增用戶
-									</Typography>
-								</LoadingButton>
+									<Grid item sm={4} xs={12}>
+										<FormControl fullWidth>
+											<Autocomplete
+												freeSolo
+												value={newUser.name}
+												onChange={(_e, newValue) =>
+													setNewUser({
+														...newUser,
+														name: newValue,
+													})
+												}
+												inputValue={nameInput}
+												onInputChange={(_e, newInput) =>
+													setNameInput(newInput)
+												}
+												options={listOfUsers}
+												renderInput={(params) => (
+													<TextField
+														{...params}
+														label='名稱'
+													/>
+												)}
+											/>
+										</FormControl>
+									</Grid>
+									<Grid item ml={2}>
+										<FormControlLabel
+											checked={newUser.isAdmin}
+											onChange={handleCheck}
+											control={<Checkbox />}
+											label='管理員'
+										/>
+									</Grid>
+								</Grid>
+
+								<Grid
+									item
+									container
+									direction='row'
+									alignItems='center'
+									justifyContent='center'
+									spacing={2}
+								>
+									<Grid item sm={4} xs={12}>
+										<FormControl fullWidth>
+											<InputLabel>班級</InputLabel>
+											<Select
+												label='班級'
+												options={classesOption}
+												value={newUser.teacherClass}
+												name='teacherClass'
+												onChange={handleChange}
+											/>
+										</FormControl>
+									</Grid>
+									<Grid item sm={4} xs={12}>
+										<FormControl fullWidth>
+											<InputLabel>組別</InputLabel>
+											<Select
+												label='組別'
+												options={groupsOption}
+												value={newUser.teacherGroup}
+												name='teacherGroup'
+												onChange={handleChange}
+											/>
+										</FormControl>
+									</Grid>
+								</Grid>
+
+								<Grid
+									item
+									container
+									direction='row'
+									justifyContent='space-evenly'
+									alignItems='center'
+									spacing={2}
+								>
+									<Grid item>
+										<LoadingButton
+											onClick={handleAddUser}
+											loading={loading}
+											variant='contained'
+											disabled={
+												newUser.name === '' ||
+												!newUser.name ||
+												(!newUser.isAdmin &&
+													newUser.teacherClass === '')
+											}
+										>
+											<Typography color='common.white'>
+												新增用戶
+											</Typography>
+										</LoadingButton>
+									</Grid>
+									<Grid item>
+										<IconButton onClick={handleDelete}>
+											<Delete />
+										</IconButton>
+									</Grid>
+								</Grid>
 							</Grid>
-							<Grid item>
-								<IconButton onClick={handleDelete}>
-									<Delete />
-								</IconButton>
-							</Grid>
-						</Grid>
+						</Box>
 					</Grid>
 				</CardContent>
 			</Card>

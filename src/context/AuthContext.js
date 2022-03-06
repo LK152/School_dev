@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from 'react';
 import { AuthService } from '@src/service/AuthService';
 import { useRouter } from 'next/router';
+import useLocalState from '@src/hook/useLocalState';
 
 const authContext = createContext();
 
@@ -13,7 +14,7 @@ export const AuthProvider = (props) => {
 	const [user, setUser] = useState(null);
 	const [isLoggedOut, setLogout] = useState(false);
 	const [error, setError] = useState();
-	const [deadline, setDeadline] = useState('');
+	const [deadline, setDeadline] = useLocalState(null);
 	
 	const loginWithGoogleBrowser = async () => {
 		const { error, user } = await AuthService.loginWithGoogleBrowser();

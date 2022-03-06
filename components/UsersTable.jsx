@@ -35,6 +35,11 @@ const UsersTable = () => {
 			width: 80,
 		},
 		{
+			field: 'group',
+			headerName: '組別',
+			width: 80,
+		},
+		{
 			field: 'delete',
 			headerName: '刪除',
 			width: 100,
@@ -68,6 +73,7 @@ const UsersTable = () => {
 			name: user.name,
 			permission: user.isAdmin ? '管理員' : '導師',
 			class: user.teacherClass,
+			group: user.teacherGroup,
 		};
 	});
 

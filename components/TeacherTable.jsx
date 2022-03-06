@@ -11,11 +11,6 @@ import useStateContext from '@src/context/StateContext';
 
 const columns = [
 	{
-		field: 'id',
-		headerName: '學生Email',
-		width: 200,
-	},
-	{
 		field: 'classNumber',
 		headerName: '班級座號',
 		width: 100,
@@ -36,11 +31,6 @@ const columns = [
 		width: 120,
 	},
 	{
-		field: 'comment',
-		headerName: '備註',
-		width: 160,
-	},
-	{
 		field: 'memNum',
 		headerName: '組員人數',
 		width: 100,
@@ -57,16 +47,25 @@ const columns = [
 	},
 	{
 		field: 'group',
-		headerName: '分組',
+		headerName: '組別',
 		width: 100,
+	},
+	{
+		field: 'location',
+		headerName: '地點',
+		width: 100,
+	},
+	{
+		field: 'comment',
+		headerName: '備註',
+		width: 160,
 	},
 ];
 
 const TeacherTable = () => {
 	const [pageSize, setPageSize] = useState(50);
-	const { studentRecord, authState, selected, setSelected } =
-		useStateContext();
-	const { isAdmin, teacherClass } = authState;
+	const { studentRecord, authState } = useStateContext();
+	const { isAdmin, teacherGroup } = authState;
 
 	const handleExport = () => {
 		exportXL(studentRecord, '自主學習');
@@ -87,7 +86,7 @@ const TeacherTable = () => {
 	};
 
 	const handleClass = (record) => {
-		return record.groupClass === teacherClass;
+		return record.group === teacherGroup;
 	};
 
 	const studentRecords = studentRecord.filter(handleClass);
@@ -101,8 +100,8 @@ const TeacherTable = () => {
 				(doc.number < 10
 					? '0' + doc.number.toString()
 					: doc.number.toString()),
-			topic: doc.topicLabel,
-			subTopic: doc.subTopicLabel,
+			topic: doc.topic,
+			subTopic: doc.subTopic,
 			comment: doc.comment !== '' ? doc.comment : 'N/A',
 			memNum: doc.memNum,
 			mem1:

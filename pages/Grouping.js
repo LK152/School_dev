@@ -22,7 +22,7 @@ const Grouping = () => {
 	const [deleteLoading, setDelete] = useState(false);
 	const { authState, selectedValues, setSelectedValues, selectedIds } =
 		useStateContext();
-	const { isAdmin, isTeacher, teacherClass } = authState;
+	const { isAdmin, isTeacher, teacherClass, teacherGroup } = authState;
 	const { selectedGroup } = selectedValues;
 	const groupsOption = groups?.map((group, i) => {
 		return { label: group.group, location: group.location, value: i };
@@ -142,7 +142,7 @@ const Grouping = () => {
 						<Grid container direction='column' spacing={2}>
 							<Grid item>
 								<Typography variant='h3' textAlign='center'>
-									{!isAdmin && isTeacher && '組別'}
+									{!isAdmin && isTeacher && teacherGroup}
 								</Typography>
 							</Grid>
 							<Grid item>
