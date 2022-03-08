@@ -133,6 +133,15 @@ const Footer = () => {
 							</NextMuiLink>
 						</Grid>
 					</Grid>
+					<Grid>
+						<Typography
+							color='secondary'
+							align='center'
+							sx={{ fontSize: 10 }}
+						>
+							建議瀏覽器: Chrome
+						</Typography>
+					</Grid>
 				</Grid>
 			</Box>
 		</Box>
