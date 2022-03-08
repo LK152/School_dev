@@ -14,8 +14,8 @@ export const AuthProvider = (props) => {
 	const [user, setUser] = useState(null);
 	const [isLoggedOut, setLogout] = useState(false);
 	const [error, setError] = useState();
-	const [deadline, setDeadline] = useLocalState(null);
-	
+	const [deadline, setDeadline] = useLocalState('deadline', null);
+
 	const loginWithGoogleBrowser = async () => {
 		const { error, user } = await AuthService.loginWithGoogleBrowser();
 		setUser(user ?? null);
