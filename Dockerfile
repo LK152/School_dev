@@ -1,15 +1,15 @@
-FROM node:lts as dep
+FROM node:16 as dep
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 
-FROM node:lts as builder
+FROM node:16 as builder
 WORKDIR /app
 COPY . .
 COPY --from=dep /app/node_modules ./node_modules
 RUN npm run build
 
-FROM node:lts as runner
+FROM node:16 as runner
 WORKDIR /app
 ENV NODE_ENV production
 
