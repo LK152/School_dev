@@ -1,7 +1,7 @@
 FROM node:lts as dep
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm ci
 
 FROM node:lts as builder
 WORKDIR /app
