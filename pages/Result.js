@@ -59,7 +59,13 @@ const Result = () => {
 					<Grid item xs={6}>
 						<Typography variant='h5' align='center'>
 							{i === 1 ? mem1Class : mem2Class}
-							{i === 1 ? mem1Num : mem2Num}
+							{i === 1
+								? mem1Num < 10
+									? `0${mem1Num}`
+									: mem1Num
+								: mem2Num < 10
+								? `0${mem2Num}`
+								: mem2Num}
 						</Typography>
 					</Grid>
 				</Grid>

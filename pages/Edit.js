@@ -75,7 +75,6 @@ const Edit = () => {
 		studentName,
 		topic,
 		subTopic,
-		otherTopic,
 		comment,
 		memNum,
 		mem1Class,
@@ -89,7 +88,7 @@ const Edit = () => {
 	const handleChange = (e) => {
 		setFormValues({ ...formValues, [e.target.name]: e.target.value });
 	};
-	
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
@@ -103,7 +102,7 @@ const Edit = () => {
 					? subTopics?.[topic].find((sub) => {
 							return sub === subTopic;
 					  })
-					: otherTopic,
+					: subTopic,
 			comment: comment,
 			memNum: memNum,
 			mem1Class: memNum === '1' ? '' : mem1Class,
@@ -196,7 +195,7 @@ const Edit = () => {
 				return true;
 			}
 		} else {
-			if (otherTopic === '') {
+			if (subTopic === '') {
 				return true;
 			} else {
 				return false;
@@ -295,15 +294,15 @@ const Edit = () => {
 												variant='filled'
 												required
 												label='其他'
-												name='otherTopic'
-												value={otherTopic}
+												name='subTopic'
+												value={subTopic}
 												onChange={handleChange}
 												autoComplete='off'
 											/>
 										</FormControl>
 									</Grid>
 								)}
-								{(subTopic !== '' || otherTopic !== '') && (
+								{subTopic !== '' && (
 									<>
 										<Grid item xs={12}>
 											<FormControl fullWidth>

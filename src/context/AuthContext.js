@@ -1,7 +1,8 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { AuthService } from '@src/service/AuthService';
 import { useRouter } from 'next/router';
 import useLocalState from '@src/hook/useLocalState';
+import { getDatabase, ref, onValue } from 'firebase/database';
 
 const authContext = createContext();
 
@@ -15,6 +16,14 @@ export const AuthProvider = (props) => {
 	const [isLoggedOut, setLogout] = useState(false);
 	const [error, setError] = useState();
 	const [deadline, setDeadline] = useLocalState('deadline', null);
+	const rtdb = getDatabase();
+	const deadlineRef = ref(rtdb, 'data/deadline');
+
+	useEffect(() => {
+		onValue(deadlineRef, (snapshot) => {
+			setDeadline(snapshot.val());
+		});
+	}, [setDeadline, deadlineRef]);
 
 	const loginWithGoogleBrowser = async () => {
 		const { error, user } = await AuthService.loginWithGoogleBrowser();

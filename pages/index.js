@@ -1,18 +1,8 @@
 import { Card, CardContent, Container, Grid, Typography } from '@mui/material';
 import useAuth from '@src/context/AuthContext';
-import { getDatabase, ref, onValue } from 'firebase/database';
-import { useEffect } from 'react';
 
 const Home = () => {
-	const { deadline, setDeadline } = useAuth();
-	const rtdb = getDatabase();
-	const deadlineRef = ref(rtdb, 'data/deadline');
-
-	useEffect(() => {
-		onValue(deadlineRef, (snapshot) => {
-			setDeadline(snapshot.val());
-		});
-	}, [setDeadline, deadlineRef]);
+	const { deadline } = useAuth();
 
 	return (
 		<Container sx={{ mt: 10 }}>
