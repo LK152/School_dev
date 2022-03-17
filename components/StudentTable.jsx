@@ -4,12 +4,21 @@ import {
 	GridToolbarContainer,
 	GridToolbarDensitySelector,
 } from '@mui/x-data-grid';
-import { Button } from '@mui/material';
-import { Download } from '@mui/icons-material';
+import {
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
+	TextField,
+} from '@mui/material';
+import { Cancel, Download, Warning } from '@mui/icons-material';
 import exportXL from './export/exportXL';
 import useStateContext from '@src/context/StateContext';
 import useOption from '@src/context/OptionContext';
 import Select from './Select';
+import axios from 'axios';
 
 const columns = [
 	{
@@ -70,6 +79,8 @@ const columns = [
 ];
 
 const StudentTable = ({ handleSelect }) => {
+	const [open, setOpen] = useState(false);
+	const [value, setValue] = useState('');
 	const [pageSize, setPageSize] = useState(50);
 	const {
 		studentRecord,
@@ -97,6 +108,22 @@ const StudentTable = ({ handleSelect }) => {
 	const handleExport = () => {
 		exportXL(studentRecord, '自主學習', groups);
 	};
+	const handleChange = (e) => {
+		setValue(e.target.value);
+	};
+
+	const handleBulkDelete = () => {
+		axios.delete('/api/bulkDelete');
+	};
+
+	const handleOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+		setValue('');
+	};
 
 	const CustomToolbar = () => {
 		return (
@@ -113,6 +140,10 @@ const StudentTable = ({ handleSelect }) => {
 				<Button onClick={handleExport}>
 					<Download />
 					匯出
+				</Button>
+				<Button onClick={handleOpen}>
+					<Warning />
+					全部刪除
 				</Button>
 			</GridToolbarContainer>
 		);
@@ -168,32 +199,55 @@ const StudentTable = ({ handleSelect }) => {
 	});
 
 	return (
-		<div style={{ height: 600, width: '100%' }}>
-			<DataGrid
-				rows={rows}
-				columns={columns}
-				pageSize={pageSize}
-				onPageSizeChange={(newPS) => setPageSize(newPS)}
-				rowsPerPageOptions={[10, 25, 50, 100]}
-				components={{ Toolbar: isAdmin && CustomToolbar }}
-				onSelectionModelChange={(ids) => {
-					const selectedIDs = new Set(ids);
-					const selectedRows = rows.filter((row) => {
-						return selectedIDs.has(row.id);
-					});
+		<>
+			<div style={{ height: 600, width: '100%' }}>
+				<DataGrid
+					rows={rows}
+					columns={columns}
+					pageSize={pageSize}
+					onPageSizeChange={(newPS) => setPageSize(newPS)}
+					rowsPerPageOptions={[10, 25, 50, 100]}
+					components={{ Toolbar: isAdmin && CustomToolbar }}
+					onSelectionModelChange={(ids) => {
+						const selectedIDs = new Set(ids);
+						const selectedRows = rows.filter((row) => {
+							return selectedIDs.has(row.id);
+						});
 
-					setSelected(selectedRows);
-					setSelectedIds(ids);
-				}}
-				disableColumnFilter
-				disableColumnMenu
-				disableSelectionOnClick
-				checkboxSelection={isAdmin}
-				initialState={{
-					columns: { columnVisibilityModel: { id: false } },
-				}}
-			/>
-		</div>
+						setSelected(selectedRows);
+						setSelectedIds(ids);
+					}}
+					disableColumnFilter
+					disableColumnMenu
+					disableSelectionOnClick
+					checkboxSelection={isAdmin}
+					initialState={{
+						columns: { columnVisibilityModel: { id: false } },
+					}}
+				/>
+			</div>
+			<Dialog open={open} onClose={handleClose}>
+				<DialogTitle>確認刪除?</DialogTitle>
+				<DialogContent>
+					<DialogContentText>
+						此舉將會刪除所有學生資料, 確認?
+					</DialogContentText>
+					<TextField value={value} onChange={handleChange} />
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleClose}>
+						<Cancel />
+						取消
+					</Button>
+					<Button
+						onClick={handleBulkDelete}
+						disabled={value !== '確認'}
+					>
+						確認
+					</Button>
+				</DialogActions>
+			</Dialog>
+		</>
 	);
 };
 
