@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
 	Button,
 	IconButton,
@@ -41,10 +41,6 @@ const Result = () => {
 		group,
 		groupLocation,
 	} = document;
-
-	useEffect(() => {
-		console.log();
-	}, [deadline]);
 
 	const renderMember = (num) => {
 		const fields = [];
